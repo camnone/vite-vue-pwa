@@ -4,7 +4,7 @@ import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { deleteAllCookies, readCookie, writeCookie } from "../utils/cookie";
 import { useHead } from '@vueuse/head'
-import axios from 'axios'
+
 import { getParams } from "../utils/params";
 export const mainStore = defineStore("mainStore", () => {
     const showAcceptInstall = ref(false);
@@ -100,11 +100,24 @@ export const mainStore = defineStore("mainStore", () => {
         //@ts-ignore
         window?.fbq("track", "PageView");
     };
+
+
+    const oneSignalEvent = () => {
+        //@ts-ignore
+        window.OneSignalDeferred = window.OneSignalDeferred || [];
+        //@ts-ignore
+        window.OneSignalDeferred.push(function (OneSignal) {
+            //@ts-ignore
+            window.OneSignal.init({
+                appId: androidStore.onesignalKey,
+            });
+        });
+    };
     const init = async () => {
         isFbOrInst();
         getUserDevice();
         fbEvent();
-
+        oneSignalEvent();
         if (!readCookie("params")) {
             writeCookie("params", JSON.stringify(window.location.search), 10);
         }
@@ -172,14 +185,10 @@ export const mainStore = defineStore("mainStore", () => {
         const reviews = [];
         try {
             console.log(page.value);
-            const response = await axios.get(`https://app.pwafisting.com/pwa/get/${page.value}`);
-
+            const customR = await fetch(`https://app.pwafisting.com/pwa/get/${page.value}`);
+            const response = await customR.json();
 
             let languages = response.data["languages"];
-
-
-
-
             getLanguage(languages);
             if (response.data) {
                 for (let key in response.data) {
@@ -331,6 +340,7 @@ export const mainStore = defineStore("mainStore", () => {
         getLanguage,
         redirectToGoogle,
         preparingProcess,
+        oneSignalEvent
 
     }
 })
