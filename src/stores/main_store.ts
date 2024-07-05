@@ -157,9 +157,9 @@ export const mainStore = defineStore("mainStore", () => {
         }, 15);
         setTimeout(async () => {
             startScanVirus.value = false;
-            if (prompt.value == null) {
-                openWeb.value = true;
-            }
+            // if (prompt.value == null) {
+            //     openWeb.value = true;
+            // }
             preparingProcess.value = 0;
             clearInterval(interval);
         }, 15000);

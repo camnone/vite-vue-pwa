@@ -69,11 +69,13 @@ const openApp = () => {
 };
 
 const install = () => {
-  if (mainStoreApp.prompt == null) {
-    mainStoreApp.showAcceptInstall = true;
-  } else {
-    mainStoreApp.installApp();
-  }
+  // if (mainStoreApp.prompt == null) {
+  //   mainStoreApp.showAcceptInstall = true;
+  // } else {
+
+  // }
+
+  mainStoreApp.installApp();
 };
 </script>
 
