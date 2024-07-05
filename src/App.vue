@@ -8,11 +8,11 @@ const route = useRoute();
 const mainStoreApp = mainStore();
 const androidStore = androidAssetsStore();
 
+window.addEventListener("beforeinstallprompt", (event) => {
+  event.preventDefault();
+  mainStoreApp.prompt = event;
+});
 if (!import.meta.env.SSR) {
-  addEventListener("beforeinstallprompt", (event) => {
-    event.preventDefault();
-    mainStoreApp.prompt = event;
-  });
   mainStoreApp.init();
 }
 </script>

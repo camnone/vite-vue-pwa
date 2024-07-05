@@ -1,9 +1,9 @@
+const CACHE_NAME = "SW";
+const toCache = [];
+
 importScripts(
   "https://storage.googleapis.com/workbox-cdn/releases/6.2.0/workbox-sw.js"
 );
-
-const CACHE_NAME = "SW";
-const toCache = [];
 
 self.addEventListener("message", (event) => {
   if (event.data && event.data.type === "SKIP_WAITING") {
@@ -18,7 +18,7 @@ self.addEventListener("install", function (event) {
       .then(function (cache) {
         return cache.addAll(toCache);
       })
-      .then(() => self.skipWaiting())
+      .then(self.skipWaiting())
   );
 });
 
