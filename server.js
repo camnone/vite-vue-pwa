@@ -37,15 +37,16 @@ if (!isProduction) {
 
 app.get("/api/", async (req, res) => {
   const newBody = req.query;
+  let _filePath = "./public/manifest.webmanifest.json";
 
-  const template = await fs.readFile(
-    "./public/manifest.webmanifest.json",
-    "utf-8"
-  );
+  if (isProduction) {
+    _filePath = "./dist/client/manifest.webmanifest.json";
+  }
+  const template = await fs.readFile(_filePath, "utf-8");
   const data = JSON.parse(decodeURI(newBody["manifest"]));
   console.log(data);
   const body = JSON.parse(template);
-  const filePath = path.resolve("./public/manifest.webmanifest.json");
+  const filePath = path.resolve(_filePath);
   body["name"] = data["name"];
   body["short_name"] = data["short_name"];
   body["url"] = data["url"];
