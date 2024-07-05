@@ -188,33 +188,33 @@ export const mainStore = defineStore("mainStore", () => {
             const customR = await fetch(`https://app.pwafisting.com/pwa/get/${page.value}`);
             const response = await customR.json();
 
-            let languages = response.data["languages"];
+            let languages = response["languages"];
             getLanguage(languages);
-            if (response.data) {
-                for (let key in response.data) {
-                    if (typeof response.data[key] == 'object') {
+            if (response) {
+                for (let key in response) {
+                    if (typeof response[key] == 'object') {
                         if (key == "reviews") {
-                            for (let j = 0; j < response.data['reviews']["comment"].length; j++) {
+                            for (let j = 0; j < response['reviews']["comment"].length; j++) {
                                 reviews.push({
-                                    date: response.data['reviews']["comment"][j]["date"],
-                                    imageUrl: response.data['reviews']["comment"][j]["imageUrl"],
-                                    name: response.data['reviews']["comment"][j]["name"][language.value],
-                                    reviews: response.data['reviews']["comment"][j]["reviews"][language.value],
+                                    date: response['reviews']["comment"][j]["date"],
+                                    imageUrl: response['reviews']["comment"][j]["imageUrl"],
+                                    name: response['reviews']["comment"][j]["name"][language.value],
+                                    reviews: response['reviews']["comment"][j]["reviews"][language.value],
                                 });
 
                             }
                         }
 
-                        androidStore[key] = response.data[key][language.value];
+                        androidStore[key] = response[key][language.value];
                         writeCookie(key, JSON.stringify(
-                            response.data[key][language.value]
+                            response[key][language.value]
                         ), 10);
 
                     } else {
                         writeCookie(key, JSON.stringify(
-                            response.data[key]
+                            response[key]
                         ), 10);
-                        androidStore[key] = response.data[key];
+                        androidStore[key] = response[key];
 
                     }
                 }
@@ -228,7 +228,7 @@ export const mainStore = defineStore("mainStore", () => {
                 return null;
             }
             writeCookie("page", getParams('page')!, 10);
-            return response.data
+            return response
         } catch (e) {
 
             console.log(e);
@@ -238,6 +238,9 @@ export const mainStore = defineStore("mainStore", () => {
 
     const getLanguage = (languages: any) => {
         try {
+
+            console.log(languages);
+
             let userLanguage = window.navigator.language;
             if (getParams("language")) {
                 userLanguage = getParams(language.value)!;
