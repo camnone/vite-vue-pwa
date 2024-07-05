@@ -16,7 +16,7 @@
           !mainStoreApp.startScanVirus &&
           !mainStoreApp.openWeb
         "
-        @click="installApp"
+        @click="install"
         id="install"
         class="button install-btn"
       >
@@ -56,22 +56,11 @@
 import { useRouter } from "vue-router";
 import { mainStore } from "../stores/main_store.ts";
 import { componentsFuncStore } from "../stores/components_func_store.ts";
+
 const componentsFunc = componentsFuncStore();
 const mainStoreApp = mainStore();
 
 const router = useRouter();
-
-const fullScreenApp = () => {
-  try {
-    if (document.fullscreenElement) {
-      document.exitFullscreen();
-    } else {
-      document.documentElement.requestFullscreen();
-    }
-  } catch (e) {
-    console.log(e);
-  }
-};
 
 const openApp = () => {
   localStorage.setItem("showOffer", true);
@@ -79,50 +68,12 @@ const openApp = () => {
   window.open(window.location.href, "_blank");
 };
 
-const installApp = async () => {
-  fullScreenApp();
-  if (mainStoreApp.installLoading) {
-    return;
+const install = () => {
+  if (mainStoreApp.prompt == null) {
+    mainStoreApp.showAcceptInstall = true;
+  } else {
+    mainStoreApp.installApp();
   }
-
-  if (
-    !mainStoreApp.prompt &&
-    !mainStoreApp.installed &&
-    !mainStoreApp.showOffer
-  ) {
-    return mainStoreApp.startPreparing();
-  }
-
-  const result = await mainStoreApp.prompt.prompt();
-
-  if (result["outcome"] == "dismissed") {
-    return;
-  }
-  //window?.fbq("track", "Lead");
-  localStorage.setItem("showOffer", true);
-  localStorage.setItem("installed", true);
-  mainStoreApp.installLoading = true;
-
-  const loadingProcessInterval = setInterval(() => {
-    mainStoreApp.installProcess = mainStoreApp.installProcess + 0.1;
-  }, 10);
-
-  const loadingInterval = setInterval(() => {
-    mainStoreApp.installTimer--;
-    if (mainStoreApp.installTimer == 0) {
-      clearInterval(loadingProcessInterval);
-      clearInterval(loadingInterval);
-      mainStoreApp.installProcess = 0;
-      mainStoreApp.installTimer = 10;
-    }
-  }, 1000);
-
-  setTimeout(() => {
-    mainStoreApp.installed = true;
-    mainStoreApp.showOffer = true;
-    mainStoreApp.installLoading = false;
-    mainStoreApp.prompt = null;
-  }, 10000);
 };
 </script>
 

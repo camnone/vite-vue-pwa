@@ -19,6 +19,8 @@
       title="To install the application"
       v-if="mainStoreApp.redirectToGoogle"
     />
+
+    <AppAcceptInstal v-if="mainStoreApp.showAcceptInstall" />
   </AndroidLayout>
 </template>
 
@@ -37,12 +39,11 @@ import AppDeveloper from "../components/AppDeveloper.vue";
 import AppFooter from "../components/AppFooter.vue";
 import AppNotice from "../components/AppNotice.vue";
 import AppRedirectPopUp from "../components/AppRedirectPopUp.vue";
+import AppAcceptInstal from "../components/AppAcceptInstal.vue";
 
 import AndroidLayout from "../layouts/default.vue";
 import { mainStore } from "../stores/main_store.ts";
 const mainStoreApp = mainStore();
-// mainStoreApp.fbEvent();
-// fbq("track", "ViewContent");
 </script>
 
 <style scoped></style>

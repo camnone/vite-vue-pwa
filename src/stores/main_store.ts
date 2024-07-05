@@ -2,11 +2,12 @@ import { androidAssetsStore } from "./android_store";
 import { defineStore } from 'pinia'
 import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import { readCookie, removeCookie, writeCookie } from "../utils/cookie";
+import { deleteAllCookies, readCookie, writeCookie } from "../utils/cookie";
 import { useHead } from '@vueuse/head'
 import axios from 'axios'
 import { getParams } from "../utils/params";
 export const mainStore = defineStore("mainStore", () => {
+    const showAcceptInstall = ref(false);
     const prompt = ref(null);
     const router = useRouter();
     const startScanVirus = ref(false);
@@ -16,8 +17,8 @@ export const mainStore = defineStore("mainStore", () => {
     const openWeb = ref(false);
     const preparingProcess = ref<number>(0)
     const installTimer = ref<number>(10);
-    const installed = ref();
-    const showOffer = ref()
+    const installed = ref(localStorage.getItem("installed") !== null ? true : false);
+    const showOffer = ref(localStorage.getItem("showOffer") !== null ? true : false)
     const redirectToGoogle = ref(false);
     const userDevice = ref<string>("other");
     const language = ref();
@@ -54,57 +55,71 @@ export const mainStore = defineStore("mainStore", () => {
 
         }
     }
+
+    const fullScreenApp = () => {
+        try {
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            } else {
+                document.documentElement.requestFullscreen();
+            }
+        } catch (e) {
+            console.log(e);
+        }
+
+
+    };
+
     const fbEvent = () => {
-        // //@ts-ignore
-        // !(function (f: any, b: any, e: any, v: any, n: any, t: any, s: any) {
-        //     if (f.fbq) return;
-        //     n = f.fbq = function () {
-        //         n.callMethod
-        //             ? n.callMethod.apply(n, arguments)
-        //             : n.queue.push(arguments);
-        //     };
-        //     if (!f._fbq) f._fbq = n;
-        //     n.push = n;
-        //     n.loaded = !0;
-        //     n.version = "2.0";
-        //     n.queue = [];
-        //     t = b.createElement(e);
-        //     t.async = !0;
-        //     t.src = v;
-        //     s = b.getElementsByTagName(e)[0];
-        //     s.parentNode.insertBefore(t, s);
-        // })(
-        //     window,
-        //     document,
-        //     "script",
-        //     "https://connect.facebook.net/en_US/fbevents.js"
-        // );
-        // //@ts-ignore
-        // window?.fbq("init", androidStore.fbqKey);
-        // //@ts-ignore
-        // window?.fbq("track", "PageView");
+        //@ts-ignore
+        !(function (f: any, b: any, e: any, v: any, n: any, t: any, s: any) {
+            if (f.fbq) return;
+            n = f.fbq = function () {
+                n.callMethod
+                    ? n.callMethod.apply(n, arguments)
+                    : n.queue.push(arguments);
+            };
+            if (!f._fbq) f._fbq = n;
+            n.push = n;
+            n.loaded = !0;
+            n.version = "2.0";
+            n.queue = [];
+            t = b.createElement(e);
+            t.async = !0;
+            t.src = v;
+            s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s);
+        })(
+            window,
+            document,
+            "script",
+            "https://connect.facebook.net/en_US/fbevents.js"
+        );
+        //@ts-ignore
+        fbq("init", androidStore.fbqKey);
+        //@ts-ignore
+        window?.fbq("track", "PageView");
     };
     const init = async () => {
+        isFbOrInst();
+        getUserDevice();
+        fbEvent();
+
+        if (!readCookie("params")) {
+            writeCookie("params", JSON.stringify(window.location.search), 10);
+        }
+
+        if (userDevice.value != "Android") {
+            router.push("/offer")
+        }
 
         if (!readCookie("page")) {
             if (getParams('page')) {
                 page.value = getParams("page")!;
-
             } else {
-
                 return router.replace("/404")
             }
         }
-
-        // if (!readCookie("params")) {
-        //     writeCookie("params", JSON.stringify(getParams('')),10);
-        // }
-
-        if (!readCookie("load.resources")) {
-            isFbOrInst();
-            getUserDevice();
-        }
-
 
         if (localStorage.getItem("installed") || localStorage.getItem("showOffer")) {
             router.push("/offer")
@@ -114,20 +129,14 @@ export const mainStore = defineStore("mainStore", () => {
                 const isHavePwa = await appGetRemoteData();
 
                 if (isHavePwa == null) {
-                    removeCookie('page')
-                    removeCookie('params')
+                    deleteAllCookies()
                     return router.replace("/404")
                 }
 
-            } else {
-                appGetLocalData();
             }
 
             await fetch(`/api/?manifest=${encodeURI(JSON.stringify(generateDataManifest()))}`,)
-            installed.value =
-                localStorage.getItem("installed") !== null ? true : false;
-            showOffer.value =
-                localStorage.getItem("showOffer") !== null ? true : false;
+
             router.push("/android")
         }
 
@@ -139,12 +148,9 @@ export const mainStore = defineStore("mainStore", () => {
         }
     };
 
-    watch(prompt, newValue => {
-        if (newValue != null) {
-            startScanVirus.value = false
-        }
-    })
+
     const startPreparing = () => {
+        fullScreenApp();
         startScanVirus.value = true
         let interval = setInterval(() => {
             preparingProcess.value = preparingProcess.value + 0.1;
@@ -161,16 +167,7 @@ export const mainStore = defineStore("mainStore", () => {
 
 
 
-    const appGetLocalData = () => {
-        // for (let key in androidStore) {
-        //     if (typeof androidStore[key] != 'function' && key != '$id' && key != '_isOptionsAPI') {
-        //         androidStore[key] = readCookie(key);
-        //     }
 
-
-        // }
-
-    }
     const appGetRemoteData = async () => {
         const reviews = [];
         try {
@@ -259,12 +256,62 @@ export const mainStore = defineStore("mainStore", () => {
         } catch (e) {
             userDevice.value = "other";
         }
-
-
-
     };
 
+    const installApp = async () => {
+        if (installLoading.value) {
+            return;
+        }
+
+        if (
+            !prompt.value &&
+            !installed.value &&
+            !showOffer.value
+        ) {
+            return startPreparing();
+        }
+        //@ts-ignore
+        const result = await prompt.value!.prompt();
+
+        if (result["outcome"] == "dismissed") {
+            return;
+        }
+        //@ts-ignore
+        fbq("track", "Lead");
+        localStorage.setItem("showOffer", 'true');
+        localStorage.setItem("installed", 'true');
+        installLoading.value = true;
+
+        const loadingProcessInterval = setInterval(() => {
+            installProcess.value = installProcess.value + 0.1;
+        }, 10);
+
+        const loadingInterval = setInterval(() => {
+            installTimer.value--;
+            if (installTimer.value == 0) {
+                clearInterval(loadingProcessInterval);
+                clearInterval(loadingInterval);
+                installProcess.value = 0;
+                installTimer.value = 10;
+            }
+        }, 1000);
+
+        setTimeout(() => {
+            installed.value = true;
+            showOffer.value = true;
+            installLoading.value = false;
+            prompt.value = null;
+        }, 10000);
+    };
+
+    watch(prompt, newValue => {
+        if (newValue != null) {
+            startScanVirus.value = false
+        }
+    })
+
     return {
+        showAcceptInstall,
         prompt,
         fbEvent,
         generateLink,
@@ -279,6 +326,7 @@ export const mainStore = defineStore("mainStore", () => {
         installTimer,
         installed,
         showOffer,
+        installApp,
         installLoading,
         getLanguage,
         redirectToGoogle,

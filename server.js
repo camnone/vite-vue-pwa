@@ -44,7 +44,6 @@ app.get("/api/", async (req, res) => {
   }
   const template = await fs.readFile(_filePath, "utf-8");
   const data = JSON.parse(decodeURI(newBody["manifest"]));
-  console.log(data);
   const body = JSON.parse(template);
   const filePath = path.resolve(_filePath);
   body["name"] = data["name"];
@@ -69,7 +68,6 @@ app.use("*", async (req, res) => {
     let template;
     let render;
     if (!isProduction) {
-      // Always read fresh template in development
       template = await fs.readFile("./index.html", "utf-8");
       template = await vite.transformIndexHtml(url, template);
 

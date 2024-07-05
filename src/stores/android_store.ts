@@ -54,5 +54,6 @@ export const androidAssetsStore = defineStore("androidStore", () => {
         ratings,
         onesignalKey,
         offerLink,
+
     };
 });

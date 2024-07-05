@@ -7,20 +7,15 @@ export const writeCookie = (name: string, val: string, expires: number) => {
 
 export const readCookie = (name: string) => {
 
+    var matches = document.cookie.match(
+        new RegExp(
+            "(?:^|; )" +
+            name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") +
+            "=([^;]*)"
+        )
+    );
+    return matches ? decodeURIComponent(matches[1]) : undefined;
 
-    if (typeof document !== 'undefined') {
-        var matches = document.cookie.match(
-            new RegExp(
-                "(?:^|; )" +
-                name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") +
-                "=([^;]*)"
-            )
-        );
-        return matches ? decodeURIComponent(matches[1]) : undefined;
-    } else {
-        console.error('document is not defined');
-        return null;
-    }
 
 
 
