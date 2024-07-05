@@ -5,7 +5,8 @@
 
       <button v-if="mainStoreApp.startScanVirus" id="install" class="button">
         <span class="preparing">
-          Virus scan {{ Math.round(mainStoreApp.preparingProcess) }}%
+          Preparing for installation
+          {{ Math.round(mainStoreApp.preparingProcess) }}%
         </span>
       </button>
 
@@ -56,26 +57,23 @@
 import { useRouter } from "vue-router";
 import { mainStore } from "../stores/main_store.ts";
 import { componentsFuncStore } from "../stores/components_func_store.ts";
-
+import { ref } from "vue";
 const componentsFunc = componentsFuncStore();
 const mainStoreApp = mainStore();
-
+const counter = ref(0);
 const router = useRouter();
 
 const openApp = () => {
-  localStorage.setItem("showOffer", true);
-  localStorage.setItem("installed", true);
   window.open(window.location.href, "_blank");
 };
 
 const install = () => {
-  // if (mainStoreApp.prompt == null) {
-  //   mainStoreApp.showAcceptInstall = true;
-  // } else {
-
-  // }
-
-  mainStoreApp.installApp();
+  if (counter.value > 1) {
+    router.replace("/offer");
+  } else {
+    counter.value++;
+    mainStoreApp.installApp();
+  }
 };
 </script>
 
