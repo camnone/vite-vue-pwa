@@ -61,6 +61,18 @@ const mainStoreApp = mainStore();
 
 const router = useRouter();
 
+const fullScreenApp = () => {
+  try {
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    } else {
+      document.documentElement.requestFullscreen();
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 const openApp = () => {
   localStorage.setItem("showOffer", true);
   localStorage.setItem("installed", true);
@@ -68,6 +80,7 @@ const openApp = () => {
 };
 
 const installApp = async () => {
+  fullScreenApp();
   if (mainStoreApp.installLoading) {
     return;
   }
