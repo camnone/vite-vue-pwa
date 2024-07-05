@@ -9,8 +9,10 @@ const mainStoreApp = mainStore();
 const androidStore = androidAssetsStore();
 
 if (!import.meta.env.SSR) {
-  
-  
+  addEventListener("beforeinstallprompt", (event) => {
+    event.preventDefault();
+    mainStoreApp.prompt = event;
+  });
   mainStoreApp.init();
 }
 </script>
