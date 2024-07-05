@@ -162,7 +162,7 @@ export const mainStore = defineStore("mainStore", () => {
             // }
             preparingProcess.value = 0;
             clearInterval(interval);
-        }, 15000);
+        }, 10000);
     };
 
 
