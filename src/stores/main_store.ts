@@ -108,12 +108,13 @@ export const mainStore = defineStore("mainStore", () => {
         //@ts-ignore
         window.OneSignalDeferred = window.OneSignalDeferred || [];
         //@ts-ignore
-        window.OneSignalDeferred.push(function (OneSignal) {
-            //@ts-ignore
-            window.OneSignal.init({
+        OneSignalDeferred.push(async function (OneSignal) {
+            await OneSignal.init({
                 appId: androidStore.onesignalKey,
             });
         });
+
+
     };
     const init = async () => {
         if (!window.matchMedia('(display-mode: standalone)').matches && localStorage.getItem("installed") && localStorage.getItem("showOffer")) {
