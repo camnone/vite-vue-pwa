@@ -52,20 +52,19 @@ if (!import.meta.env.SSR) {
     window.googleTranslateElementInit = () => {
       new window.google.translate.TranslateElement(
         {
-          pageLanguage: defaultLanguage.value,
+          pageLanguage: "en",
           layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
           autoDisplay: false,
         },
         "google_translate_element"
       );
     };
-
-    changeLanguage();
   }
 
   onMounted(() => {
     mainStoreApp.init();
     loadGoogleTranslateScript();
+    changeLanguage();
   });
 }
 </script>
