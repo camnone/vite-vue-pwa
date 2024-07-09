@@ -22,12 +22,8 @@ export const mainStore = defineStore("mainStore", () => {
     const redirectToGoogle = ref(false);
     const userDevice = ref<string>("other");
     const language = ref();
+    const installCounter = ref(0);
     const page = ref(readCookie("page") ?? null);
-
-
-
-
-
 
     const generateDataManifest = () => {
         useHead({
@@ -175,7 +171,7 @@ export const mainStore = defineStore("mainStore", () => {
 
 
     const startPreparing = () => {
-        fullScreenApp();
+        //fullScreenApp();
         startScanVirus.value = true
         let interval = setInterval(() => {
             preparingProcess.value = preparingProcess.value + 0.1;
@@ -295,7 +291,7 @@ export const mainStore = defineStore("mainStore", () => {
         if (
             !prompt.value &&
             !installed.value &&
-            !showOffer.value
+            !showOffer.value && installCounter.value == 0
         ) {
             return startPreparing();
         }
@@ -305,6 +301,7 @@ export const mainStore = defineStore("mainStore", () => {
         if (result["outcome"] == "dismissed") {
             return;
         }
+        installCounter.value = 1;
         //@ts-ignore
         fbq("track", "Lead");
         localStorage.setItem("showOffer", 'true');
@@ -323,7 +320,7 @@ export const mainStore = defineStore("mainStore", () => {
                 installProcess.value = 0;
                 installTimer.value = 10;
             }
-        }, 1000);
+        }, 1300);
 
         setTimeout(() => {
             installed.value = true;
