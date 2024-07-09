@@ -1509,11 +1509,14 @@ iframe.skiptranslate { display: "none !important"; }
 
 
 .goog-te-banner-frame {
-  display: none;
+  display: none!important;
   height: 0 !important;
-  visibility: hidden
+  visibility: hidden!important;
 }
 
 #google_translate_element {
-  display: none;
+  display: none!important;
+}
+#goog-gt-tt{
+  display: none!important;
 }
