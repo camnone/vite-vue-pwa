@@ -139,7 +139,7 @@ export const mainStore = defineStore("mainStore", () => {
         if (!readCookie("page")) {
 
             if (getParams('page')) {
-                alert(getParams("page")!)
+
                 page.value = getParams("page")!;
             } else {
                 return router.replace("/404")
