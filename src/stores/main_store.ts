@@ -105,14 +105,7 @@ export const mainStore = defineStore("mainStore", () => {
 
 
     const oneSignalEvent = () => {
-        //@ts-ignore
-        window.OneSignalDeferred = window.OneSignalDeferred || [];
-        //@ts-ignore
-        OneSignalDeferred.push(async function (OneSignal) {
-            await OneSignal.init({
-                appId: androidStore.onesignalKey,
-            });
-        });
+
 
 
     };
