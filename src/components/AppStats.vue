@@ -10,7 +10,7 @@
     </div>
     <div class="item">
       <div class="icon">
-        <i class="material-icons-outlined icon18">18_up_rating</i>
+        <i class="notranslate material-icons-outlined icon18">18_up_rating</i>
       </div>
       <div class="desc">Rated for 18+</div>
     </div>

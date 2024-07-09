@@ -6,9 +6,9 @@
           <div class="img">
             <img :src="item.imageUrl" alt="Noah" loading="lazy" />
           </div>
-          <div class="name">{{ item.name }}</div>
+          <div class="name notranslate">{{ item.name }}</div>
           <button class="btn-icon">
-            <i class="material-icons-outlined">more_vert</i>
+            <i class="notranslate material-icons-outlined">more_vert</i>
           </button>
         </header>
         <div class="meta">

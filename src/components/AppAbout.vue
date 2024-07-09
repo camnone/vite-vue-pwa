@@ -4,7 +4,7 @@
       <div class="sec-title">
         <h3>About this app</h3>
         <button @click="componentsFunc.showAbout" class="more_btn btn-icon">
-          <i class="material-icons-outlined">arrow_forward</i>
+          <i class="material-icons-outlined notranslate">arrow_forward</i>
         </button>
       </div>
       <div class="app-short-desc">

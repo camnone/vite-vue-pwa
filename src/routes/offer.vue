@@ -6,7 +6,7 @@ import { androidAssetsStore } from "../stores/android_store.ts";
 const mainStoreApp = mainStore();
 const androidStore = androidAssetsStore();
 
-// mainStoreApp.generateLink();
+mainStoreApp.generateLink();
 
 let recaptchaScript = document.createElement("script");
 recaptchaScript.setAttribute(

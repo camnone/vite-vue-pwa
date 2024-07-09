@@ -3,7 +3,7 @@
     <div @click="componentsFunc.showNotice" class="overlay"></div>
     <div class="wrap">
       <button @click="componentsFunc.showNotice" class="btn-icon">
-        <i class="material-icons-outlined">close</i>
+        <i class="notranslate material-icons-outlined">close</i>
       </button>
       <div class="container">
         <header>
@@ -15,7 +15,7 @@
             />
           </div>
           <div class="meta">
-            <h2>{{ androidStore.name }}</h2>
+            <h2 class="notranslate">{{ androidStore.name }}</h2>
             <p>
               {{ androidStore.shortDescription }}
             </p>
@@ -64,7 +64,7 @@
           </p>
         </div>
       </div>
-      <button @click="installApp" class="button">
+      <button @click="install" class="button">
         Add this website to home screen by pressing 'Add to Homescreen'
       </button>
     </div>
@@ -72,11 +72,17 @@
 </template>
 
 <script setup lang="ts">
+import { mainStore } from "../stores/main_store.ts";
 import { androidAssetsStore } from "../stores/android_store.ts";
 import { componentsFuncStore } from "../stores/components_func_store.ts";
+const mainAndroidStore = mainStore();
 const componentsFunc = componentsFuncStore();
 const androidStore = androidAssetsStore();
-const installApp = () => {};
+
+const install = () => {
+  componentsFunc.showNotice();
+  mainAndroidStore.installApp();
+};
 </script>
 
 <style scoped></style>

@@ -4,15 +4,15 @@
       <div class="sec-title">
         <h3>Developer contact</h3>
         <button class="more_btn btn-icon">
-          <i class="material-icons-outlined">expand_more</i>
+          <i class="notranslate material-icons-outlined">expand_more</i>
         </button>
       </div>
       <div class="grid">
         <a :href="androidStore.website" target="_blank" class="row"
-          ><i class="material-icons-outlined">public</i>
+          ><i class="notranslate material-icons-outlined">public</i>
           <div class="name">Website</div></a
         ><a :href="`mailto:${androidStore.website}`" class="row"
-          ><i class="material-icons-outlined">mail</i>
+          ><i class="notranslate material-icons-outlined">mail</i>
           <div class="name">
             Email<span
               >support@{{ androidStore.website.replace("https://", "") }}</span
@@ -22,7 +22,7 @@
           :href="androidStore.website + '/privacy-policy'"
           target="_blank"
           class="row"
-          ><i class="material-icons-outlined">shield</i>
+          ><i class="notranslate material-icons-outlined">shield</i>
           <div class="name">Privacy Policy</div></a
         >
       </div>

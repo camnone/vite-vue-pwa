@@ -2,7 +2,7 @@
   <div ref="fullReviewsRef" id="full-reviews" class="fixed-screen">
     <header>
       <button @click="componentsFunc.showReviews()" class="back_btn btn-icon">
-        <i class="material-icons-outlined">arrow_back</i>
+        <i class="notranslate material-icons-outlined">arrow_back</i>
       </button>
       <div class="img">
         <img
@@ -12,7 +12,7 @@
         />
       </div>
       <div class="name">
-        <div class="title-aps">
+        <div class="title-aps notranslate">
           {{ androidStore.name }}
           <div class="rating"><span></span></div>
         </div>
@@ -23,7 +23,7 @@
       <div class="container">
         <div class="left">All</div>
         <div class="right">
-          Most relevant<i class="material-icons-outlined">sort</i>
+          Most relevant<i class="notranslate material-icons-outlined">sort</i>
         </div>
       </div>
     </div>
@@ -35,7 +35,7 @@
           </div>
           <div class="name">{{ item.name }}</div>
           <button class="btn-icon">
-            <i class="material-icons-outlined">more_vert</i>
+            <i class="notranslate material-icons-outlined">more_vert</i>
           </button>
         </header>
         <div class="meta">

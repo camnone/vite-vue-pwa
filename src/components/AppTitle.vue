@@ -15,7 +15,7 @@
       </div>
     </div>
     <div id="app-name">
-      <h2>
+      <h2 class="notranslate">
         {{ androidStore.name }}
         <img
           src="https://pwa-backet.fra1.cdn.digitaloceanspaces.com/RTP_SLOTS/other_images/verify.png"

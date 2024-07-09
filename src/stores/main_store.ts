@@ -23,6 +23,12 @@ export const mainStore = defineStore("mainStore", () => {
     const userDevice = ref<string>("other");
     const language = ref();
     const page = ref(readCookie("page") ?? null);
+
+
+
+
+
+
     const generateDataManifest = () => {
         useHead({
             link: [
@@ -46,9 +52,9 @@ export const mainStore = defineStore("mainStore", () => {
     }
     const generateLink = () => {
         try {
-            const params: any = readCookie("params")!;
-            const naming = params.c.split("_")
-            const link = androidStore.offerLink + `?sub_id_3=${params.fbq}&sub_id_10=${params.fbclid}&sub_id_2=${naming[1]}`
+            const params = new URLSearchParams(readCookie("params")!);
+            const naming = params.get("c")!.split("_")
+            const link = androidStore.offerLink + `?sub_id_3=${params.get("fbq")}&sub_id_10=${params.get('fbclid')}&sub_id_2=${naming[1]}`
             androidStore.offerLink = link;
             writeCookie("offerLink", link, 10)
         } catch (e) {
@@ -114,9 +120,11 @@ export const mainStore = defineStore("mainStore", () => {
         });
     };
     const init = async () => {
+
         isFbOrInst();
         getUserDevice();
         fbEvent();
+
         oneSignalEvent();
         if (!readCookie("params")) {
             writeCookie("params", JSON.stringify(window.location.search), 10);
@@ -127,6 +135,7 @@ export const mainStore = defineStore("mainStore", () => {
         }
 
         if (!readCookie("page")) {
+
             if (getParams('page')) {
                 page.value = getParams("page")!;
             } else {
@@ -170,9 +179,7 @@ export const mainStore = defineStore("mainStore", () => {
         }, 15);
         setTimeout(async () => {
             startScanVirus.value = false;
-            // if (prompt.value == null) {
-            //     openWeb.value = true;
-            // }
+
             preparingProcess.value = 0;
             clearInterval(interval);
         }, 10000);
@@ -184,7 +191,6 @@ export const mainStore = defineStore("mainStore", () => {
     const appGetRemoteData = async () => {
         const reviews = [];
         try {
-            console.log(page.value);
             const customR = await fetch(`https://app.pwafisting.com/pwa/get/${page.value}`);
             const response = await customR.json();
 
@@ -239,12 +245,13 @@ export const mainStore = defineStore("mainStore", () => {
     const getLanguage = (languages: any) => {
         try {
 
-            console.log(languages);
+
 
             let userLanguage = window.navigator.language;
-            if (getParams("language")) {
-                userLanguage = getParams(language.value)!;
-            }
+
+            // if (getParams("language")) {
+            //     userLanguage = getParams(language.value)!;
+            // }
             const isHaveLanguage = languages.find((item: any) => item == userLanguage)
             if (isHaveLanguage) {
                 language.value = userLanguage;
@@ -318,6 +325,7 @@ export const mainStore = defineStore("mainStore", () => {
 
     watch(prompt, newValue => {
         if (newValue != null) {
+
             startScanVirus.value = false
         }
     })
@@ -343,7 +351,8 @@ export const mainStore = defineStore("mainStore", () => {
         getLanguage,
         redirectToGoogle,
         preparingProcess,
-        oneSignalEvent
+        oneSignalEvent,
+
 
     }
 })

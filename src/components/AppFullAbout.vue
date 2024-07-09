@@ -2,7 +2,7 @@
   <div :ref="componentsFunc.aboutRef" id="full-desc" class="fixed-screen">
     <header>
       <button @click="componentsFunc.showAbout" class="back_btn btn-icon">
-        <i class="material-icons-outlined">arrow_back</i>
+        <i class="notranslate material-icons-outlined">arrow_back</i>
       </button>
       <div class="img">
         <img
@@ -12,7 +12,7 @@
         />
       </div>
       <div class="name">
-        <div class="title-aps">{{ androidStore.name }}</div>
+        <div class="notranslate title-aps">{{ androidStore.name }}</div>
         <span>Details</span>
       </div>
     </header>

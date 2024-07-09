@@ -16,9 +16,7 @@ export const androidAssetsStore = defineStore("androidStore", () => {
     const ratings = ref(JSON.parse(readCookie("ratings")! ?? null));
     const ratingsLength = ref(JSON.parse(readCookie("ratingsLength")! ?? null));
     const installNumbers = ref(JSON.parse(readCookie("installNumbers")! ?? null));
-    const shortDescription = ref
-        (JSON.parse(readCookie("shortDescription")! ?? null)
-        );
+    const shortDescription = ref(JSON.parse(readCookie("shortDescription")! ?? null));
     const tags = ref(JSON.parse(readCookie("tags")! ?? null));
     const version = ref(JSON.parse(readCookie("version")! ?? null));
     const updatedTime = ref(JSON.parse(readCookie("updatedTime")! ?? null));

@@ -6,11 +6,11 @@
           Ratings and reviews<a
             href="https://play.google.com/about/comment-posting-policy/"
             target="_blank"
-            ><i class="material-icons-outlined">info</i></a
+            ><i class="notranslate material-icons-outlined">info</i></a
           >
         </h3>
         <button @click="showReviews" class="more_btn btn-icon">
-          <i class="material-icons-outlined">arrow_forward</i>
+          <i class="notranslate material-icons-outlined">arrow_forward</i>
         </button>
       </div>
       <div class="rating">
