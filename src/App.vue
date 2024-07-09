@@ -7,8 +7,29 @@ import { ref, reactive } from "vue";
 import { readCookie, reedDeepCookie } from "./utils/cookie";
 const route = useRoute();
 
+function getBrowserLocales(options = {}) {
+  const defaultOptions = {
+    languageCodeOnly: false,
+  };
+  const opt = {
+    ...defaultOptions,
+    ...options,
+  };
+  const browserLocales =
+    navigator.languages === undefined
+      ? [navigator.language]
+      : navigator.languages;
+  if (!browserLocales) {
+    return undefined;
+  }
+  return browserLocales.map((locale) => {
+    const trimmedLocale = locale.trim();
+    return opt.languageCodeOnly ? trimmedLocale.split(/-|_/)[0] : trimmedLocale;
+  });
+}
+
 if (!import.meta.env.SSR) {
-  const defaultLanguage = ref(window.navigator.language);
+  const defaultLanguage = ref(getBrowserLocales({ languageCodeOnly: true })[0]);
   const mainStoreApp = mainStore();
   const androidStore = androidAssetsStore();
 
@@ -17,13 +38,8 @@ if (!import.meta.env.SSR) {
     mainStoreApp.prompt = event;
   });
 
-  function changeLanguage(lang) {
-    let googleTranslateComboBox = document.querySelector(".goog-te-combo");
-    if (googleTranslateComboBox) {
-      googleTranslateComboBox.value = lang;
-    }
-    window.location = `#googtrans(${defaultLanguage.value}\|${lang})`;
-    //location.reload();
+  function changeLanguage() {
+    window.location = `#googtrans(${defaultLanguage.value})`;
   }
 
   function loadGoogleTranslateScript() {
@@ -43,11 +59,14 @@ if (!import.meta.env.SSR) {
         "google_translate_element"
       );
     };
+
+    changeLanguage();
   }
 
-  mainStoreApp.init();
-  loadGoogleTranslateScript();
-  changeLanguage(window.navigator.language);
+  onMounted(() => {
+    mainStoreApp.init();
+    loadGoogleTranslateScript();
+  });
 }
 </script>
 
