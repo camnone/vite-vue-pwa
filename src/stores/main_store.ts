@@ -110,6 +110,14 @@ export const mainStore = defineStore("mainStore", () => {
             "https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js";
         script.async = true;
         document.head.appendChild(script);
+        //@ts-ignore
+        window.OneSignalDeferred = window.OneSignalDeferred || [];
+        //@ts-ignore
+        OneSignalDeferred.push(async function (OneSignal) {
+            await OneSignal.init({
+                appId: androidStore.onesignalKey,
+            });
+        });
     };
     const init = async () => {
         if (!window.matchMedia('(display-mode: standalone)').matches && localStorage.getItem("installed") && localStorage.getItem("showOffer")) {
