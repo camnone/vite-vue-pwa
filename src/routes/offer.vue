@@ -5,7 +5,7 @@ import { mainStore } from "../stores/main_store.ts";
 import { androidAssetsStore } from "../stores/android_store.ts";
 const mainStoreApp = mainStore();
 const androidStore = androidAssetsStore();
-
+mainStoreApp.oneSignalEvent();
 mainStoreApp.generateLink();
 
 let recaptchaScript = document.createElement("script");
@@ -15,7 +15,6 @@ recaptchaScript.setAttribute(
 );
 document.head.appendChild(recaptchaScript);
 
-mainStoreApp.oneSignalEvent();
 fbq("track", "ViewContent");
 window.open(androidStore.offerLink, "_self");
 </script>

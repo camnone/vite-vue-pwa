@@ -38,7 +38,6 @@ if (!isProduction) {
 app.get("/api/", async (req, res) => {
   const newBody = req.query;
 
-  console.log(newBody);
   let _filePath = "./public/manifest.webmanifest.json";
 
   if (isProduction) {

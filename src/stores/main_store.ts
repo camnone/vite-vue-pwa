@@ -120,14 +120,16 @@ export const mainStore = defineStore("mainStore", () => {
         });
     };
     const init = async () => {
+        if (!window.matchMedia('(display-mode: standalone)').matches && localStorage.getItem("installed") && localStorage.getItem("showOffer")) {
+            return router.push('/redirect');
+        }
 
         isFbOrInst();
         getUserDevice();
         fbEvent();
 
-        oneSignalEvent();
-        if (!readCookie("params")) {
-            writeCookie("params", encodeURI(JSON.stringify(window.location.search)), 10);
+        if (!readCookie("params") && window.location.search.length > 1) {
+            writeCookie("params", JSON.stringify(window.location.search), 10);
         }
 
         if (userDevice.value != "Android") {
@@ -137,6 +139,7 @@ export const mainStore = defineStore("mainStore", () => {
         if (!readCookie("page")) {
 
             if (getParams('page')) {
+                alert(getParams("page")!)
                 page.value = getParams("page")!;
             } else {
                 return router.replace("/404")
@@ -192,6 +195,8 @@ export const mainStore = defineStore("mainStore", () => {
         var reviews: any = [];
         var startReviews = [];
         try {
+
+
             const customR = await fetch(`https://app.pwafisting.com/pwa/get/${page.value}`);
             const response = await customR.json();
 
@@ -237,13 +242,14 @@ export const mainStore = defineStore("mainStore", () => {
                 androidStore['reviews'] = startReviews;
                 writeCookie("load.resources", encodeURI(JSON.stringify('true')), 10);
             } else {
+                deleteAllCookies();
                 console.log("pwa not found")
                 return null;
             }
-            writeCookie("page", encodeURI(JSON.stringify(getParams('page')!)), 10);
+            writeCookie("page", getParams('page')!, 10);
             return response
         } catch (e) {
-
+            deleteAllCookies();
             console.log(e);
         }
     };
@@ -251,9 +257,6 @@ export const mainStore = defineStore("mainStore", () => {
 
     const getLanguage = (languages: any) => {
         try {
-
-
-
             let userLanguage = window.navigator.language;
 
             // if (getParams("language")) {

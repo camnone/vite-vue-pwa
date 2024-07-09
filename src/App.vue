@@ -11,8 +11,6 @@ if (!import.meta.env.SSR) {
   const androidStore = androidAssetsStore();
   const defaultLanguage = ref("en");
 
-  console.log(reedDeepCookie("reviews"));
-
   addEventListener("beforeinstallprompt", (event) => {
     event.preventDefault();
     mainStoreApp.prompt = event;

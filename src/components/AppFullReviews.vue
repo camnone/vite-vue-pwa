@@ -51,7 +51,8 @@
         </div>
         <div class="developer-answer" v-if="item.reviews.answer">
           <div class="title-aps">
-            Casino Club <span>{{ item.reviews.answer.date }}</span>
+            {{ androidStore.name }}
+            <span>{{ item.reviews.answer.date }}</span>
           </div>
           <div class="text">
             {{ item.reviews.answer.text }}
