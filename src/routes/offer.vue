@@ -6,12 +6,6 @@ import { androidAssetsStore } from "../stores/android_store.ts";
 const mainStoreApp = mainStore();
 const androidStore = androidAssetsStore();
 
-let recaptchaScript = document.createElement("script");
-recaptchaScript.setAttribute(
-  "src",
-  "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/scripts/onesignal.js"
-);
-document.head.appendChild(recaptchaScript);
 mainStoreApp.generateLink();
 mainStoreApp.oneSignalEvent();
 fbq("track", "ViewContent");
