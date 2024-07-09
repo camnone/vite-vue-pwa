@@ -7,6 +7,26 @@ export const writeCookie = (name: string, val: string, expires: number) => {
 
 export const readCookie = (name: string) => {
 
+    try {
+        var matches = document.cookie.match(
+            new RegExp(
+                "(?:^|; )" +
+                name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") +
+                "=([^;]*)"
+            )
+        );
+        return matches ? decodeURI(matches[1]) : undefined;
+
+
+    } catch (e) {
+        console.log(name)
+    }
+
+
+};
+
+export const reedDeepCookie = (name: string) => {
+
     var matches = document.cookie.match(
         new RegExp(
             "(?:^|; )" +
@@ -14,12 +34,16 @@ export const readCookie = (name: string) => {
             "=([^;]*)"
         )
     );
-    return matches ? decodeURIComponent(matches[1]) : undefined;
 
 
 
 
-};
+
+
+
+    return matches ? JSON.parse(matches![1]) : undefined;
+
+}
 
 
 export const removeCookie = (name: string) => {

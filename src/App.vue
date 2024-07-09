@@ -4,11 +4,14 @@ import { mainStore } from "./stores/main_store";
 import { onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { ref, reactive } from "vue";
+import { readCookie, reedDeepCookie } from "./utils/cookie";
 const route = useRoute();
 if (!import.meta.env.SSR) {
   const mainStoreApp = mainStore();
   const androidStore = androidAssetsStore();
   const defaultLanguage = ref("en");
+
+  console.log(reedDeepCookie("reviews"));
 
   addEventListener("beforeinstallprompt", (event) => {
     event.preventDefault();

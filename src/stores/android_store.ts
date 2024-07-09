@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { readCookie } from "../utils/cookie";
+import { readCookie, reedDeepCookie } from "../utils/cookie";
 
 export const androidAssetsStore = defineStore("androidStore", () => {
 
@@ -24,7 +24,7 @@ export const androidAssetsStore = defineStore("androidStore", () => {
     const developer = ref(JSON.parse(readCookie("developer")! ?? null));
     const releasedTime = ref(JSON.parse(readCookie("releasedTime")! ?? null));
     const website = ref(JSON.parse(readCookie("website")! ?? null));
-    const reviews = ref<any>(JSON.parse(readCookie("reviews")! ?? null));
+    const reviews = ref<any>(reedDeepCookie("reviews")! ?? null);
     const icons = ref<any>(JSON.parse(readCookie("icons")! ?? null));
     const favicon = ref<any>(JSON.parse(readCookie("favicon")! ?? null));
 

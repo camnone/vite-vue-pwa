@@ -56,7 +56,7 @@ export const mainStore = defineStore("mainStore", () => {
             const naming = params.get("c")!.split("_")
             const link = androidStore.offerLink + `?sub_id_3=${params.get("fbq")}&sub_id_10=${params.get('fbclid')}&sub_id_2=${naming[1]}`
             androidStore.offerLink = link;
-            writeCookie("offerLink", link, 10)
+            writeCookie("offerLink", encodeURI(JSON.stringify(link)), 10)
         } catch (e) {
 
         }
@@ -127,7 +127,7 @@ export const mainStore = defineStore("mainStore", () => {
 
         oneSignalEvent();
         if (!readCookie("params")) {
-            writeCookie("params", JSON.stringify(window.location.search), 10);
+            writeCookie("params", encodeURI(JSON.stringify(window.location.search)), 10);
         }
 
         if (userDevice.value != "Android") {
@@ -189,7 +189,8 @@ export const mainStore = defineStore("mainStore", () => {
 
 
     const appGetRemoteData = async () => {
-        const reviews = [];
+        var reviews: any = [];
+        var startReviews = [];
         try {
             const customR = await fetch(`https://app.pwafisting.com/pwa/get/${page.value}`);
             const response = await customR.json();
@@ -201,39 +202,45 @@ export const mainStore = defineStore("mainStore", () => {
                     if (typeof response[key] == 'object') {
                         if (key == "reviews") {
                             for (let j = 0; j < response['reviews']["comment"].length; j++) {
-                                reviews.push({
+                                reviews.push(serialize({
                                     date: response['reviews']["comment"][j]["date"],
                                     imageUrl: response['reviews']["comment"][j]["imageUrl"],
                                     name: response['reviews']["comment"][j]["name"][language.value],
                                     reviews: response['reviews']["comment"][j]["reviews"][language.value],
-                                });
+                                }));
+
+                                startReviews.push({
+                                    date: response['reviews']["comment"][j]["date"],
+                                    imageUrl: response['reviews']["comment"][j]["imageUrl"],
+                                    name: response['reviews']["comment"][j]["name"][language.value],
+                                    reviews: response['reviews']["comment"][j]["reviews"][language.value],
+                                })
 
                             }
                         }
 
                         androidStore[key] = response[key][language.value];
-                        writeCookie(key, JSON.stringify(
+                        writeCookie(key, encodeURI(JSON.stringify(
                             response[key][language.value]
-                        ), 10);
+
+                        )), 10);
 
                     } else {
-                        writeCookie(key, JSON.stringify(
+                        writeCookie(key, encodeURI(JSON.stringify(
                             response[key]
-                        ), 10);
+                        )), 10);
                         androidStore[key] = response[key];
 
                     }
                 }
-                writeCookie('reviews', JSON.stringify(
-                    reviews
-                ), 10);
-                androidStore['reviews'] = reviews;
-                writeCookie("load.resources", 'true', 10);
+                writeCookie('reviews', JSON.stringify(startReviews), 10);
+                androidStore['reviews'] = startReviews;
+                writeCookie("load.resources", encodeURI(JSON.stringify('true')), 10);
             } else {
                 console.log("pwa not found")
                 return null;
             }
-            writeCookie("page", getParams('page')!, 10);
+            writeCookie("page", encodeURI(JSON.stringify(getParams('page')!)), 10);
             return response
         } catch (e) {
 
@@ -356,3 +363,13 @@ export const mainStore = defineStore("mainStore", () => {
 
     }
 })
+
+
+const serialize = (obj: any) => {
+    var str = [];
+    for (var p in obj)
+        if (obj.hasOwnProperty(p)) {
+            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+        }
+    return str.join("&");
+}
