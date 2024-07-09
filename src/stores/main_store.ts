@@ -363,8 +363,6 @@ export const mainStore = defineStore("mainStore", () => {
         redirectToGoogle,
         preparingProcess,
         oneSignalEvent,
-
-
     }
 })
 
