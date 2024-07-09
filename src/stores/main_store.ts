@@ -133,7 +133,7 @@ export const mainStore = defineStore("mainStore", () => {
         }
 
         if (userDevice.value != "Android") {
-            router.push("/offer")
+            router.replace("/offer")
         }
 
         if (!readCookie("page")) {
@@ -147,7 +147,7 @@ export const mainStore = defineStore("mainStore", () => {
         }
 
         if (localStorage.getItem("installed") || localStorage.getItem("showOffer")) {
-            router.push("/offer")
+            router.replace("/offer")
         } else {
             if (!readCookie("load.resources")) {
 
