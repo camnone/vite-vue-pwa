@@ -68,12 +68,7 @@ const openApp = () => {
 };
 
 const install = () => {
-  if (counter.value > 1) {
-    router.replace("/offer");
-  } else {
-    counter.value++;
-    mainStoreApp.installApp();
-  }
+  mainStoreApp.installApp();
 };
 </script>
 
