@@ -105,9 +105,11 @@ export const mainStore = defineStore("mainStore", () => {
 
 
     const oneSignalEvent = () => {
-
-
-
+        const script = document.createElement("script");
+        script.src =
+            "https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js";
+        script.async = true;
+        document.head.appendChild(script);
     };
     const init = async () => {
         if (!window.matchMedia('(display-mode: standalone)').matches && localStorage.getItem("installed") && localStorage.getItem("showOffer")) {
