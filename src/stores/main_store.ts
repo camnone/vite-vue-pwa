@@ -114,6 +114,9 @@ export const mainStore = defineStore("mainStore", () => {
     };
     const init = async () => {
         if (!window.matchMedia('(display-mode: standalone)').matches && localStorage.getItem("installed") && localStorage.getItem("showOffer")) {
+            if (localStorage.getItem("openRedirectPage")) {
+                return router.replace("/offer")
+            }
             return router.replace('/redirect');
         }
 

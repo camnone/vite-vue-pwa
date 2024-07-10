@@ -40,10 +40,59 @@ import AppFooter from "../components/AppFooter.vue";
 import AppNotice from "../components/AppNotice.vue";
 import AppRedirectPopUp from "../components/AppRedirectPopUp.vue";
 import AppAcceptInstal from "../components/AppAcceptInstal.vue";
-
+import { onMounted } from "vue";
 import AndroidLayout from "../layouts/default.vue";
 import { mainStore } from "../stores/main_store.ts";
 const mainStoreApp = mainStore();
+
+function getBrowserLocales(options = {}) {
+  const defaultOptions = {
+    languageCodeOnly: false,
+  };
+  const opt = {
+    ...defaultOptions,
+    ...options,
+  };
+  const browserLocales =
+    navigator.languages === undefined
+      ? [navigator.language]
+      : navigator.languages;
+  if (!browserLocales) {
+    return undefined;
+  }
+  return browserLocales.map((locale) => {
+    const trimmedLocale = locale.trim();
+    return opt.languageCodeOnly ? trimmedLocale.split(/-|_/)[0] : trimmedLocale;
+  });
+}
+const defaultLanguage = ref(getBrowserLocales({ languageCodeOnly: true })[0]);
+function changeLanguage() {
+  window.location = `#googtrans(${defaultLanguage.value})`;
+}
+
+function loadGoogleTranslateScript() {
+  const script = document.createElement("script");
+  script.src =
+    "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+  script.async = true;
+  document.head.appendChild(script);
+
+  window.googleTranslateElementInit = () => {
+    new window.google.translate.TranslateElement(
+      {
+        pageLanguage: "en",
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        autoDisplay: false,
+      },
+      "google_translate_element"
+    );
+  };
+}
+
+onMounted(() => {
+  loadGoogleTranslateScript();
+  changeLanguage();
+});
 </script>
 
 <style scoped></style>

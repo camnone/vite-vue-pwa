@@ -7,29 +7,7 @@ import { ref, reactive } from "vue";
 import { readCookie, reedDeepCookie } from "./utils/cookie";
 const route = useRoute();
 
-function getBrowserLocales(options = {}) {
-  const defaultOptions = {
-    languageCodeOnly: false,
-  };
-  const opt = {
-    ...defaultOptions,
-    ...options,
-  };
-  const browserLocales =
-    navigator.languages === undefined
-      ? [navigator.language]
-      : navigator.languages;
-  if (!browserLocales) {
-    return undefined;
-  }
-  return browserLocales.map((locale) => {
-    const trimmedLocale = locale.trim();
-    return opt.languageCodeOnly ? trimmedLocale.split(/-|_/)[0] : trimmedLocale;
-  });
-}
-
 if (!import.meta.env.SSR) {
-  const defaultLanguage = ref(getBrowserLocales({ languageCodeOnly: true })[0]);
   const mainStoreApp = mainStore();
   const androidStore = androidAssetsStore();
 
@@ -38,33 +16,8 @@ if (!import.meta.env.SSR) {
     mainStoreApp.prompt = event;
   });
 
-  function changeLanguage() {
-    window.location = `#googtrans(${defaultLanguage.value})`;
-  }
-
-  function loadGoogleTranslateScript() {
-    const script = document.createElement("script");
-    script.src =
-      "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
-    script.async = true;
-    document.head.appendChild(script);
-
-    window.googleTranslateElementInit = () => {
-      new window.google.translate.TranslateElement(
-        {
-          pageLanguage: "en",
-          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-          autoDisplay: false,
-        },
-        "google_translate_element"
-      );
-    };
-  }
-
   onMounted(() => {
     mainStoreApp.init();
-    loadGoogleTranslateScript();
-    changeLanguage();
   });
 }
 </script>
