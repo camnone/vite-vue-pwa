@@ -116,7 +116,6 @@ export const mainStore = defineStore("mainStore", () => {
 
         if (isMeta) {
             redirectToGoogle.value = true;
-            return
         }
 
         getUserDevice();
