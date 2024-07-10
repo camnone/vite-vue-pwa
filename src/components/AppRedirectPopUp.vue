@@ -12,6 +12,7 @@
 </template>
 
 <script setup>
+import { getParams } from "../utils/params";
 import { androidAssetsStore } from "../stores/android_store.ts";
 import { mainStore } from "../stores/main_store";
 const mainAndroidStore = mainStore();
@@ -23,7 +24,9 @@ defineProps({
 
 const openWeb = () => {
   window.open(
-    `intent://navigate?url=${window.location.hostname}/?page=${mainAndroidStore.page}#Intent;scheme=googlechrome;end;`
+    `intent://navigate?url=${window.location.hostname}/?page=${getParams(
+      "page"
+    )}#Intent;scheme=googlechrome;end;`
   );
   mainAndroidStore.redirectToGoogle = false;
 };
