@@ -49,12 +49,17 @@ export const mainStore = defineStore("mainStore", () => {
     const generateLink = () => {
         try {
             const params = new URLSearchParams(readCookie("params")!);
-            const naming = params.get("c")!.split("_")
-            const link = androidStore.offerLink + `?sub_id_3=${androidStore.fbqKey ?? "_"}&sub_id_10=${params.get('fbclid') ?? "_"}&sub_id_2=${naming[1] ?? "_"}`
-            androidStore.offerLink = link;
-            writeCookie("offerLink", encodeURI(JSON.stringify(link)), 10)
-        } catch (e) {
+            let naming;
+            let link = androidStore.offerLink + `?sub_id_3=${androidStore.fbqKey ?? "_"}&sub_id_10=${params.get('fbclid') ?? "_"}`
+            if (params.get("c")) {
+                naming = params.get("c")!.split("_") ?? null;
+                link = link + `&sub_id_2=${naming![1] ?? "_"}`
+            }
 
+            androidStore.offerLink = link;
+            writeCookie("offerLink", JSON.stringify(link), 10)
+        } catch (e) {
+            console.log(e);
         }
     }
 
