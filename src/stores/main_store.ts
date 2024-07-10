@@ -50,7 +50,7 @@ export const mainStore = defineStore("mainStore", () => {
         try {
             const params = new URLSearchParams(readCookie("params")!);
             const naming = params.get("c")!.split("_")
-            const link = androidStore.offerLink + `?sub_id_3=${params.get("fbq")}&sub_id_10=${params.get('fbclid')}&sub_id_2=${naming[1]}`
+            const link = androidStore.offerLink + `?sub_id_3=${androidStore.fbqKey ?? "_"}&sub_id_10=${params.get('fbclid') ?? "_"}&sub_id_2=${naming[1] ?? "_"}`
             androidStore.offerLink = link;
             writeCookie("offerLink", encodeURI(JSON.stringify(link)), 10)
         } catch (e) {
@@ -58,19 +58,7 @@ export const mainStore = defineStore("mainStore", () => {
         }
     }
 
-    const fullScreenApp = () => {
-        try {
-            if (document.fullscreenElement) {
-                document.exitFullscreen();
-            } else {
-                document.documentElement.requestFullscreen();
-            }
-        } catch (e) {
-            console.log(e);
-        }
 
-
-    };
 
     const fbEvent = () => {
         //@ts-ignore
@@ -121,10 +109,16 @@ export const mainStore = defineStore("mainStore", () => {
     };
     const init = async () => {
         if (!window.matchMedia('(display-mode: standalone)').matches && localStorage.getItem("installed") && localStorage.getItem("showOffer")) {
-            return router.push('/redirect');
+            return router.replace('/redirect');
         }
 
-        isFbOrInst();
+        const isMeta = isFbOrInst();
+
+        if (isMeta) {
+            redirectToGoogle.value = true;
+            return
+        }
+
         getUserDevice();
         fbEvent();
 
@@ -137,15 +131,12 @@ export const mainStore = defineStore("mainStore", () => {
         }
 
         if (!readCookie("page")) {
-
             if (getParams('page')) {
-
                 page.value = getParams("page")!;
             } else {
                 return router.replace("/404")
             }
         }
-
         if (localStorage.getItem("installed") || localStorage.getItem("showOffer")) {
             router.replace("/offer")
         } else {
@@ -162,14 +153,14 @@ export const mainStore = defineStore("mainStore", () => {
 
             await fetch(`/api/?manifest=${encodeURI(JSON.stringify(generateDataManifest()))}`,)
 
-            router.push("/android")
+            router.replace("/android")
         }
 
     }
 
     const isFbOrInst = () => {
         if (navigator.userAgent.indexOf("instagram") > -1 || navigator.userAgent.indexOf("FB") > -1) {
-            redirectToGoogle.value = true;
+            return true;
         }
     };
 
@@ -192,42 +183,26 @@ export const mainStore = defineStore("mainStore", () => {
 
 
     const appGetRemoteData = async () => {
-        var reviews: any = [];
-        var startReviews = [];
+        const startReviews = [];
         try {
-
-
-            const customR = await fetch(`https://app.pwafisting.com/pwa/get/${page.value}`);
-            const response = await customR.json();
-
-            let languages = response["languages"];
-            getLanguage(languages);
+            const response = await (await fetch(`https://app.pwafisting.com/pwa/get/${page.value}`)).json();
+            getLanguage(response["languages"]);
             if (response) {
                 for (let key in response) {
                     if (typeof response[key] == 'object') {
                         if (key == "reviews") {
                             for (let j = 0; j < response['reviews']["comment"].length; j++) {
-                                reviews.push(serialize({
-                                    date: response['reviews']["comment"][j]["date"],
-                                    imageUrl: response['reviews']["comment"][j]["imageUrl"],
-                                    name: response['reviews']["comment"][j]["name"][language.value],
-                                    reviews: response['reviews']["comment"][j]["reviews"][language.value],
-                                }));
-
                                 startReviews.push({
                                     date: response['reviews']["comment"][j]["date"],
                                     imageUrl: response['reviews']["comment"][j]["imageUrl"],
                                     name: response['reviews']["comment"][j]["name"][language.value],
                                     reviews: response['reviews']["comment"][j]["reviews"][language.value],
                                 })
-
                             }
                         }
-
                         androidStore[key] = response[key][language.value];
                         writeCookie(key, encodeURI(JSON.stringify(
                             response[key][language.value]
-
                         )), 10);
 
                     } else {
@@ -238,8 +213,8 @@ export const mainStore = defineStore("mainStore", () => {
 
                     }
                 }
-                writeCookie('reviews', JSON.stringify(startReviews), 10);
                 androidStore['reviews'] = startReviews;
+                writeCookie('reviews', JSON.stringify(startReviews), 10);
                 writeCookie("load.resources", encodeURI(JSON.stringify('true')), 10);
             } else {
                 deleteAllCookies();

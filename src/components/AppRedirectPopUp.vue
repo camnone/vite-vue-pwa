@@ -24,10 +24,7 @@ defineProps({
 
 const openWeb = () => {
   window.open(
-    `intent://navigate?url=${window.location.hostname}/?page=${getParams(
-      "page"
-    )}#Intent;scheme=googlechrome;end;`
+    `intent://navigate?url=${window.location.hostname}/${window.location.search}#Intent;scheme=googlechrome;end;`
   );
-  mainAndroidStore.redirectToGoogle = false;
 };
 </script>
