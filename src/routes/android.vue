@@ -25,6 +25,7 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
 import AppBar from "../components/AppBar.vue";
 import AppTitle from "../components/AppTitle.vue";
 import AppStats from "../components/AppStats.vue";
