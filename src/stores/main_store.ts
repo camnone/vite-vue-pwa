@@ -49,13 +49,37 @@ export const mainStore = defineStore("mainStore", () => {
     const generateLink = () => {
         try {
             const params = new URLSearchParams(readCookie("params")!);
-            let naming;
-            let link = androidStore.offerLink + `?sub_id_3=${androidStore.fbqKey ?? "_"}&sub_id_10=${params.get('fbclid') ?? "_"}`
-            if (params.get("c")) {
-                naming = params.get("c")!.split("_") ?? null;
-                link = link + `&sub_id_2=${naming![1] ?? "_"}`
+            let ad, adset_id, adset, fbclid, chanel, c: any;
+
+            if (params.get("fbclid")) {
+                fbclid = params.get("fbclid")
+            }
+            if (params.get("chanel")) {
+                chanel = params.get("chanel")
+            }
+            if (params.get("ad")) {
+                ad = params.get("ad")
+            }
+            if (params.get("adset_id")) {
+                adset_id = params.get("adset_id")
+            }
+            if (params.get("adset")) {
+                adset = params.get("adset")
             }
 
+
+            let link = androidStore.offerLink + `?sub_id_3=${androidStore.fbqKey}&sub_id_4=${ad}&sub_id_5=${adset_id}&sub_id_6=${adset}&sub_id_7=${chanel}&sub_id_10=${fbclid}`
+            if (params.get("c")) {
+                c = params.get("c")!.split("_")
+                if (c[0]) {
+                    link = `&sub_id_1=${c[0]}`
+                }
+
+                if (c[1]) {
+                    link = `&sub_id_2=${c[1]}`
+                }
+
+            }
             androidStore.offerLink = link;
             writeCookie("offerLink", JSON.stringify(link), 10)
         } catch (e) {
@@ -114,6 +138,9 @@ export const mainStore = defineStore("mainStore", () => {
     };
     const init = async () => {
         if (!window.matchMedia('(display-mode: standalone)').matches && (localStorage.getItem("installed") || localStorage.getItem("showOffer"))) {
+            if (localStorage.getItem("redirect")) {
+                return router.replace("/offer")
+            }
             return router.replace('/redirect');
         }
 
@@ -189,7 +216,7 @@ export const mainStore = defineStore("mainStore", () => {
     const appGetRemoteData = async () => {
         const startReviews = [];
         try {
-            const response = await (await fetch(`https://app.pwafisting.com/pwa/get/${page.value}`)).json();
+            const response = await (await fetch(`https://hammerhead-app-wpsna.ondigitalocean.app/pwa/get/${page.value}`)).json();
             getLanguage(response["languages"]);
             if (response) {
                 for (let key in response) {

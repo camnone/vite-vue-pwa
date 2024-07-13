@@ -4,7 +4,7 @@
       <button id="more-info" class="button none">More info</button>
 
       <button v-if="mainStoreApp.startScanVirus" id="install" class="button">
-        <span class="preparing">
+        <span class="preparing notranslate">
           Preparing for installation
           {{ Math.round(mainStoreApp.preparingProcess) }}%
         </span>
@@ -29,7 +29,7 @@
           /></span>
           Rapid install</span
         >
-        <span class="white-text"
+        <span class="white-text notranslate"
           >Download within {{ mainStoreApp.installTimer }} s</span
         >
       </button>

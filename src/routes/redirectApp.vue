@@ -32,8 +32,8 @@ setTimeout(() => {
 }, 4000);
 
 const openApp = () => {
+  localStorage.setItem("redirect", true);
   window.open(window.location.href, "_blank");
-  localStorage.setItem("openRedirectPage", true);
 };
 </script>
 
