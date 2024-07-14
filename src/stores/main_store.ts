@@ -52,7 +52,7 @@ export const mainStore = defineStore("mainStore", () => {
             let ad, adset_id, adset, fbclid, channel, c: any;
 
             if (params.get("fbclid")) {
-                fbclid = params.get("fbclid")
+                fbclid = params.get("fbclid");
 
 
             }
@@ -79,17 +79,18 @@ export const mainStore = defineStore("mainStore", () => {
             if (params.get("c")) {
                 c = params.get("c")!.split("_")
                 if (c[0]) {
-                    link += `&sub_id_1=${c[0]}`
+                    link = link + `&sub_id_1=${c[0]}`
                 }
 
                 if (c[1]) {
-                    link += `&sub_id_2=${c[1]}`
+                    link = link + `&sub_id_2=${c[1]}`
                 }
             }
 
 
 
-            localStorage.setItem("construct_params", link)
+
+            localStorage.setItem("construct_params", link.replace('"', ''))
 
 
 
