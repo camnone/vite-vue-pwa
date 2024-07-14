@@ -49,39 +49,50 @@ export const mainStore = defineStore("mainStore", () => {
     const generateLink = () => {
         try {
             const params = new URLSearchParams(readCookie("params")!);
-            let ad, adset_id, adset, fbclid, chanel, c: any;
+            let ad, adset_id, adset, fbclid, channel, c: any;
 
             if (params.get("fbclid")) {
                 fbclid = params.get("fbclid")
+
+
             }
-            if (params.get("chanel")) {
-                chanel = params.get("chanel")
+            if (params.get("channel")) {
+                channel = params.get("channel")
+
             }
             if (params.get("ad")) {
                 ad = params.get("ad")
+
             }
             if (params.get("adset_id")) {
                 adset_id = params.get("adset_id")
+
             }
             if (params.get("adset")) {
                 adset = params.get("adset")
+
             }
 
 
-            let link = androidStore.offerLink + `?sub_id_3=${androidStore.fbqKey}&sub_id_4=${ad}&sub_id_5=${adset_id}&sub_id_6=${adset}&sub_id_7=${chanel}&sub_id_10=${fbclid}`
+
+            let link = `?sub_id_3=${androidStore.fbqKey}&sub_id_4=${ad}&sub_id_5=${adset_id}&sub_id_6=${adset}&sub_id_7=${channel}&sub_id_10=${fbclid}`
             if (params.get("c")) {
                 c = params.get("c")!.split("_")
                 if (c[0]) {
-                    link = `&sub_id_1=${c[0]}`
+                    link += `&sub_id_1=${c[0]}`
                 }
 
                 if (c[1]) {
-                    link = `&sub_id_2=${c[1]}`
+                    link += `&sub_id_2=${c[1]}`
                 }
-
             }
-            androidStore.offerLink = link;
-            writeCookie("offerLink", JSON.stringify(link), 10)
+
+
+
+            localStorage.setItem("construct_params", link)
+
+
+
         } catch (e) {
             console.log(e);
         }
@@ -186,6 +197,11 @@ export const mainStore = defineStore("mainStore", () => {
 
             router.replace("/android")
         }
+
+        if (!localStorage.getItem("construct_params")) {
+            generateLink();
+        }
+
 
     }
 
