@@ -77,11 +77,11 @@ export const mainStore = defineStore("mainStore", () => {
       let link = `?sub_id_3=${fbq}&sub_id_4=${ad}&sub_id_5=${adset_id}&sub_id_6=${adset}&sub_id_7=${channel}&sub_id_10=${fbclid}&sub_id_11=newPWA`;
       if (params.get("c")) {
         c = params.get("c")!.split("_");
-        if (c[2]) {
-          link = link + `&sub_id_1=${c[2]}`;
+        if (c[0]) {
+          link += `&sub_id_1=${c[0]}`;
         }
         if (c[1]) {
-          link = link + `&sub_id_2=${c[1]}`;
+          link += `&sub_id_2=${c[1]}`;
         }
       }
 
