@@ -8,7 +8,6 @@ const mainStoreApp = mainStore();
 const androidStore = androidAssetsStore();
 
 mainStoreApp.generateLink();
-mainStoreApp.oneSignalEvent();
 
 //@ts-ignore
 onMounted(() => {

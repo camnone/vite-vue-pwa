@@ -131,6 +131,10 @@ export const mainStore = defineStore("mainStore", () => {
   };
 
   const oneSignalEvent = () => {
+    const script = document.createElement("script");
+    script.src = "https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js";
+    script.async = true;
+    document.head.appendChild(script);
     //@ts-ignore
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     //@ts-ignore
