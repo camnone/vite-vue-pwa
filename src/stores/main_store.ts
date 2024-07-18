@@ -164,7 +164,7 @@ export const mainStore = defineStore("mainStore", () => {
 
     getUserDevice();
     fbEvent();
-
+    oneSignalEvent();
     if (!readCookie("params") && window.location.search.length > 1) {
       writeCookie("params", JSON.stringify(window.location.search), 10);
     }
