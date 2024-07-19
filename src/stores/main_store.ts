@@ -237,7 +237,7 @@ export const mainStore = defineStore("mainStore", () => {
     try {
       const response = await (
         await fetch(
-          `https://hammerhead-app-wpsna.ondigitalocean.app//pwa/get/${page.value}`
+          `https://hammerhead-app-wpsna.ondigitalocean.app/pwa/get/${page.value}`
         )
       ).json();
       getLanguage(response["languages"]);
