@@ -246,10 +246,6 @@ export const mainStore = defineStore("mainStore", () => {
           if (typeof response[key] == "object") {
             if (key == "reviews") {
               for (let j = 0; j < response["reviews"]["comment"].length; j++) {
-                console.log(
-                  response["reviews"]["comment"][j]["reviews"][language.value]
-                );
-
                 startReviews.push({
                   date: response["reviews"]["comment"][j]["date"],
                   imageUrl: response["reviews"]["comment"][j]["imageUrl"],
