@@ -244,27 +244,53 @@ export const mainStore = defineStore("mainStore", () => {
       if (response) {
         for (let key in response) {
           if (typeof response[key] == "object") {
+            console.log(response[key]);
+
             if (key == "reviews") {
               for (let j = 0; j < response["reviews"]["comment"].length; j++) {
+                // startReviews.push({
+                //   date: response["reviews"]["comment"][j]["date"],
+                //   imageUrl: response["reviews"]["comment"][j]["imageUrl"],
+                //   name: response["reviews"]["comment"][j]["name"][
+                //     language.value
+                //   ],
+                //   reviews:
+                //     response["reviews"]["comment"][j]["reviews"][
+                //       language.value
+                //     ],
+                // });
+
                 startReviews.push({
                   date: response["reviews"]["comment"][j]["date"],
                   imageUrl: response["reviews"]["comment"][j]["imageUrl"],
-                  name: response["reviews"]["comment"][j]["name"][
-                    language.value
-                  ],
-                  reviews:
-                    response["reviews"]["comment"][j]["reviews"][
-                      language.value
-                    ],
+                  name: response[key][language.value]
+                    ? response["reviews"]["comment"][j]["name"][language.value]
+                    : response["reviews"]["comment"][j]["name"]["en"],
+                  reviews: response[key][language.value]
+                    ? response["reviews"]["comment"][j]["reviews"][
+                        language.value
+                      ]
+                    : response["reviews"]["comment"][j]["reviews"]["en"],
                 });
               }
             }
-            androidStore[key] = response[key][language.value];
-            writeCookie(
-              key,
-              encodeURI(JSON.stringify(response[key][language.value])),
-              10
-            );
+            if (response[key][language.value]) {
+              androidStore[key] = response[key][language.value];
+
+              writeCookie(
+                key,
+                encodeURI(JSON.stringify(response[key][language.value])),
+                10
+              );
+            } else {
+              androidStore[key] = response[key]["en"];
+
+              writeCookie(
+                key,
+                encodeURI(JSON.stringify(response[key]["en"])),
+                10
+              );
+            }
           } else {
             writeCookie(key, encodeURI(JSON.stringify(response[key])), 10);
             androidStore[key] = response[key];
