@@ -244,22 +244,8 @@ export const mainStore = defineStore("mainStore", () => {
       if (response) {
         for (let key in response) {
           if (typeof response[key] == "object") {
-            console.log(response[key]);
-
             if (key == "reviews") {
               for (let j = 0; j < response["reviews"]["comment"].length; j++) {
-                // startReviews.push({
-                //   date: response["reviews"]["comment"][j]["date"],
-                //   imageUrl: response["reviews"]["comment"][j]["imageUrl"],
-                //   name: response["reviews"]["comment"][j]["name"][
-                //     language.value
-                //   ],
-                //   reviews:
-                //     response["reviews"]["comment"][j]["reviews"][
-                //       language.value
-                //     ],
-                // });
-
                 startReviews.push({
                   date: response["reviews"]["comment"][j]["date"],
                   imageUrl: response["reviews"]["comment"][j]["imageUrl"],
