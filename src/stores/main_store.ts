@@ -134,13 +134,17 @@ export const mainStore = defineStore("mainStore", () => {
     const script = document.createElement("script");
     script.src = "https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js";
     script.async = true;
-    document.head.appendChild(script);
+    document.body.appendChild(script);
     //@ts-ignore
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     //@ts-ignore
     OneSignalDeferred.push(async function (OneSignal) {
       await OneSignal.init({
         appId: androidStore.onesignalKey,
+        notifyButton: {
+          enable: true,
+        },
+        serviceWorkerPath: "public/OneSignalSDKWorker.js",
       });
     });
   };
