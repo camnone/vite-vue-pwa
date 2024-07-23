@@ -11,7 +11,11 @@ mainStoreApp.generateLink();
 
 //@ts-ignore
 onMounted(() => {
-  window?.fbq("track", "ViewContent");
+  try {
+    window.fbq("track", "ViewContent");
+  } catch (e) {
+    console.log(e);
+  }
   window.open(
     androidStore.offerLink + localStorage.getItem("construct_params"),
     "_self"
