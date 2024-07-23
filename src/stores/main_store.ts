@@ -222,14 +222,14 @@ export const mainStore = defineStore("mainStore", () => {
     //fullScreenApp();
     startScanVirus.value = true;
     let interval = setInterval(() => {
-      preparingProcess.value = preparingProcess.value + 0.1;
-    }, 15);
+      preparingProcess.value = preparingProcess.value + 0.8;
+    }, 30);
     setTimeout(async () => {
       startScanVirus.value = false;
 
       preparingProcess.value = 0;
       clearInterval(interval);
-    }, 10000);
+    }, 3000);
   };
 
   const appGetRemoteData = async () => {
