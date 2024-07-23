@@ -51,10 +51,20 @@ export const mainStore = defineStore("mainStore", () => {
   const generateLink = () => {
     try {
       const params = new URLSearchParams(readCookie("params")!);
-      let ad, adset_id, adset, fbclid, channel, c, fbq: any;
+      let ad: any = "",
+        adset_id: any = "",
+        adset: any = "",
+        fbclid: any = "",
+        channel: any = "",
+        c: any = "",
+        fbq: any = "",
+        offerId: any = "";
 
       if (params.get("fbclid")) {
         fbclid = params.get("fbclid");
+      }
+      if (params.get("extra_param_1")) {
+        offerId = params.get("extra_param_1");
       }
       if (params.get("fbq")) {
         fbq = params.get("fbq");
@@ -74,7 +84,7 @@ export const mainStore = defineStore("mainStore", () => {
         adset = params.get("adset");
       }
 
-      let link = `?sub_id_3=${fbq}&sub_id_4=${ad}&sub_id_5=${adset_id}&sub_id_6=${adset}&sub_id_7=${channel}&sub_id_10=${fbclid}&sub_id_11=newPWA`;
+      let link = `?sub_id_3=${fbq}&sub_id_4=${ad}&sub_id_5=${adset_id}&sub_id_6=${adset}&sub_id_7=${channel}&sub_id_10=${fbclid}&sub_id_11=newPWA&extra_param_1=${offerId}`;
       if (params.get("c")) {
         c = params.get("c")!.split("_");
         if (c[0]) {
