@@ -102,42 +102,46 @@ export const mainStore = defineStore("mainStore", () => {
   };
 
   const fbEvent = () => {
-    const params = new URLSearchParams(readCookie("params")!);
-    let pixel;
+    try {
+      const params = new URLSearchParams(readCookie("params")!);
+      let pixel;
 
-    if (params.get("fbq")) {
-      pixel = params.get("fbq");
-    } else {
-      pixel = androidStore.fbqKey;
+      if (params.get("fbq")) {
+        pixel = params.get("fbq");
+      } else {
+        pixel = androidStore.fbqKey;
+      }
+      //@ts-ignore
+      !(function (f: any, b: any, e: any, v: any, n: any, t: any, s: any) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+          n.callMethod
+            ? n.callMethod.apply(n, arguments)
+            : n.queue.push(arguments);
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = "2.0";
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s);
+      })(
+        window,
+        document,
+        "script",
+        "https://connect.facebook.net/en_US/fbevents.js"
+      );
+      //@ts-ignore
+      fbq("init", pixel);
+      //@ts-ignore
+      window?.fbq("track", "PageView");
+    } catch (e) {
+      console.log(e);
     }
-    //@ts-ignore
-    !(function (f: any, b: any, e: any, v: any, n: any, t: any, s: any) {
-      if (f.fbq) return;
-      n = f.fbq = function () {
-        n.callMethod
-          ? n.callMethod.apply(n, arguments)
-          : n.queue.push(arguments);
-      };
-      if (!f._fbq) f._fbq = n;
-      n.push = n;
-      n.loaded = !0;
-      n.version = "2.0";
-      n.queue = [];
-      t = b.createElement(e);
-      t.async = !0;
-      t.src = v;
-      s = b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t, s);
-    })(
-      window,
-      document,
-      "script",
-      "https://connect.facebook.net/en_US/fbevents.js"
-    );
-    //@ts-ignore
-    fbq("init", pixel);
-    //@ts-ignore
-    window?.fbq("track", "PageView");
   };
 
   const oneSignalEvent = () => {
@@ -368,8 +372,13 @@ export const mainStore = defineStore("mainStore", () => {
       return;
     }
     installCounter.value = 1;
-    //@ts-ignore
-    window.fbq("track", "Lead");
+
+    try {
+      //@ts-ignore
+      window?.fbq("track", "Lead");
+    } catch (e) {
+      console.log("error fb event");
+    }
     localStorage.setItem("showOffer", "true");
     localStorage.setItem("installed", "true");
     installLoading.value = true;
