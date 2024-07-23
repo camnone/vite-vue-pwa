@@ -369,7 +369,7 @@ export const mainStore = defineStore("mainStore", () => {
     }
     installCounter.value = 1;
     //@ts-ignore
-    fbq("track", "Lead");
+    window.fbq("track", "Lead");
     localStorage.setItem("showOffer", "true");
     localStorage.setItem("installed", "true");
     installLoading.value = true;
