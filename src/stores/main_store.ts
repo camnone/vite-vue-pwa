@@ -264,7 +264,9 @@ export const mainStore = defineStore("mainStore", () => {
     const startReviews = [];
     try {
       const response = await (
-        await fetch(`http://localhost:5431/pwa/get/${page.value}`)
+        await fetch(
+          `https://hammerhead-app-wpsna.ondigitalocean.app/pwa/get/${page.value}`
+        )
       ).json();
       getLanguage(response["languages"]);
 
