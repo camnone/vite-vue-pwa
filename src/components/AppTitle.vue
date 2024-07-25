@@ -53,8 +53,7 @@ const mainStoreApp = mainStore();
 const androidStore = androidAssetsStore();
 const withvideo = ref(true);
 const errorFunc = (e) => {
-  alert(JSON.stringify(e));
-  alert(androidStore.video);
+  withvideo.value = false;
 };
 const videoLoaded = () => {
   withvideo.value = true;
