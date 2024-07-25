@@ -1,43 +1,64 @@
 <template>
-  <header
-    id="app-title"
-    :class="['container', { loading: mainStoreApp.installLoading }]"
-  >
-    <div class="img">
-      <div class="lds-ring">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
+  <div class="store-wrap" :class="withvideo">
+    <section id="video-header" class="cover" v-if="androidStore.video != null">
+      <div class="play" @click="videoOverlayStatus = true">
+        <i class="material-icons-outlined">play_arrow</i> Trailer
       </div>
-      <div class="img-container">
-        <img :src="androidStore.iconUrl" :alt="androidStore.name" />
-      </div>
-    </div>
-    <div id="app-name">
-      <h2 class="notranslate">
-        {{ androidStore.name }}
-        <img
-          src="https://pwa-backet.fra1.cdn.digitaloceanspaces.com/RTP_SLOTS/other_images/verify.png"
-        />
-      </h2>
-      <span v-if="!mainStoreApp.installLoading">{{
-        androidStore.subtitle
-      }}</span>
-      <span v-if="mainStoreApp.installLoading"
-        >{{ Math.round(mainStoreApp.installProcess) }}%</span
-      >
 
-      <div><span>Contains ads</span><span>In-app purchases</span></div>
-    </div>
-  </header>
+      <video
+        autoplay
+        muted
+        loop
+        crossorigin
+        playsinline
+        @loadeddata="videoLoaded"
+      >
+        <source :src="androidStore.video" @error="withvideo = false" />
+      </video>
+    </section>
+
+    <header
+      id="app-title"
+      :class="['container', { loading: mainStoreApp.installLoading }]"
+    >
+      <div class="img">
+        <div class="lds-ring">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+        <div class="img-container">
+          <img :src="androidStore.iconUrl" :alt="androidStore.name" />
+        </div>
+      </div>
+      <div id="app-name">
+        <h2 class="notranslate">
+          {{ androidStore.name }}
+          <img
+            src="https://pwa-backet.fra1.cdn.digitaloceanspaces.com/RTP_SLOTS/other_images/verify.png"
+          />
+        </h2>
+        <span v-if="!mainStoreApp.installLoading">{{
+          androidStore.subtitle
+        }}</span>
+        <span v-if="mainStoreApp.installLoading"
+          >{{ Math.round(mainStoreApp.installProcess) }}%</span
+        >
+
+        <div><span>Contains ads</span><span>In-app purchases</span></div>
+      </div>
+    </header>
+  </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
 import { androidAssetsStore } from "../stores/android_store.ts";
 import { mainStore } from "../stores/main_store.ts";
 const mainStoreApp = mainStore();
 const androidStore = androidAssetsStore();
+const withvideo = ref(androidStore.video);
 </script>
 
 <style scoped></style>
