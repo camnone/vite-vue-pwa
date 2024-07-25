@@ -5,14 +5,7 @@
         <i class="material-icons-outlined">play_arrow</i> Trailer
       </div>
 
-      <video
-        autoplay
-        muted
-        loop
-        crossorigin
-        playsinline
-        @loadeddata="videoLoaded"
-      >
+      <video muted loop crossorigin playsinline @loadeddata="videoLoaded">
         <source
           :src="androidStore.video"
           @error="withvideo = false"
