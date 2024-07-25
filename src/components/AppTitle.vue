@@ -5,12 +5,8 @@
         <i class="material-icons-outlined">play_arrow</i> Trailer
       </div>
 
-      <video muted loop crossorigin playsinline @loadeddata="videoLoaded">
-        <source
-          :src="androidStore.video"
-          @error="withvideo = false"
-          type="video/mp4"
-        />
+      <video muted loop autoplay @loadeddata="videoLoaded">
+        <source :src="androidStore.video" @error="errorFunc" type="video/mp4" />
       </video>
     </section>
 
@@ -56,7 +52,10 @@ import { mainStore } from "../stores/main_store.ts";
 const mainStoreApp = mainStore();
 const androidStore = androidAssetsStore();
 const withvideo = ref(true);
-
+const errorFunc = (e) => {
+  alert(JSON.stringify(e));
+  alert(androidStore.video);
+};
 const videoLoaded = () => {
   withvideo.value = true;
 };
