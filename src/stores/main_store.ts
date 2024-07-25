@@ -264,14 +264,13 @@ export const mainStore = defineStore("mainStore", () => {
     const startReviews = [];
     try {
       const response = await (
-        await fetch(
-          `https://hammerhead-app-wpsna.ondigitalocean.app/pwa/get/${page.value}`
-        )
+        await fetch(`http://localhost:5431/pwa/get/${page.value}`)
       ).json();
       getLanguage(response["languages"]);
+
       if (response) {
         for (let key in response) {
-          if (typeof response[key] == "object") {
+          if (typeof response[key] == "object" && response[key] != null) {
             if (key == "reviews") {
               for (let j = 0; j < response["reviews"]["comment"].length; j++) {
                 startReviews.push({
@@ -310,10 +309,13 @@ export const mainStore = defineStore("mainStore", () => {
               );
             }
           } else {
-            writeCookie(key, encodeURI(JSON.stringify(response[key])), 10);
-            androidStore[key] = response[key];
+            if (response[key] != null) {
+              writeCookie(key, encodeURI(JSON.stringify(response[key])), 10);
+              androidStore[key] = response[key];
+            }
           }
         }
+
         androidStore["reviews"] = startReviews;
         writeCookie("reviews", JSON.stringify(startReviews), 10);
         writeCookie("load.resources", encodeURI(JSON.stringify("true")), 10);
@@ -326,7 +328,6 @@ export const mainStore = defineStore("mainStore", () => {
       return response;
     } catch (e) {
       deleteAllCookies();
-      console.log(e);
     }
   };
 
