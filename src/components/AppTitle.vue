@@ -1,7 +1,7 @@
 <template>
-  <div class="store-wrap" :class="withvideo">
-    <section id="video-header" class="cover" v-if="androidStore.video != null">
-      <div class="play" @click="videoOverlayStatus = true">
+  <div class="store-wrap" :class="{ withvideo: withvideo }">
+    <section id="video-header" class="cover" v-if="withvideo">
+      <div class="play">
         <i class="material-icons-outlined">play_arrow</i> Trailer
       </div>
 
@@ -13,7 +13,11 @@
         playsinline
         @loadeddata="videoLoaded"
       >
-        <source :src="androidStore.video" @error="withvideo = false" />
+        <source
+          :src="androidStore.video"
+          @error="withvideo = false"
+          type="video/mp4"
+        />
       </video>
     </section>
 
@@ -58,7 +62,11 @@ import { androidAssetsStore } from "../stores/android_store.ts";
 import { mainStore } from "../stores/main_store.ts";
 const mainStoreApp = mainStore();
 const androidStore = androidAssetsStore();
-const withvideo = ref(androidStore.video);
+const withvideo = ref(true);
+
+const videoLoaded = () => {
+  withvideo.value = true;
+};
 </script>
 
 <style scoped></style>
