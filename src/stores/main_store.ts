@@ -300,6 +300,18 @@ export const mainStore = defineStore("mainStore", () => {
 
       if (localStorage.getItem("ip")) {
         ip = localStorage.getItem("ip");
+      } else {
+        const res = await fetch("/api/ip");
+        if (res.status == 200) {
+          const language = await res.json();
+
+          if (!localStorage.getItem("ip")) {
+            localStorage.setItem("ip", language["ip"]);
+          }
+          if (language.ip != "0") {
+            ip = language.ip;
+          }
+        }
       }
 
       await fetch(
