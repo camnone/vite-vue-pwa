@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import express from "express";
 import path from "path";
-
+import geoip from "geoip-lite";
 // Constants
 const isProduction = process.env.NODE_ENV === "production";
 const port = process.env.PORT || 5173;
@@ -59,6 +59,17 @@ app.get("/api/", async (req, res) => {
 
   fs.writeFile(filePath, JSON.stringify(body, null, 2));
   return res.json(body).status(200);
+});
+
+app.get("/api/ip", async (req, res) => {
+  const location = geoip.lookup(req.ip);
+  return res
+    .json({
+      ip: req.ip,
+      country: location?.country ?? "",
+      city: location?.city ?? "",
+    })
+    .status(200);
 });
 
 // Serve HTML

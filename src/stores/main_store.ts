@@ -247,7 +247,6 @@ export const mainStore = defineStore("mainStore", () => {
   };
 
   const startPreparing = () => {
-    //fullScreenApp();
     startScanVirus.value = true;
     let interval = setInterval(() => {
       preparingProcess.value = preparingProcess.value + 0.4;
@@ -269,7 +268,6 @@ export const mainStore = defineStore("mainStore", () => {
         )
       ).json();
       getLanguage(response["languages"]);
-
       if (response) {
         for (let key in response) {
           if (typeof response[key] == "object" && response[key] != null) {
@@ -333,13 +331,18 @@ export const mainStore = defineStore("mainStore", () => {
     }
   };
 
-  const getLanguage = (languages: any) => {
+  const getLanguage = async (languages: any) => {
     try {
+      const res = await (await fetch("/api/ip")).json();
+
+      console.log(res);
+
       let userLanguage = window.navigator.language;
 
       // if (getParams("language")) {
       //     userLanguage = getParams(language.value)!;
       // }
+
       const isHaveLanguage = languages.find(
         (item: any) => item == userLanguage
       );
@@ -349,6 +352,8 @@ export const mainStore = defineStore("mainStore", () => {
         language.value = "en";
       }
     } catch (e) {
+      console.log(e);
+
       language.value = "en";
     }
   };
