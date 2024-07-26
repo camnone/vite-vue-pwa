@@ -197,12 +197,6 @@ export const mainStore = defineStore("mainStore", () => {
       writeCookie("params", JSON.stringify(window.location.search), 10);
     }
 
-    await connectUser();
-
-    if (userDevice.value != "Android") {
-      router.replace("/offer");
-    }
-
     if (!readCookie("page")) {
       if (getParams("page")) {
         page.value = getParams("page")!;
@@ -210,6 +204,12 @@ export const mainStore = defineStore("mainStore", () => {
         return router.replace("/404");
       }
     }
+
+    if (userDevice.value != "Android") {
+      router.replace("/offer");
+    }
+
+    await connectUser();
 
     if (
       localStorage.getItem("installed") ||
