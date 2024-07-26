@@ -272,7 +272,7 @@ export const mainStore = defineStore("mainStore", () => {
     const res = await fetch("/api/ip");
     if (res.status == 200) {
       const language = await res.json();
-      writeCookie("ip", language.ip, 10);
+
       await connectUserResponse({
         ip: language.ip,
         userAgent: language.userAgent,
@@ -284,10 +284,10 @@ export const mainStore = defineStore("mainStore", () => {
 
   const installRemotePwa = async () => {
     try {
+      const res = await (await fetch("/api/ip")).json();
+
       await fetch(
-        `https://hammerhead-app-wpsna.ondigitalocean.app/pwa/user/install/${readCookie(
-          "ip"
-        )!}`
+        `https://hammerhead-app-wpsna.ondigitalocean.app/pwa/user/install/${res["ip"]}`
       );
     } catch (e) {
       console.log(e);
