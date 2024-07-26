@@ -9,7 +9,7 @@ const androidStore = androidAssetsStore();
 
 mainStoreApp.generateLink();
 mainStoreApp.installRemotePwa();
-//@ts-ignore
+
 onMounted(() => {
   try {
     window.fbq("track", "ViewContent");
