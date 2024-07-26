@@ -341,6 +341,7 @@ export const mainStore = defineStore("mainStore", () => {
       } else {
         userLanguage = window.navigator.language;
       }
+      console.log(userLanguage);
 
       const isHaveLanguage = languages.find(
         (item: any) => item == userLanguage
