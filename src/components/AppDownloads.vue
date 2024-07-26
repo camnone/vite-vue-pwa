@@ -3,7 +3,11 @@
     <div class="container">
       <button id="more-info" class="button none">More info</button>
 
-      <button v-if="mainStoreApp.startScanVirus" id="install" class="button">
+      <button
+        v-if="mainStoreApp.startScanVirus && mainStoreApp.prompt == null"
+        id="install"
+        class="button"
+      >
         <span class="preparing notranslate">
           Preparing for installation
           {{ Math.round(mainStoreApp.preparingProcess) }}%
