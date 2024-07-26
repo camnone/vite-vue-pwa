@@ -341,19 +341,23 @@ export const mainStore = defineStore("mainStore", () => {
       } else {
         userLanguage = window.navigator.language;
       }
+
+      console.log(languages);
+
       console.log(userLanguage);
 
       const isHaveLanguage = languages.find(
         (item: any) => item == userLanguage
       );
+
+      console.log(isHaveLanguage);
+
       if (isHaveLanguage) {
         language.value = userLanguage;
       } else {
         language.value = "en";
       }
     } catch (e) {
-      console.log(e);
-
       language.value = "en";
     }
   };
