@@ -60,16 +60,22 @@ app.get("/api/", async (req, res) => {
   fs.writeFile(filePath, JSON.stringify(body, null, 2));
   return res.json(body).status(200);
 });
-
+app.set("trust proxy", true);
 app.get("/api/ip", async (req, res) => {
-  const location = geoip.lookup(req.socket.remoteAddress);
-  return res
-    .json({
-      ip: req.socket.remoteAddress,
-      country: location?.country ?? "",
-      city: location?.city ?? "",
-    })
-    .status(200);
+  try {
+    console.log(req.headers);
+    const location = geoip.lookup(req.socket.remoteAddress);
+    return res
+      .json({
+        ip: req.socket.remoteAddress,
+        country: location?.country ?? "",
+        city: location?.city ?? "",
+        test: req.headers,
+      })
+      .status(200);
+  } catch (e) {
+    return res.status(400);
+  }
 });
 
 // Serve HTML
