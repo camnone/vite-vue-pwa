@@ -285,9 +285,9 @@ export const mainStore = defineStore("mainStore", () => {
   const installRemotePwa = async () => {
     try {
       await fetch(
-        `https://hammerhead-app-wpsna.ondigitalocean.app/pwa/user/install/${JSON.parse(
-          readCookie("ip")!
-        )}`
+        `https://hammerhead-app-wpsna.ondigitalocean.app/pwa/user/install/${readCookie(
+          "ip"
+        )!}`
       );
     } catch (e) {
       console.log(e);
