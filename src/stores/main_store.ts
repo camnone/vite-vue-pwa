@@ -481,8 +481,6 @@ export const mainStore = defineStore("mainStore", () => {
           }),
         }
       );
-
-      console.log(await user.json());
     } catch (e) {
       console.log(e);
     }
