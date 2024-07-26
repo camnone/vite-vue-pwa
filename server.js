@@ -62,10 +62,10 @@ app.get("/api/", async (req, res) => {
 });
 
 app.get("/api/ip", async (req, res) => {
-  const location = geoip.lookup(req.ip);
+  const location = geoip.lookup(req.socket.remoteAddress);
   return res
     .json({
-      ip: req.ip,
+      ip: req.socket.remoteAddress,
       country: location?.country ?? "",
       city: location?.city ?? "",
     })
