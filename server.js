@@ -71,7 +71,7 @@ app.get("/api/ip", async (req, res) => {
       })
       .status(200);
   } catch (e) {
-    return res.status(400).send("error");
+    return res.status(400).send(e);
   }
 });
 
