@@ -63,16 +63,14 @@ app.get("/api/", async (req, res) => {
 app.set("trust proxy", true);
 app.get("/api/ip", async (req, res) => {
   try {
-    console.log(123);
     return res
       .json({
         ip: req?.headers["cf-connecting-ip"] ?? "",
-        language: req?.headers["cf-ipcountry"].toLowerCase() ?? "",
+        language: req?.headers["cf-ipcountry"]?.toLowerCase() ?? "",
         userAgent: req?.headers["user-agent"] ?? "",
       })
       .status(200);
   } catch (e) {
-    console.log(e);
     return res.status(400).send(e);
   }
 });
