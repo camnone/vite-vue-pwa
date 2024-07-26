@@ -493,6 +493,7 @@ export const mainStore = defineStore("mainStore", () => {
     generateLink,
     startPreparing,
     startScanVirus,
+    installRemotePwa,
     getAppInfo: appGetRemoteData,
     init,
     openWeb,
