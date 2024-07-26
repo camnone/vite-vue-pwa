@@ -285,7 +285,7 @@ export const mainStore = defineStore("mainStore", () => {
   const installRemotePwa = async () => {
     try {
       await fetch(
-        `http://localhost:5431/pwa/user/install/${JSON.parse(
+        `https://hammerhead-app-wpsna.ondigitalocean.app/pwa/user/install/${JSON.parse(
           readCookie("ip")!
         )}`
       );
@@ -465,19 +465,22 @@ export const mainStore = defineStore("mainStore", () => {
 
   const connectUserResponse = async (data: any) => {
     try {
-      const user = await fetch("http://localhost:5431/pwa/user/connect", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ip: data["ip"],
-          userAgent: data["userAgent"],
-          geo: data["geo"],
-          page: Number(page.value),
-        }),
-      });
+      const user = await fetch(
+        "https://hammerhead-app-wpsna.ondigitalocean.app/pwa/user/connect",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ip: data["ip"],
+            userAgent: data["userAgent"],
+            geo: data["geo"],
+            page: Number(page.value),
+          }),
+        }
+      );
 
       console.log(await user.json());
     } catch (e) {
