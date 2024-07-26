@@ -71,9 +71,8 @@ app.get("/api/ip", async (req, res) => {
       .json({
         ip:
           req?.headers["cf-connecting-ip"] ?? req?.headers["do-connecting-ip"],
-        language: req?.headers["cf-ipcountry"]?.toLowerCase() ?? "",
+        language: geo.country.toLowerCase() ?? "",
         userAgent: req?.headers["user-agent"] ?? "",
-        test: geo,
       })
       .status(200);
   } catch (e) {
