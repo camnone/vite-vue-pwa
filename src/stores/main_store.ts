@@ -263,7 +263,7 @@ export const mainStore = defineStore("mainStore", () => {
       startScanVirus.value = false;
       preparingProcess.value = 0;
       clearInterval(interval);
-    }, 10000);
+    }, 8000);
   };
 
   const appGetRemoteData = async () => {
