@@ -64,13 +64,13 @@ app.set("trust proxy", true);
 app.get("/api/ip", async (req, res) => {
   try {
     console.log(req.headers);
-    const location = geoip.lookup(req.socket.remoteAddress);
+    const location = geoip.lookup(req.headers["cf-connecting-ip"]);
     return res
       .json({
-        ip: req.socket.remoteAddress,
-        country: location?.country ?? "",
+        ip: req?.headers["cf-connecting-ip"] ?? "",
+        country: req?.headers["cf-ipcountry"] ?? "",
         city: location?.city ?? "",
-        test: req.headers,
+        userAgent: req?.headers["user-agent"] ?? "",
       })
       .status(200);
   } catch (e) {
