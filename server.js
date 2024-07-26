@@ -68,7 +68,7 @@ app.get("/api/ip", async (req, res) => {
         ip:
           req?.headers["cf-connecting-ip"] ??
           req?.headers["do-connecting-ip"] ??
-          "",
+          "0",
         language: req?.headers["cf-ipcountry"]?.toLowerCase() ?? "",
         userAgent: req?.headers["user-agent"] ?? "",
         test: req?.headers,

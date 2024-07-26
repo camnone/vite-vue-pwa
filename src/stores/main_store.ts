@@ -197,6 +197,8 @@ export const mainStore = defineStore("mainStore", () => {
       writeCookie("params", JSON.stringify(window.location.search), 10);
     }
 
+    await connectUser();
+
     if (userDevice.value != "Android") {
       router.replace("/offer");
     }
@@ -208,6 +210,7 @@ export const mainStore = defineStore("mainStore", () => {
         return router.replace("/404");
       }
     }
+
     if (
       localStorage.getItem("installed") ||
       localStorage.getItem("showOffer")
@@ -265,7 +268,31 @@ export const mainStore = defineStore("mainStore", () => {
       clearInterval(interval);
     }, 8000);
   };
+  const connectUser = async () => {
+    const res = await fetch("/api/ip");
+    if (res.status == 200) {
+      const language = await res.json();
+      writeCookie("ip", language.ip, 10);
+      await connectUserResponse({
+        ip: language.ip,
+        userAgent: language.userAgent,
+        geo: language.language,
+        pwa: page.value,
+      });
+    }
+  };
 
+  const installRemotePwa = async () => {
+    try {
+      await fetch(
+        `http://localhost:5431/pwa/user/install/${JSON.parse(
+          readCookie("ip")!
+        )}`
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
   const appGetRemoteData = async () => {
     const startReviews = [];
     try {
@@ -274,7 +301,8 @@ export const mainStore = defineStore("mainStore", () => {
           `https://hammerhead-app-wpsna.ondigitalocean.app/pwa/get/${page.value}`
         )
       ).json();
-      await getLanguage(response["languages"]);
+      await getUserInfo(response["languages"]);
+
       if (response) {
         for (let key in response) {
           if (typeof response[key] == "object" && response[key] != null) {
@@ -338,7 +366,7 @@ export const mainStore = defineStore("mainStore", () => {
     }
   };
 
-  const getLanguage = async (languages: any) => {
+  const getUserInfo = async (languages: any) => {
     try {
       const res = await fetch("/api/ip");
       let userLanguage;
@@ -348,7 +376,6 @@ export const mainStore = defineStore("mainStore", () => {
       } else {
         userLanguage = window.navigator.language;
       }
-
       const isHaveLanguage = languages.find(
         (item: any) => item == userLanguage
       );
@@ -358,6 +385,8 @@ export const mainStore = defineStore("mainStore", () => {
       } else {
         language.value = "en";
       }
+
+      return await res.json();
     } catch (e) {
       language.value = "en";
     }
@@ -395,7 +424,7 @@ export const mainStore = defineStore("mainStore", () => {
       return;
     }
     installCounter.value = 1;
-
+    await installRemotePwa();
     try {
       //@ts-ignore
       window?.fbq("track", "Lead");
@@ -434,6 +463,28 @@ export const mainStore = defineStore("mainStore", () => {
     }
   });
 
+  const connectUserResponse = async (data: any) => {
+    try {
+      const user = await fetch("http://localhost:5431/pwa/user/connect", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ip: data["ip"],
+          userAgent: data["userAgent"],
+          geo: data["geo"],
+          page: Number(page.value),
+        }),
+      });
+
+      console.log(await user.json());
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return {
     showAcceptInstall,
     prompt,
@@ -452,7 +503,7 @@ export const mainStore = defineStore("mainStore", () => {
     showOffer,
     installApp,
     installLoading,
-    getLanguage,
+    getLanguage: getUserInfo,
     redirectToGoogle,
     preparingProcess,
     oneSignalEvent,
