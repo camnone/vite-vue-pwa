@@ -63,12 +63,11 @@ app.get("/api/", async (req, res) => {
 app.set("trust proxy", true);
 app.get("/api/ip", async (req, res) => {
   try {
-    console.log(req.headers);
     const location = geoip.lookup(req.headers["cf-connecting-ip"]);
     return res
       .json({
         ip: req?.headers["cf-connecting-ip"] ?? "",
-        country: req?.headers["cf-ipcountry"] ?? "",
+        language: req?.headers["cf-ipcountry"].toLowerCase() ?? "",
         city: location?.city ?? "",
         userAgent: req?.headers["user-agent"] ?? "",
       })

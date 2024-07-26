@@ -333,11 +333,20 @@ export const mainStore = defineStore("mainStore", () => {
 
   const getLanguage = async (languages: any) => {
     try {
-      const res = await (await fetch("/api/ip")).json();
+      const res = await fetch("/api/ip");
 
-      console.log(res);
+      let userLanguage;
 
-      let userLanguage = window.navigator.language;
+      if (res.status == 200) {
+        const language = await res.json();
+        console.log(language);
+
+        userLanguage = language["country"];
+      } else {
+        userLanguage = window.navigator.language;
+      }
+
+      console.log(userLanguage);
 
       // if (getParams("language")) {
       //     userLanguage = getParams(language.value)!;
