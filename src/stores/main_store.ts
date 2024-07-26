@@ -341,7 +341,7 @@ export const mainStore = defineStore("mainStore", () => {
         const language = await res.json();
         console.log(language);
 
-        userLanguage = language["country"];
+        userLanguage = language["language"];
       } else {
         userLanguage = window.navigator.language;
       }
