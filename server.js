@@ -63,15 +63,17 @@ app.get("/api/", async (req, res) => {
 app.set("trust proxy", true);
 app.get("/api/ip", async (req, res) => {
   try {
+    var geo = geoip.lookup(
+      req?.headers["cf-connecting-ip"] ?? req?.headers["do-connecting-ip"]
+    );
+
     return res
       .json({
         ip:
-          req?.headers["cf-connecting-ip"] ??
-          req?.headers["do-connecting-ip"] ??
-          "0",
+          req?.headers["cf-connecting-ip"] ?? req?.headers["do-connecting-ip"],
         language: req?.headers["cf-ipcountry"]?.toLowerCase() ?? "",
         userAgent: req?.headers["user-agent"] ?? "",
-        test: req?.headers,
+        test: geo,
       })
       .status(200);
   } catch (e) {

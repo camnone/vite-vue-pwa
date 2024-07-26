@@ -269,12 +269,24 @@ export const mainStore = defineStore("mainStore", () => {
     }, 8000);
   };
   const connectUser = async () => {
+    let ip;
     const res = await fetch("/api/ip");
     if (res.status == 200) {
       const language = await res.json();
 
+      if (!localStorage.getItem("ip")) {
+        localStorage.setItem("ip", language["ip"]);
+      }
+      if (language.ip != "0") {
+        ip = language.ip;
+      } else {
+        if (!localStorage.getItem("ip")) {
+          ip = localStorage.getItem("ip");
+        }
+      }
+
       await connectUserResponse({
-        ip: language.ip,
+        ip: ip,
         userAgent: language.userAgent,
         geo: language.language,
         pwa: page.value,
@@ -284,10 +296,14 @@ export const mainStore = defineStore("mainStore", () => {
 
   const installRemotePwa = async () => {
     try {
-      const res = await (await fetch("/api/ip")).json();
+      let ip;
+
+      if (localStorage.getItem("ip")) {
+        ip = localStorage.getItem("ip");
+      }
 
       await fetch(
-        `https://hammerhead-app-wpsna.ondigitalocean.app/pwa/user/install/${res["ip"]}`
+        `https://hammerhead-app-wpsna.ondigitalocean.app/pwa/user/install/${ip}`
       );
     } catch (e) {
       console.log(e);
@@ -465,7 +481,7 @@ export const mainStore = defineStore("mainStore", () => {
 
   const connectUserResponse = async (data: any) => {
     try {
-      const user = await fetch(
+      await fetch(
         "https://hammerhead-app-wpsna.ondigitalocean.app/pwa/user/connect",
         {
           method: "POST",
