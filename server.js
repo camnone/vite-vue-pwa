@@ -61,8 +61,9 @@ app.get("/api/", async (req, res) => {
   return res.json(body).status(200);
 });
 app.set("trust proxy", true);
-app.get("/api/ip/", async (req, res) => {
+app.get("/api/ip", async (req, res) => {
   try {
+    console.log(123123);
     return res
       .json({
         ip: req?.headers["cf-connecting-ip"] ?? "",
@@ -71,7 +72,7 @@ app.get("/api/ip/", async (req, res) => {
       })
       .status(200);
   } catch (e) {
-    return res.status(400);
+    return res.status(400).send("error");
   }
 });
 

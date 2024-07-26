@@ -1,5 +1,5 @@
 {
-  "url": "https://beastcasinotopbestgame.com",
+  "url": "https://play.beastcasinotopbestgame.com",
   "prefer_related_applications": false,
   "orientation": "any",
   "theme_color": "#191919",
@@ -16,7 +16,7 @@
   ],
   "url_handlers": [
     {
-      "origin": "https://beastcasinotopbestgame.com"
+      "origin": "https://play.beastcasinotopbestgame.com"
     }
   ],
   "icons": [
