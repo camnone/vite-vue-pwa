@@ -248,15 +248,22 @@ export const mainStore = defineStore("mainStore", () => {
 
   const startPreparing = () => {
     startScanVirus.value = true;
+
     let interval = setInterval(() => {
-      preparingProcess.value = preparingProcess.value + 0.4;
+      if (prompt.value) {
+        startScanVirus.value = false;
+        preparingProcess.value = 0;
+        clearInterval(interval);
+      } else {
+        preparingProcess.value = preparingProcess.value + 0.4;
+      }
     }, 40);
+
     setTimeout(async () => {
       startScanVirus.value = false;
-
       preparingProcess.value = 0;
       clearInterval(interval);
-    }, 6000);
+    }, 10000);
   };
 
   const appGetRemoteData = async () => {
