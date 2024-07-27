@@ -8,7 +8,7 @@ const mainStoreApp = mainStore();
 const androidStore = androidAssetsStore();
 
 mainStoreApp.generateLink();
-mainStoreApp.installRemotePwa();
+// mainStoreApp.installRemotePwa();
 
 onMounted(() => {
   try {

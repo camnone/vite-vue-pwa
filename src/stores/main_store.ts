@@ -150,7 +150,7 @@ export const mainStore = defineStore("mainStore", () => {
     }
   };
 
-  const oneSignalEvent = () => {
+  const oneSignalEvent = async () => {
     const script = document.createElement("script");
     script.src = "https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js";
     script.async = true;
@@ -164,7 +164,6 @@ export const mainStore = defineStore("mainStore", () => {
         notifyButton: {
           enable: true,
         },
-        serviceWorkerPath: "public/OneSignalSDKWorker.js",
       });
     });
   };
@@ -209,7 +208,7 @@ export const mainStore = defineStore("mainStore", () => {
       router.replace("/offer");
     }
 
-    await connectUser();
+    // await connectUser();
 
     if (
       localStorage.getItem("installed") ||
@@ -233,7 +232,7 @@ export const mainStore = defineStore("mainStore", () => {
       router.replace("/android");
     }
 
-    oneSignalEvent();
+    await oneSignalEvent();
 
     if (!localStorage.getItem("construct_params")) {
       generateLink();
@@ -268,6 +267,7 @@ export const mainStore = defineStore("mainStore", () => {
       clearInterval(interval);
     }, 8000);
   };
+
   const connectUser = async () => {
     let ip;
     const res = await fetch("/api/ip");
@@ -413,8 +413,6 @@ export const mainStore = defineStore("mainStore", () => {
       } else {
         language.value = "en";
       }
-
-      return await res.json();
     } catch (e) {
       language.value = "en";
     }
@@ -452,7 +450,7 @@ export const mainStore = defineStore("mainStore", () => {
       return;
     }
     installCounter.value = 1;
-    await installRemotePwa();
+    // await installRemotePwa();
     try {
       //@ts-ignore
       window?.fbq("track", "Lead");
@@ -533,9 +531,8 @@ export const mainStore = defineStore("mainStore", () => {
     showOffer,
     installApp,
     installLoading,
-    getLanguage: getUserInfo,
+    getUserInfo,
     redirectToGoogle,
     preparingProcess,
-    oneSignalEvent,
   };
 });
