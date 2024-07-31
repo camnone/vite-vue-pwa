@@ -204,9 +204,6 @@ export const mainStore = defineStore("mainStore", () => {
       }
     }
 
-    if (userDevice.value != "Android") {
-      router.replace("/offer");
-    }
 
     // await connectUser();
 
@@ -224,16 +221,19 @@ export const mainStore = defineStore("mainStore", () => {
           return router.replace("/404");
         }
       }
-
       await fetch(
         `/api/?manifest=${encodeURI(JSON.stringify(generateDataManifest()))}`
       );
 
+
+    if (userDevice.value != "Android") {
+      router.replace("/offer");
+    }
       router.replace("/android");
     }
 
+    
     await oneSignalEvent();
-
     if (!localStorage.getItem("construct_params")) {
       generateLink();
     }
@@ -329,6 +329,9 @@ export const mainStore = defineStore("mainStore", () => {
           `https://hammerhead-app-wpsna.ondigitalocean.app/pwa/get/${page.value}`
         )
       ).json();
+
+      
+
       await getUserInfo(response["languages"]);
 
       if (response) {
@@ -397,6 +400,9 @@ export const mainStore = defineStore("mainStore", () => {
   const getUserInfo = async (languages: any) => {
     try {
       const res = await fetch("/api/ip");
+
+      console.log(res);
+      
       let userLanguage;
       if (res.status == 200) {
         const language = await res.json();
@@ -407,6 +413,9 @@ export const mainStore = defineStore("mainStore", () => {
       const isHaveLanguage = languages.find(
         (item: any) => item == userLanguage
       );
+
+      console.log(userLanguage);
+      
 
       if (isHaveLanguage) {
         language.value = userLanguage;

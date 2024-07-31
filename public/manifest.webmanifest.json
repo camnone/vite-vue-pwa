@@ -1,5 +1,5 @@
 {
-  "url": "https://play.beastcasinotopbestgame.com",
+  "url": "https://x.tigers-fortune.com",
   "prefer_related_applications": false,
   "orientation": "any",
   "theme_color": "#191919",
@@ -16,32 +16,32 @@
   ],
   "url_handlers": [
     {
-      "origin": "https://play.beastcasinotopbestgame.com"
+      "origin": "https://x.tigers-fortune.com"
     }
   ],
   "icons": [
     {
       "sizes": "192x192",
       "type": "image/png",
-      "src": "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/MrBeast/icons/192.png"
+      "src": "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/tiger-fortune-296/icons/192.png"
     },
     {
       "sizes": "256x256",
       "type": "image/png",
-      "src": "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/MrBeast/icons/256.png"
+      "src": "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/tiger-fortune-296/icons/256.png"
     },
     {
       "sizes": "384x384",
       "type": "image/png",
-      "src": "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/MrBeast/icons/384.png"
+      "src": "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/tiger-fortune-296/icons/384.png"
     },
     {
       "sizes": "512x512",
       "type": "image/png",
-      "src": "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/MrBeast/icons/512.png"
+      "src": "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/tiger-fortune-296/icons/512.png"
     }
   ],
-  "descriptions": "Check out MrBeast Casino! Welcome Package offer 100% up to €450 and 250 Free Spins! Win your $1,000,000 jackpot now!",
-  "name": "MrBeast Casino",
-  "short_name": "MrBeast Casino"
+  "descriptions": "Tiger is an exciting mobile casino where every player becomes a real betting Tiger! Sign up right now and receive an exclusive signup bonus.",
+  "name": "Tiger Fortune",
+  "short_name": "Tiger Fortune"
 }
