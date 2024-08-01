@@ -411,7 +411,7 @@ export const mainStore = defineStore("mainStore", () => {
     localStorage.setItem("showOffer", "true");
     localStorage.setItem("installed", "true");
     installLoading.value = true;
-
+    await user_statistics.installPwa();
     const loadingProcessInterval = setInterval(() => {
       installProcess.value = installProcess.value + 0.1;
     }, 10);
