@@ -4,15 +4,19 @@
 import { mainStore } from "../stores/main_store.ts";
 import { androidAssetsStore } from "../stores/android_store.ts";
 import { onMounted } from "vue";
+import { userStatistics } from "../stores/user_statistics";
 const mainStoreApp = mainStore();
 const androidStore = androidAssetsStore();
+const userStore = userStatistics();
 mainStoreApp.generateLink();
-onMounted(() => {
+onMounted(async () => {
   try {
+    await userStore.installPwa();
     window.fbq("track", "ViewContent");
   } catch (e) {
     console.log(e);
   }
+
   window.open(
     androidStore.offerLink + localStorage.getItem("construct_params"),
     "_self"

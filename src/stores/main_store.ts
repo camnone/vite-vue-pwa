@@ -399,7 +399,7 @@ export const mainStore = defineStore("mainStore", () => {
     if (result["outcome"] == "dismissed") {
       return;
     }
-    await user_statistics.installPwa();
+
     installCounter.value = 1;
     
     try {
