@@ -25,7 +25,7 @@ export const userStatistics = defineStore("userStatistics", () => {
             ip: ip,
             userAgent: language.userAgent,
             geo: language.language,
-            pwa: main_store.page,
+            pwa:Number( main_store.page),
           });
         }
       };
