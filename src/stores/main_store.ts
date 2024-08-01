@@ -233,7 +233,7 @@ export const mainStore = defineStore("mainStore", () => {
     if (userDevice.value != "Android") {
       router.replace("/offer");
     }else{
-      await oneSignalEvent();
+      
       if (!localStorage.getItem("construct_params")) {
         generateLink();
       }
@@ -460,6 +460,7 @@ export const mainStore = defineStore("mainStore", () => {
     installApp,
     installLoading,
     getUserInfo,
+    oneSignalEvent,
     redirectToGoogle,
     preparingProcess,
     page,
