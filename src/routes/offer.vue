@@ -6,10 +6,7 @@ import { androidAssetsStore } from "../stores/android_store.ts";
 import { onMounted } from "vue";
 const mainStoreApp = mainStore();
 const androidStore = androidAssetsStore();
-
 mainStoreApp.generateLink();
-// mainStoreApp.installRemotePwa();
-
 onMounted(() => {
   try {
     window.fbq("track", "ViewContent");

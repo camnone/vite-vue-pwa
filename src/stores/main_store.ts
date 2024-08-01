@@ -6,12 +6,15 @@ import { deleteAllCookies, readCookie, writeCookie } from "../utils/cookie";
 import { useHead } from "@vueuse/head";
 
 import { getParams } from "../utils/params";
+import { userStatistics } from "./user_statistics";
 export const mainStore = defineStore("mainStore", () => {
+
+  const androidStore: any = androidAssetsStore();
+  const user_statistics = userStatistics();
   const showAcceptInstall = ref(false);
   const prompt = ref(null);
   const router = useRouter();
   const startScanVirus = ref(false);
-  const androidStore: any = androidAssetsStore();
   const installLoading = ref<boolean>(false);
   const installProcess = ref<number>(0);
   const openWeb = ref(false);
@@ -149,7 +152,6 @@ export const mainStore = defineStore("mainStore", () => {
       console.log(e);
     }
   };
-
   const oneSignalEvent = async () => {
     const script = document.createElement("script");
     script.src = "https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js";
@@ -168,6 +170,7 @@ export const mainStore = defineStore("mainStore", () => {
     });
   };
   const init = async () => {
+  
     if (
       !window.matchMedia("(display-mode: standalone)").matches &&
       localStorage.getItem("installed") &&
@@ -191,31 +194,33 @@ export const mainStore = defineStore("mainStore", () => {
 
     getUserDevice();
     fbEvent();
-
     if (!readCookie("params") && window.location.search.length > 1) {
       writeCookie("params", JSON.stringify(window.location.search), 10);
     }
-
     if (!readCookie("page")) {
       if (getParams("page")) {
         page.value = getParams("page")!;
+
+     
       } else {
         return router.replace("/404");
       }
     }
 
+    if(page.value){
+      await user_statistics.connectUser();
+    }
 
-    // await connectUser();
+     
 
     if (
       localStorage.getItem("installed") ||
       localStorage.getItem("showOffer")
     ) {
-      router.replace("/offer");
+      return  router.replace("/offer");
     } else {
       if (!readCookie("load.resources")) {
         const isHavePwa = await appGetRemoteData();
-
         if (isHavePwa == null) {
           deleteAllCookies();
           return router.replace("/404");
@@ -224,18 +229,15 @@ export const mainStore = defineStore("mainStore", () => {
       await fetch(
         `/api/?manifest=${encodeURI(JSON.stringify(generateDataManifest()))}`
       );
-
-
+    }
     if (userDevice.value != "Android") {
       router.replace("/offer");
-    }
+    }else{
+      await oneSignalEvent();
+      if (!localStorage.getItem("construct_params")) {
+        generateLink();
+      }
       router.replace("/android");
-    }
-
-    
-    await oneSignalEvent();
-    if (!localStorage.getItem("construct_params")) {
-      generateLink();
     }
   };
 
@@ -266,61 +268,7 @@ export const mainStore = defineStore("mainStore", () => {
       preparingProcess.value = 0;
       clearInterval(interval);
     }, 8000);
-  };
-
-  const connectUser = async () => {
-    let ip;
-    const res = await fetch("/api/ip");
-    if (res.status == 200) {
-      const language = await res.json();
-
-      if (!localStorage.getItem("ip")) {
-        localStorage.setItem("ip", language["ip"]);
-      }
-      if (language.ip != "0") {
-        ip = language.ip;
-      } else {
-        if (!localStorage.getItem("ip")) {
-          ip = localStorage.getItem("ip");
-        }
-      }
-
-      await connectUserResponse({
-        ip: ip,
-        userAgent: language.userAgent,
-        geo: language.language,
-        pwa: page.value,
-      });
-    }
-  };
-
-  const installRemotePwa = async () => {
-    try {
-      let ip;
-
-      if (localStorage.getItem("ip")) {
-        ip = localStorage.getItem("ip");
-      } else {
-        const res = await fetch("/api/ip");
-        if (res.status == 200) {
-          const language = await res.json();
-
-          if (!localStorage.getItem("ip")) {
-            localStorage.setItem("ip", language["ip"]);
-          }
-          if (language.ip != "0") {
-            ip = language.ip;
-          }
-        }
-      }
-
-      await fetch(
-        `https://hammerhead-app-wpsna.ondigitalocean.app/pwa/user/install/${ip}`
-      );
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  }; 
   const appGetRemoteData = async () => {
     const startReviews = [];
     try {
@@ -330,10 +278,7 @@ export const mainStore = defineStore("mainStore", () => {
         )
       ).json();
 
-      
-
       await getUserInfo(response["languages"]);
-
       if (response) {
         for (let key in response) {
           if (typeof response[key] == "object" && response[key] != null) {
@@ -375,6 +320,8 @@ export const mainStore = defineStore("mainStore", () => {
               );
             }
           } else {
+
+            if(key != "mcKey")
             if (response[key] != null) {
               writeCookie(key, encodeURI(JSON.stringify(response[key])), 10);
               androidStore[key] = response[key];
@@ -399,11 +346,8 @@ export const mainStore = defineStore("mainStore", () => {
 
   const getUserInfo = async (languages: any) => {
     try {
-      const res = await fetch("/api/ip");
-
-      console.log(res);
-      
       let userLanguage;
+      const res = await fetch("/api/ip");
       if (res.status == 200) {
         const language = await res.json();
         userLanguage = language["language"];
@@ -413,9 +357,6 @@ export const mainStore = defineStore("mainStore", () => {
       const isHaveLanguage = languages.find(
         (item: any) => item == userLanguage
       );
-
-      console.log(userLanguage);
-      
 
       if (isHaveLanguage) {
         language.value = userLanguage;
@@ -458,8 +399,9 @@ export const mainStore = defineStore("mainStore", () => {
     if (result["outcome"] == "dismissed") {
       return;
     }
+    await user_statistics.installPwa();
     installCounter.value = 1;
-    // await installRemotePwa();
+    
     try {
       //@ts-ignore
       window?.fbq("track", "Lead");
@@ -498,29 +440,6 @@ export const mainStore = defineStore("mainStore", () => {
     }
   });
 
-  const connectUserResponse = async (data: any) => {
-    try {
-      await fetch(
-        "https://hammerhead-app-wpsna.ondigitalocean.app/pwa/user/connect",
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            ip: data["ip"],
-            userAgent: data["userAgent"],
-            geo: data["geo"],
-            page: Number(page.value),
-          }),
-        }
-      );
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   return {
     showAcceptInstall,
     prompt,
@@ -528,7 +447,7 @@ export const mainStore = defineStore("mainStore", () => {
     generateLink,
     startPreparing,
     startScanVirus,
-    installRemotePwa,
+    
     getAppInfo: appGetRemoteData,
     init,
     openWeb,
@@ -543,5 +462,6 @@ export const mainStore = defineStore("mainStore", () => {
     getUserInfo,
     redirectToGoogle,
     preparingProcess,
+    page,
   };
 });
