@@ -379,15 +379,16 @@ export const mainStore = defineStore("mainStore", () => {
       return startPreparing();
     }
     //@ts-ignore
+
+    await fetch(
+      `/api/?manifest=${encodeURI(JSON.stringify(generateDataManifest()))}`
+    );
+
     const result = await prompt.value!.prompt();
 
     if (result["outcome"] == "dismissed") {
       return;
     }
-
-    await fetch(
-      `/api/?manifest=${encodeURI(JSON.stringify(generateDataManifest()))}`
-    );
 
     installCounter.value = 1;
 
