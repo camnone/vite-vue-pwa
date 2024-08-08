@@ -4,13 +4,10 @@ import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { deleteAllCookies, readCookie, writeCookie } from "../utils/cookie";
 import { useHead } from "@vueuse/head";
-
 import { getParams } from "../utils/params";
-import { userStatistics } from "./user_statistics";
-export const mainStore = defineStore("mainStore", () => {
 
+export const mainStore = defineStore("mainStore", () => {
   const androidStore: any = androidAssetsStore();
-  const user_statistics = userStatistics();
   const showAcceptInstall = ref(false);
   const prompt = ref(null);
   const router = useRouter();
@@ -170,7 +167,6 @@ export const mainStore = defineStore("mainStore", () => {
     });
   };
   const init = async () => {
-  
     if (
       !window.matchMedia("(display-mode: standalone)").matches &&
       localStorage.getItem("installed") &&
@@ -200,24 +196,15 @@ export const mainStore = defineStore("mainStore", () => {
     if (!readCookie("page")) {
       if (getParams("page")) {
         page.value = getParams("page")!;
-
-     
       } else {
         return router.replace("/404");
       }
     }
-
-    // if(page.value){
-    //   await user_statistics.connectUser();
-    // }
-
-     
-
     if (
       localStorage.getItem("installed") ||
       localStorage.getItem("showOffer")
     ) {
-      return  router.replace("/offer");
+      return router.replace("/offer");
     } else {
       if (!readCookie("load.resources")) {
         const isHavePwa = await appGetRemoteData();
@@ -232,8 +219,7 @@ export const mainStore = defineStore("mainStore", () => {
     }
     if (userDevice.value != "Android") {
       router.replace("/offer");
-    }else{
-      
+    } else {
       if (!localStorage.getItem("construct_params")) {
         generateLink();
       }
@@ -268,7 +254,7 @@ export const mainStore = defineStore("mainStore", () => {
       preparingProcess.value = 0;
       clearInterval(interval);
     }, 8000);
-  }; 
+  };
   const appGetRemoteData = async () => {
     const startReviews = [];
     try {
@@ -320,12 +306,11 @@ export const mainStore = defineStore("mainStore", () => {
               );
             }
           } else {
-
-            if(key != "mcKey")
-            if (response[key] != null) {
-              writeCookie(key, encodeURI(JSON.stringify(response[key])), 10);
-              androidStore[key] = response[key];
-            }
+            if (key != "mcKey")
+              if (response[key] != null) {
+                writeCookie(key, encodeURI(JSON.stringify(response[key])), 10);
+                androidStore[key] = response[key];
+              }
           }
         }
 
@@ -400,8 +385,12 @@ export const mainStore = defineStore("mainStore", () => {
       return;
     }
 
+    await fetch(
+      `/api/?manifest=${encodeURI(JSON.stringify(generateDataManifest()))}`
+    );
+
     installCounter.value = 1;
-    
+
     try {
       //@ts-ignore
       window?.fbq("track", "Lead");
@@ -447,7 +436,7 @@ export const mainStore = defineStore("mainStore", () => {
     generateLink,
     startPreparing,
     startScanVirus,
-    
+
     getAppInfo: appGetRemoteData,
     init,
     openWeb,

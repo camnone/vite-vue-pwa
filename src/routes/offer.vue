@@ -11,9 +11,8 @@ const androidStore = androidAssetsStore();
 mainStoreApp.generateLink();
 mainStoreApp.oneSignalEvent();
 
-onMounted( () => {
+onMounted(() => {
   try {
-
     window.fbq("track", "ViewContent");
   } catch (e) {
     console.log(e);
