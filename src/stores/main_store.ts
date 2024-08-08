@@ -378,12 +378,11 @@ export const mainStore = defineStore("mainStore", () => {
     ) {
       return startPreparing();
     }
-    //@ts-ignore
 
     await fetch(
       `/api/?manifest=${encodeURI(JSON.stringify(generateDataManifest()))}`
     );
-
+    //@ts-ignore
     const result = await prompt.value!.prompt();
 
     if (result["outcome"] == "dismissed") {
