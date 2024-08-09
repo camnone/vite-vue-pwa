@@ -54,14 +54,12 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from "vue-router";
 import { mainStore } from "../stores/main_store.ts";
 import { componentsFuncStore } from "../stores/components_func_store.ts";
 import { ref } from "vue";
 const componentsFunc = componentsFuncStore();
 const mainStoreApp = mainStore();
 const counter = ref(0);
-const router = useRouter();
 
 const openApp = () => {
   window.open(window.location.href, "_blank");

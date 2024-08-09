@@ -8,21 +8,18 @@ import { userStatistics } from "../stores/user_statistics";
 const mainStoreApp = mainStore();
 const androidStore = androidAssetsStore();
 
-mainStoreApp.generateLink();
-mainStoreApp.oneSignalEvent();
+try {
+  mainStoreApp.generateLink();
+  mainStoreApp.oneSignalEvent();
+  window.fbq("track", "ViewContent");
+} catch (e) {
+  console.log(e);
+}
 
-onMounted(() => {
-  try {
-    window.fbq("track", "ViewContent");
-  } catch (e) {
-    console.log(e);
-  }
-
-  window.open(
-    androidStore.offerLink + localStorage.getItem("construct_params"),
-    "_self"
-  );
-});
+window.open(
+  androidStore.offerLink + localStorage.getItem("construct_params"),
+  "_self"
+);
 </script>
 
 <style scoped></style>

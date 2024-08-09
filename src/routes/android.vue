@@ -1,4 +1,3 @@
-у
 <template>
   <AndroidLayout>
     <AppBar />
@@ -17,6 +16,7 @@
     <AppRedirectPopUp
       description="you need to go to the browser"
       title="To install the application"
+      buttonText="Go to browser"
       v-if="mainStoreApp.redirectToGoogle"
     />
 
@@ -26,6 +26,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 import AppBar from "../components/AppBar.vue";
 import AppTitle from "../components/AppTitle.vue";
 import AppStats from "../components/AppStats.vue";
@@ -44,7 +45,18 @@ import AppAcceptInstal from "../components/AppAcceptInstal.vue";
 import { onMounted } from "vue";
 import AndroidLayout from "../layouts/default.vue";
 import { mainStore } from "../stores/main_store.ts";
+const router = useRouter();
 const mainStoreApp = mainStore();
+
+window.addEventListener("beforeunload", function () {
+  event.preventDefault();
+
+  event.returnValue = "";
+  localStorage.setItem("showOffer", "true");
+  localStorage.setItem("installed", "true");
+  localStorage.setItem("redirect", "true");
+  return router.replace("/offer");
+});
 
 function getBrowserLocales(options = {}) {
   const defaultOptions = {

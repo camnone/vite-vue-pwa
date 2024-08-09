@@ -6,7 +6,7 @@
       </div>
       <div class="text1">{{ title }}</div>
       <div class="text2">{{ description }}</div>
-      <button class="button pop-btn">Go to browser</button>
+      <button class="button pop-btn">{{ buttonText }}</button>
     </div>
   </div>
 </template>
@@ -20,6 +20,7 @@ const androidStore = androidAssetsStore();
 defineProps({
   title: String,
   description: String,
+  buttonText: String,
 });
 
 const openWeb = () => {
