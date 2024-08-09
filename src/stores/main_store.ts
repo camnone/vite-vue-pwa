@@ -372,12 +372,7 @@ export const mainStore = defineStore("mainStore", () => {
       return;
     }
 
-    if (
-      !prompt.value &&
-      !installed.value &&
-      !showOffer.value &&
-      installCounter.value == 0
-    ) {
+    if (!prompt.value && !installed.value && !showOffer.value) {
       return startPreparing();
     }
 
