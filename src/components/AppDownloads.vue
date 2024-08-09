@@ -18,8 +18,7 @@
         v-if="
           !mainStoreApp.installed &&
           !mainStoreApp.showOffer &&
-          !mainStoreApp.startScanVirus &&
-          !mainStoreApp.openWeb
+          !mainStoreApp.startScanVirus
         "
         @click="install"
         id="install"
@@ -39,10 +38,7 @@
       </button>
 
       <button
-        v-if="
-          (mainStoreApp.installed && mainStoreApp.showOffer) ||
-          mainStoreApp.openWeb
-        "
+        v-if="mainStoreApp.installed && mainStoreApp.showOffer"
         @click="openApp"
         id="install"
         class="button"

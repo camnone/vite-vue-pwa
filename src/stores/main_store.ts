@@ -1,6 +1,6 @@
 import { androidAssetsStore } from "./android_store";
 import { defineStore } from "pinia";
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { deleteAllCookies, readCookie, writeCookie } from "../utils/cookie";
 import { useHead } from "@vueuse/head";
@@ -14,7 +14,7 @@ export const mainStore = defineStore("mainStore", () => {
   const startScanVirus = ref(false);
   const installLoading = ref<boolean>(false);
   const installProcess = ref<number>(0);
-  const openWeb = ref(false);
+
   const preparingProcess = ref<number>(0);
   const installTimer = ref<number>(10);
   const installed = ref(
@@ -106,7 +106,6 @@ export const mainStore = defineStore("mainStore", () => {
       console.log(e);
     }
   };
-
   const fbEvent = () => {
     try {
       const params = new URLSearchParams(readCookie("params")!);
@@ -179,16 +178,15 @@ export const mainStore = defineStore("mainStore", () => {
           "_self"
         );
       }
+
       return router.replace("/redirect");
     }
-
+    getUserDevice();
     const isMeta = isFbOrInst();
-
-    if (isMeta) {
+    if (isMeta && userDevice.value != "Android") {
       redirectToGoogle.value = true;
     }
 
-    getUserDevice();
     fbEvent();
     if (!readCookie("params") && window.location.search.length > 1) {
       writeCookie("params", JSON.stringify(window.location.search), 10);
@@ -226,7 +224,6 @@ export const mainStore = defineStore("mainStore", () => {
       router.replace("/android");
     }
   };
-
   const isFbOrInst = () => {
     if (
       navigator.userAgent.indexOf("instagram") > -1 ||
@@ -235,7 +232,6 @@ export const mainStore = defineStore("mainStore", () => {
       return true;
     }
   };
-
   const startPreparing = () => {
     startScanVirus.value = true;
 
@@ -252,8 +248,17 @@ export const mainStore = defineStore("mainStore", () => {
     setTimeout(async () => {
       startScanVirus.value = false;
       preparingProcess.value = 0;
+      installLoading.value = false;
+      if (prompt.value == null) {
+        installed.value = true;
+        showOffer.value = true;
+        localStorage.setItem("showOffer", "true");
+        localStorage.setItem("installed", "true");
+        localStorage.setItem("redirect", "true");
+      }
+
       clearInterval(interval);
-    }, 8000);
+    }, 10000);
   };
   const appGetRemoteData = async () => {
     const startReviews = [];
@@ -328,7 +333,6 @@ export const mainStore = defineStore("mainStore", () => {
       deleteAllCookies();
     }
   };
-
   const getUserInfo = async (languages: any) => {
     try {
       let userLanguage;
@@ -352,7 +356,6 @@ export const mainStore = defineStore("mainStore", () => {
       language.value = "en";
     }
   };
-
   const getUserDevice = () => {
     try {
       if (navigator.userAgent.indexOf("Android") !== -1) {
@@ -364,7 +367,6 @@ export const mainStore = defineStore("mainStore", () => {
       userDevice.value = "other";
     }
   };
-
   const installApp = async () => {
     if (installLoading.value) {
       return;
@@ -423,12 +425,6 @@ export const mainStore = defineStore("mainStore", () => {
     }, 10000);
   };
 
-  watch(prompt, (newValue) => {
-    if (newValue != null) {
-      startScanVirus.value = false;
-    }
-  });
-
   return {
     showAcceptInstall,
     prompt,
@@ -436,10 +432,8 @@ export const mainStore = defineStore("mainStore", () => {
     generateLink,
     startPreparing,
     startScanVirus,
-
     getAppInfo: appGetRemoteData,
     init,
-    openWeb,
     userDevice,
     installProcess,
     getUserDevice,
