@@ -233,6 +233,9 @@ export const mainStore = defineStore("mainStore", () => {
     }
   };
   const startPreparing = () => {
+    if (startScanVirus.value == true) {
+      return;
+    }
     startScanVirus.value = true;
 
     let interval = setInterval(() => {
