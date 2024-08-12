@@ -157,12 +157,16 @@ export const mainStore = defineStore("mainStore", () => {
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     //@ts-ignore
     OneSignalDeferred.push(async function (OneSignal) {
-      await OneSignal.init({
-        appId: androidStore.onesignalKey,
-      });
-      console.log("Инициализация OneSignal завершена");
-      pushInitLoader.value = false;
-      init();
+      try {
+        await OneSignal.init({
+          appId: androidStore.onesignalKey,
+        });
+        console.log("Инициализация OneSignal завершена");
+        pushInitLoader.value = false;
+        init();
+      } catch (e) {
+        init();
+      }
       //@ts-ignore
       // OneSignal.on("notificationPermissionChange", function (status: any) {
       //   if (status.permissionStatus.status === OneSignal.PERMISSION_GRANTED) {
