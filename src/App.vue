@@ -15,7 +15,7 @@ if (!import.meta.env.SSR) {
     event.preventDefault();
     mainStoreApp.prompt = event;
   });
-  const isMeta = mainStoreApp.isFbOrInst();
+
   onMounted(() => {
     mainStoreApp.init();
     // if (isMeta) {
