@@ -1,5 +1,4 @@
 <template></template>
-
 <script setup lang="ts">
 import { mainStore } from "../stores/main_store.ts";
 import { androidAssetsStore } from "../stores/android_store.ts";
@@ -11,11 +10,12 @@ const androidStore = androidAssetsStore();
 mainStoreApp.oneSignalEvent();
 mainStoreApp.generateLink();
 
-fbq("track", "ViewContent");
-window.open(
-  androidStore.offerLink + localStorage.getItem("construct_params"),
-  "_self"
-);
+onMounted(() => {
+  fbq("track", "ViewContent");
+  window.open(
+    androidStore.offerLink + localStorage.getItem("construct_params"),
+    "_self"
+  );
+});
 </script>
-
 <style scoped></style>
