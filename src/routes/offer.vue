@@ -8,12 +8,7 @@ import { userStatistics } from "../stores/user_statistics";
 const mainStoreApp = mainStore();
 const androidStore = androidAssetsStore();
 mainStoreApp.generateLink();
-try {
-  fbq("track", "ViewContent");
-} catch (e) {
-  console.log(e);
-}
-
+fbq("track", "ViewContent");
 window.open(
   androidStore.offerLink + localStorage.getItem("construct_params"),
   "_self"
