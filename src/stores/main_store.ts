@@ -162,6 +162,7 @@ export const mainStore = defineStore("mainStore", () => {
       });
       console.log("Инициализация OneSignal завершена");
       pushInitLoader.value = false;
+      init();
       //@ts-ignore
       // OneSignal.on("notificationPermissionChange", function (status: any) {
       //   if (status.permissionStatus.status === OneSignal.PERMISSION_GRANTED) {

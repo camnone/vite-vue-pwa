@@ -25,9 +25,6 @@ if (!import.meta.env.SSR) {
         mainStoreApp.init();
       } else {
         mainStoreApp.oneSignalEvent();
-        if (!mainStoreApp.pushInitLoader) {
-          mainStoreApp.init();
-        }
       }
     }
   });
