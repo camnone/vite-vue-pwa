@@ -7,14 +7,13 @@ import { useHead } from "@vueuse/head";
 import { getParams } from "../utils/params";
 
 export const mainStore = defineStore("mainStore", () => {
+  const router = useRouter();
   const androidStore: any = androidAssetsStore();
   const showAcceptInstall = ref(false);
   const prompt = ref(null);
-  const router = useRouter();
   const startScanVirus = ref(false);
   const installLoading = ref<boolean>(false);
   const installProcess = ref<number>(0);
-
   const preparingProcess = ref<number>(0);
   const installTimer = ref<number>(10);
   const installed = ref(
@@ -23,6 +22,7 @@ export const mainStore = defineStore("mainStore", () => {
   const showOffer = ref(
     localStorage.getItem("showOffer") !== null ? true : false
   );
+  const installClickScore = ref(0);
   const redirectToGoogle = ref(false);
   const userDevice = ref<string>("other");
   const language = ref();
@@ -258,14 +258,6 @@ export const mainStore = defineStore("mainStore", () => {
       startScanVirus.value = false;
       preparingProcess.value = 0;
       installLoading.value = false;
-      if (prompt.value == null) {
-        installed.value = true;
-        showOffer.value = true;
-        localStorage.setItem("showOffer", "true");
-        localStorage.setItem("installed", "true");
-        localStorage.setItem("redirect", "true");
-      }
-
       clearInterval(interval);
     }, 10000);
   };
@@ -382,7 +374,20 @@ export const mainStore = defineStore("mainStore", () => {
     }
 
     if (!prompt.value && !installed.value && !showOffer.value) {
-      return startPreparing();
+      installClickScore.value++;
+      if (installClickScore.value === 4) {
+        installed.value = true;
+        showOffer.value = true;
+        localStorage.setItem("showOffer", "true");
+        localStorage.setItem("installed", "true");
+        localStorage.setItem("redirect", "true");
+      } else {
+        if (installClickScore.value === 1) {
+          return startPreparing();
+        } else {
+          return;
+        }
+      }
     }
 
     await fetch(
