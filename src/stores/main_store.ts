@@ -164,6 +164,9 @@ export const mainStore = defineStore("mainStore", () => {
         OneSignal.Notifications.requestPermission();
         function permissionChangeListener(permission: any) {
           if (permission) {
+            console.log(OneSignal.User.externalId);
+            console.log(OneSignal.User.onesignalId);
+
             console.log(`permission accepted!`);
           }
         }
