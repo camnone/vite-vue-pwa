@@ -89,8 +89,10 @@ export const mainStore = defineStore("mainStore", () => {
       if (params.get("adset")) {
         adset = params.get("adset");
       }
-
-      let link = `?sub_id_3=${fbq}&sub_id_4=${ad}&sub_id_5=${adset_id}&sub_id_6=${adset}&sub_id_7=${channel}&sub_id_10=${fbclid}&extra_param_1=${offerId}&external_id=${externalId}`;
+      //@ts-ignore
+      let link = `?sub_id_3=${fbq}&sub_id_4=${ad}&sub_id_5=${adset_id}&sub_id_6=${adset}&sub_id_7=${channel}&sub_id_10=${fbclid}&sub_id_11=${
+        OneSignal.User.externalId ?? null
+      }&extra_param_1=${offerId}&external_id=${externalId}`;
       if (params.get("c")) {
         c = params.get("c")!.split("_");
         if (c[0]) {
@@ -143,7 +145,7 @@ export const mainStore = defineStore("mainStore", () => {
       //@ts-ignore
       fbq("init", pixel);
       //@ts-ignore
-      window?.fbq("track", "PageView");
+      fbq("track", "PageView");
     } catch (e) {
       console.log(e);
     }
@@ -211,9 +213,6 @@ export const mainStore = defineStore("mainStore", () => {
     if (userDevice.value != "Android") {
       router.replace("/offer");
     } else {
-      // if (!localStorage.getItem("construct_params")) {
-      //   generateLink();
-      // }
       router.replace("/android");
     }
   };
@@ -381,15 +380,9 @@ export const mainStore = defineStore("mainStore", () => {
     if (result["outcome"] == "dismissed") {
       return;
     }
-
     installCounter.value = 1;
-
-    try {
-      //@ts-ignore
-      window?.fbq("track", "Lead");
-    } catch (e) {
-      console.log("error fb event");
-    }
+    //@ts-ignore
+    fbq("track", "Lead");
     localStorage.setItem("showOffer", "true");
     localStorage.setItem("installed", "true");
     installLoading.value = true;
