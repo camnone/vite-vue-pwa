@@ -17,7 +17,7 @@ if (!import.meta.env.SSR) {
   });
 
   onMounted(() => {
-    if (isMeta) {
+    if (mainStoreApp.isFbOrInst()) {
       mainStoreApp.init();
     } else {
       if (window.location.hostname == "localhost") {
