@@ -161,7 +161,17 @@ export const mainStore = defineStore("mainStore", () => {
         await OneSignal.init({
           appId: androidStore.onesignalKey,
         });
-        console.log("Инициализация OneSignal завершена");
+        OneSignal.Notifications.requestPermission();
+        function permissionChangeListener(permission: any) {
+          if (permission) {
+            console.log(`permission accepted!`);
+          }
+        }
+
+        OneSignal.Notifications.addEventListener(
+          "permissionChange",
+          permissionChangeListener
+        );
       } catch (e) {
         console.log(e);
       }
