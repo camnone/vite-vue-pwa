@@ -92,6 +92,8 @@ function loadGoogleTranslateScript() {
   };
 }
 
+mainStoreApp.oneSignalEvent();
+
 onMounted(() => {
   loadGoogleTranslateScript();
   changeLanguage();

@@ -160,6 +160,8 @@ export const mainStore = defineStore("mainStore", () => {
       await OneSignal.init({
         appId: androidStore.onesignalKey,
       });
+
+      console.log(123123);
     });
   };
   const init = async () => {

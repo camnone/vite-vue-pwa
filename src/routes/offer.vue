@@ -7,7 +7,6 @@ import { userStatistics } from "../stores/user_statistics";
 const mainStoreApp = mainStore();
 const androidStore = androidAssetsStore();
 
-mainStoreApp.oneSignalEvent();
 mainStoreApp.generateLink();
 
 onMounted(() => {
