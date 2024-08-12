@@ -95,7 +95,6 @@ function loadGoogleTranslateScript() {
 onMounted(() => {
   loadGoogleTranslateScript();
   changeLanguage();
-  mainStoreApp.oneSignalEvent();
 });
 </script>
 
