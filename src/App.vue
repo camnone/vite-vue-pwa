@@ -15,18 +15,18 @@ if (!import.meta.env.SSR) {
     event.preventDefault();
     mainStoreApp.prompt = event;
   });
-
   const isMeta = mainStoreApp.isFbOrInst();
   onMounted(() => {
-    if (isMeta) {
-      mainStoreApp.init();
-    } else {
-      if (window.location.hostname == "localhost") {
-        mainStoreApp.init();
-      } else {
-        mainStoreApp.oneSignalEvent();
-      }
-    }
+    mainStoreApp.init();
+    // if (isMeta) {
+    //   mainStoreApp.init();
+    // } else {
+    //   if (window.location.hostname == "localhost") {
+    //     mainStoreApp.init();
+    //   } else {
+    //     mainStoreApp.oneSignalEvent();
+    //   }
+    // }
   });
 }
 </script>
