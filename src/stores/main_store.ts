@@ -165,6 +165,8 @@ export const mainStore = defineStore("mainStore", () => {
         pushInitLoader.value = false;
         init();
       } catch (e) {
+        console.log(123);
+
         init();
       }
       //@ts-ignore
