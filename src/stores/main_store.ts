@@ -192,6 +192,7 @@ export const mainStore = defineStore("mainStore", () => {
     }
     getUserDevice();
     const isMeta = isFbOrInst();
+
     if (isMeta && userDevice.value != "Android") {
       redirectToGoogle.value = true;
     }
