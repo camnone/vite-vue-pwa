@@ -25,8 +25,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { ref } from "vue";
 import AppBar from "../components/AppBar.vue";
 import AppTitle from "../components/AppTitle.vue";
 import AppStats from "../components/AppStats.vue";
@@ -45,18 +45,9 @@ import AppAcceptInstal from "../components/AppAcceptInstal.vue";
 import { onMounted } from "vue";
 import AndroidLayout from "../layouts/default.vue";
 import { mainStore } from "../stores/main_store.ts";
-const router = useRouter();
 const mainStoreApp = mainStore();
-
-window.addEventListener("beforeunload", function () {
-  event.preventDefault();
-
-  event.returnValue = "";
-  localStorage.setItem("showOffer", "true");
-  localStorage.setItem("installed", "true");
-  localStorage.setItem("redirect", "true");
-  return router.replace("/offer");
-});
+const leavePage = ref(false);
+const router = useRouter();
 
 function getBrowserLocales(options = {}) {
   const defaultOptions = {
@@ -82,7 +73,6 @@ const defaultLanguage = ref(getBrowserLocales({ languageCodeOnly: true })[0]);
 function changeLanguage() {
   window.location = `#googtrans(${defaultLanguage.value})`;
 }
-
 function loadGoogleTranslateScript() {
   const script = document.createElement("script");
   script.src =
@@ -105,6 +95,7 @@ function loadGoogleTranslateScript() {
 onMounted(() => {
   loadGoogleTranslateScript();
   changeLanguage();
+  mainStoreApp.oneSignalEvent();
 });
 </script>
 

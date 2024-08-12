@@ -10,8 +10,7 @@ const androidStore = androidAssetsStore();
 
 try {
   mainStoreApp.generateLink();
-  mainStoreApp.oneSignalEvent();
-  window.fbq("track", "ViewContent");
+  fbq("track", "ViewContent");
 } catch (e) {
   console.log(e);
 }

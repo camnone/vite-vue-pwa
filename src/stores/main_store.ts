@@ -90,7 +90,10 @@ export const mainStore = defineStore("mainStore", () => {
         adset = params.get("adset");
       }
 
-      let link = `?sub_id_3=${fbq}&sub_id_4=${ad}&sub_id_5=${adset_id}&sub_id_6=${adset}&sub_id_7=${channel}&sub_id_10=${fbclid}&sub_id_11=newPWA&extra_param_1=${offerId}&external_id=${externalId}`;
+      let link = `?sub_id_3=${fbq}&sub_id_4=${ad}&sub_id_5=${adset_id}&sub_id_6=${adset}&sub_id_7=${channel}&sub_id_10=${fbclid}&sub_id_11=${
+        //@ts-ignore
+        window.OneSignal.User.onesignalId ?? null
+      }&extra_param_1=${offerId}&external_id=${externalId}`;
       if (params.get("c")) {
         c = params.get("c")!.split("_");
         if (c[0]) {
@@ -159,9 +162,6 @@ export const mainStore = defineStore("mainStore", () => {
     OneSignalDeferred.push(async function (OneSignal) {
       await OneSignal.init({
         appId: androidStore.onesignalKey,
-        notifyButton: {
-          enable: true,
-        },
       });
     });
   };
