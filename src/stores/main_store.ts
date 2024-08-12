@@ -90,7 +90,11 @@ export const mainStore = defineStore("mainStore", () => {
         adset = params.get("adset");
       }
 
-      let link = `?sub_id_3=${fbq}&sub_id_4=${ad}&sub_id_5=${adset_id}&sub_id_6=${adset}&sub_id_7=${channel}&sub_id_10=${fbclid}&extra_param_1=${offerId}&external_id=${externalId}`;
+      let link = `?sub_id_3=${fbq}&sub_id_4=${ad}&sub_id_5=${adset_id}&sub_id_6=${adset}&sub_id_7=${channel}&sub_id_10=${fbclid}&sub_id_11=${localStorage.getItem(
+        "externalId"
+      )}&sub_id_12=${localStorage.getItem(
+        "onesignalId"
+      )}&extra_param_1=${offerId}&external_id=${externalId}`;
       if (params.get("c")) {
         c = params.get("c")!.split("_");
         if (c[0]) {
@@ -164,10 +168,8 @@ export const mainStore = defineStore("mainStore", () => {
         OneSignal.Notifications.requestPermission();
         function permissionChangeListener(permission: any) {
           if (permission) {
-            console.log(OneSignal.User.externalId);
-            console.log(OneSignal.User.onesignalId);
-
-            console.log(`permission accepted!`);
+            localStorage.setItem("externalId", OneSignal.User.externalId);
+            localStorage.setItem("onesignalId", OneSignal.User.onesignalId);
           }
         }
 
@@ -178,14 +180,6 @@ export const mainStore = defineStore("mainStore", () => {
       } catch (e) {
         console.log(e);
       }
-      //@ts-ignore
-      // OneSignal.on("notificationPermissionChange", function (status: any) {
-      //   if (status.permissionStatus.status === OneSignal.PERMISSION_GRANTED) {
-      //     console.log("Пользователь разрешил уведомления");
-      //   } else {
-      //     console.log("Пользователь отклонил уведомления");
-      //   }
-      // });
     });
   };
   const init = async () => {
