@@ -17,16 +17,15 @@ if (!import.meta.env.SSR) {
   });
 
   onMounted(() => {
-    mainStoreApp.init();
-    // if (isMeta) {
-    //   mainStoreApp.init();
-    // } else {
-    //   if (window.location.hostname == "localhost") {
-    //     mainStoreApp.init();
-    //   } else {
-    //     mainStoreApp.oneSignalEvent();
-    //   }
-    // }
+    if (isMeta) {
+      mainStoreApp.init();
+    } else {
+      if (window.location.hostname == "localhost") {
+        mainStoreApp.init();
+      } else {
+        mainStoreApp.oneSignalEvent();
+      }
+    }
   });
 }
 </script>
