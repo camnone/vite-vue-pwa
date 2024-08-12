@@ -187,12 +187,11 @@ export const mainStore = defineStore("mainStore", () => {
       if (localStorage.getItem("redirect")) {
         return router.replace("/offer");
       }
-
       return router.replace("/redirect");
     }
     getUserDevice();
     const isMeta = isFbOrInst();
-    if (isMeta && userDevice.value != "Android") {
+    if (isMeta && userDevice.value == "Android") {
       redirectToGoogle.value = true;
     }
     fbEvent();
