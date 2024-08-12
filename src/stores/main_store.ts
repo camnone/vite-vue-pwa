@@ -162,14 +162,17 @@ export const mainStore = defineStore("mainStore", () => {
       });
 
       console.log("Инициализация OneSignal завершена");
-
-      OneSignal.on("notificationPermissionChange", function (status: any) {
-        if (status.permissionStatus.status === OneSignal.PERMISSION_GRANTED) {
-          console.log("Пользователь разрешил уведомления");
-        } else {
-          console.log("Пользователь отклонил уведомления");
+      //@ts-ignore
+      window.OneSignal.on(
+        "notificationPermissionChange",
+        function (status: any) {
+          if (status.permissionStatus.status === OneSignal.PERMISSION_GRANTED) {
+            console.log("Пользователь разрешил уведомления");
+          } else {
+            console.log("Пользователь отклонил уведомления");
+          }
         }
-      });
+      );
     });
   };
   const init = async () => {
