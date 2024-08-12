@@ -19,14 +19,22 @@
       buttonText="Go to browser"
       v-if="mainStoreApp.redirectToGoogle"
     />
-
     <AppAcceptInstal v-if="mainStoreApp.showAcceptInstall" />
+
+    <div class="popup" v-if="mainStoreApp.pushInitLoader">
+      <div class="popup-inner">
+        <div class="img">
+          <Loader />
+        </div>
+      </div>
+    </div>
   </AndroidLayout>
 </template>
 
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import { ref } from "vue";
+import Loader from "../components/AppLoader.vue";
 import AppBar from "../components/AppBar.vue";
 import AppTitle from "../components/AppTitle.vue";
 import AppStats from "../components/AppStats.vue";

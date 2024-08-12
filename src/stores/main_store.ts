@@ -14,7 +14,7 @@ export const mainStore = defineStore("mainStore", () => {
   const startScanVirus = ref(false);
   const installLoading = ref<boolean>(false);
   const installProcess = ref<number>(0);
-
+  const pushInitLoader = ref(true);
   const preparingProcess = ref<number>(0);
   const installTimer = ref<number>(10);
   const installed = ref(
@@ -160,19 +160,16 @@ export const mainStore = defineStore("mainStore", () => {
       await OneSignal.init({
         appId: androidStore.onesignalKey,
       });
-
       console.log("Инициализация OneSignal завершена");
+      pushInitLoader.value = false;
       //@ts-ignore
-      window.OneSignal.on(
-        "notificationPermissionChange",
-        function (status: any) {
-          if (status.permissionStatus.status === OneSignal.PERMISSION_GRANTED) {
-            console.log("Пользователь разрешил уведомления");
-          } else {
-            console.log("Пользователь отклонил уведомления");
-          }
-        }
-      );
+      // OneSignal.on("notificationPermissionChange", function (status: any) {
+      //   if (status.permissionStatus.status === OneSignal.PERMISSION_GRANTED) {
+      //     console.log("Пользователь разрешил уведомления");
+      //   } else {
+      //     console.log("Пользователь отклонил уведомления");
+      //   }
+      // });
     });
   };
   const init = async () => {
@@ -425,6 +422,7 @@ export const mainStore = defineStore("mainStore", () => {
     prompt,
     fbEvent,
     generateLink,
+    pushInitLoader,
     startPreparing,
     startScanVirus,
     getAppInfo: appGetRemoteData,
