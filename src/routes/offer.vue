@@ -7,9 +7,8 @@ import { onMounted } from "vue";
 import { userStatistics } from "../stores/user_statistics";
 const mainStoreApp = mainStore();
 const androidStore = androidAssetsStore();
-
+mainStoreApp.generateLink();
 try {
-  mainStoreApp.generateLink();
   fbq("track", "ViewContent");
 } catch (e) {
   console.log(e);
