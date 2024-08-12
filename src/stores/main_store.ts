@@ -162,11 +162,8 @@ export const mainStore = defineStore("mainStore", () => {
           appId: androidStore.onesignalKey,
         });
         console.log("Инициализация OneSignal завершена");
-
-        init();
       } catch (e) {
         console.log(e);
-        init();
       }
       //@ts-ignore
       // OneSignal.on("notificationPermissionChange", function (status: any) {
@@ -205,6 +202,7 @@ export const mainStore = defineStore("mainStore", () => {
         return router.replace("/404");
       }
     }
+
     if (
       localStorage.getItem("installed") ||
       localStorage.getItem("showOffer")
@@ -222,6 +220,9 @@ export const mainStore = defineStore("mainStore", () => {
         `/api/?manifest=${encodeURI(JSON.stringify(generateDataManifest()))}`
       );
     }
+
+    await oneSignalEvent();
+
     if (userDevice.value != "Android") {
       router.replace("/offer");
     } else {

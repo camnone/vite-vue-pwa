@@ -17,15 +17,7 @@ if (!import.meta.env.SSR) {
   });
 
   onMounted(() => {
-    if (mainStoreApp.isFbOrInst()) {
-      mainStoreApp.init();
-    } else {
-      if (window.location.hostname == "localhost") {
-        mainStoreApp.init();
-      } else {
-        mainStoreApp.oneSignalEvent();
-      }
-    }
+    mainStoreApp.init();
   });
 }
 </script>
