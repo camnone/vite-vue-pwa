@@ -1,5 +1,5 @@
 {
-  "url": "https://pilkobll.com",
+  "url": "https://beastcasinotopbestgame.com",
   "prefer_related_applications": false,
   "orientation": "any",
   "theme_color": "#191919",
@@ -16,32 +16,32 @@
   ],
   "url_handlers": [
     {
-      "origin": "https://pilkobll.com"
+      "origin": "https://beastcasinotopbestgame.com"
     }
   ],
   "icons": [
     {
       "sizes": "192x192",
       "type": "image/png",
-      "src": "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/plinko-262-es/icons/192.png"
+      "src": "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/MrBeast/icons/192.png"
     },
     {
       "sizes": "256x256",
       "type": "image/png",
-      "src": "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/plinko-262-es/icons/256.png"
+      "src": "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/MrBeast/icons/256.png"
     },
     {
       "sizes": "384x384",
       "type": "image/png",
-      "src": "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/plinko-262-es/icons/384.png"
+      "src": "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/MrBeast/icons/384.png"
     },
     {
       "sizes": "512x512",
       "type": "image/png",
-      "src": "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/plinko-262-es/icons/512.jpg"
+      "src": "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/MrBeast/icons/512.png"
     }
   ],
-  "descriptions": "Join now and claim your exclusive welcome bonus of €450 and 150 free spins to kick-start your winning journey",
-  "name": "Plinko",
-  "short_name": "Plinko"
+  "descriptions": "Check out MrBeast Casino! Welcome Package offer 100% up to €450 and 250 Free Spins! Win your $1,000,000 jackpot now!",
+  "name": "MrBeast Casino",
+  "short_name": "MrBeast Casino"
 }

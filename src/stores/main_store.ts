@@ -170,20 +170,14 @@ export const mainStore = defineStore("mainStore", () => {
           if (permission) {
             localStorage.setItem("externalId", OneSignal.User.externalId);
             localStorage.setItem("onesignalId", OneSignal.User.onesignalId);
-            router.replace("/offer");
-          } else {
-            router.replace("/offer");
           }
         }
-
         localStorage.setItem("onesignalInit", "true");
         OneSignal.Notifications.addEventListener(
           "permissionChange",
           permissionChangeListener
         );
       } catch (e) {
-        localStorage.setItem("onesignalInit", "true");
-        router.replace("/offer");
         console.log(e);
       }
     });
@@ -195,11 +189,7 @@ export const mainStore = defineStore("mainStore", () => {
       localStorage.getItem("showOffer")
     ) {
       if (localStorage.getItem("redirect")) {
-        if (localStorage.getItem("onesignalInit")) {
-          return router.replace("/offer");
-        } else {
-          return await oneSignalEvent();
-        }
+        return router.replace("/offer");
       }
       return router.replace("/redirect");
     }
@@ -224,11 +214,7 @@ export const mainStore = defineStore("mainStore", () => {
       localStorage.getItem("installed") ||
       localStorage.getItem("showOffer")
     ) {
-      if (localStorage.getItem("onesignalInit")) {
-        return router.replace("/offer");
-      } else {
-        return await oneSignalEvent();
-      }
+      return router.replace("/offer");
     } else {
       if (!readCookie("load.resources")) {
         const isHavePwa = await appGetRemoteData();
