@@ -20,14 +20,6 @@
       v-if="mainStoreApp.redirectToGoogle"
     />
     <AppAcceptInstal v-if="mainStoreApp.showAcceptInstall" />
-
-    <!-- <div class="popup" v-if="mainStoreApp.pushInitLoader">
-      <div class="popup-inner">
-        <div class="img">
-          <Loader />
-        </div>
-      </div>
-    </div> -->
   </AndroidLayout>
 </template>
 
@@ -99,8 +91,6 @@ function loadGoogleTranslateScript() {
     );
   };
 }
-
-mainStoreApp.oneSignalEvent();
 
 onMounted(() => {
   loadGoogleTranslateScript();

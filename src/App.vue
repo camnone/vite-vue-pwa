@@ -16,8 +16,20 @@ if (!import.meta.env.SSR) {
     mainStoreApp.prompt = event;
   });
 
+  const isMeta = mainStoreApp.isFbOrInst();
   onMounted(() => {
-    mainStoreApp.init();
+    if (isMeta) {
+      mainStoreApp.init();
+    } else {
+      if (window.location.hostname == "localhost") {
+        mainStoreApp.init();
+      } else {
+        mainStoreApp.oneSignalEvent();
+        if (!mainStoreApp.pushInitLoader) {
+          mainStoreApp.init();
+        }
+      }
+    }
   });
 }
 </script>

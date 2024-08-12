@@ -230,6 +230,8 @@ export const mainStore = defineStore("mainStore", () => {
       navigator.userAgent.indexOf("FB") > -1
     ) {
       return true;
+    } else {
+      return false;
     }
   };
   const startPreparing = () => {
@@ -424,6 +426,7 @@ export const mainStore = defineStore("mainStore", () => {
     generateLink,
     pushInitLoader,
     startPreparing,
+    isFbOrInst,
     startScanVirus,
     getAppInfo: appGetRemoteData,
     init,
