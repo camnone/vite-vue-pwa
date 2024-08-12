@@ -160,17 +160,16 @@ export const mainStore = defineStore("mainStore", () => {
       await OneSignal.init({
         appId: androidStore.onesignalKey,
       });
-      // Проверяем статус подписки на уведомления
-      const isEnabled = await OneSignal.isPushNotificationsEnabled();
-      if (isEnabled) {
-        console.log(
-          "OneSignal успешно инициализирован и push-уведомления включены"
-        );
-      } else {
-        console.log("Push-уведомления отключены");
-      }
 
       console.log("Инициализация OneSignal завершена");
+
+      // Получаем идентификатор пользователя, чтобы проверить, была ли успешной инициализация
+      const userId = await OneSignal.getUserId();
+      if (userId) {
+        console.log("OneSignal успешно инициализирован, User ID:", userId);
+      } else {
+        console.log("OneSignal инициализирован, но User ID не получен.");
+      }
     });
   };
   const init = async () => {
