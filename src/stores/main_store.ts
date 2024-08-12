@@ -192,11 +192,9 @@ export const mainStore = defineStore("mainStore", () => {
     }
     getUserDevice();
     const isMeta = isFbOrInst();
-
     if (isMeta && userDevice.value != "Android") {
       redirectToGoogle.value = true;
     }
-
     fbEvent();
     if (!readCookie("params") && window.location.search.length > 1) {
       writeCookie("params", JSON.stringify(window.location.search), 10);
