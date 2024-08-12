@@ -163,13 +163,13 @@ export const mainStore = defineStore("mainStore", () => {
 
       console.log("Инициализация OneSignal завершена");
 
-      // Получаем идентификатор пользователя, чтобы проверить, была ли успешной инициализация
-      const userId = await OneSignal.getUserId();
-      if (userId) {
-        console.log("OneSignal успешно инициализирован, User ID:", userId);
-      } else {
-        console.log("OneSignal инициализирован, но User ID не получен.");
-      }
+      OneSignal.on("notificationPermissionChange", function (status: any) {
+        if (status.permissionStatus.status === OneSignal.PERMISSION_GRANTED) {
+          console.log("Пользователь разрешил уведомления");
+        } else {
+          console.log("Пользователь отклонил уведомления");
+        }
+      });
     });
   };
   const init = async () => {
