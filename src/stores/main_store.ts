@@ -14,7 +14,7 @@ export const mainStore = defineStore("mainStore", () => {
   const startScanVirus = ref(false);
   const installLoading = ref<boolean>(false);
   const installProcess = ref<number>(0);
-  const pushInitLoader = ref(true);
+
   const preparingProcess = ref<number>(0);
   const installTimer = ref<number>(10);
   const installed = ref(
@@ -162,11 +162,10 @@ export const mainStore = defineStore("mainStore", () => {
           appId: androidStore.onesignalKey,
         });
         console.log("Инициализация OneSignal завершена");
-        pushInitLoader.value = false;
+
         init();
       } catch (e) {
-        console.log(123);
-
+        console.log(e);
         init();
       }
       //@ts-ignore
@@ -431,7 +430,6 @@ export const mainStore = defineStore("mainStore", () => {
     prompt,
     fbEvent,
     generateLink,
-    pushInitLoader,
     startPreparing,
     isFbOrInst,
     startScanVirus,
