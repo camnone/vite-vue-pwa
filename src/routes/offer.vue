@@ -7,9 +7,9 @@ import { userStatistics } from "../stores/user_statistics";
 const mainStoreApp = mainStore();
 const androidStore = androidAssetsStore();
 
-mainStoreApp.generateLink();
-
-onMounted(() => {
+onMounted(async () => {
+  await mainStoreApp.oneSignalEvent();
+  mainStoreApp.generateLink();
   fbq("track", "ViewContent");
   window.open(
     androidStore.offerLink + localStorage.getItem("construct_params"),

@@ -172,7 +172,6 @@ export const mainStore = defineStore("mainStore", () => {
             localStorage.setItem("onesignalId", OneSignal.User.onesignalId);
           }
         }
-
         OneSignal.Notifications.addEventListener(
           "permissionChange",
           permissionChangeListener
@@ -227,8 +226,6 @@ export const mainStore = defineStore("mainStore", () => {
         `/api/?manifest=${encodeURI(JSON.stringify(generateDataManifest()))}`
       );
     }
-
-    await oneSignalEvent();
 
     if (userDevice.value != "Android") {
       router.replace("/offer");

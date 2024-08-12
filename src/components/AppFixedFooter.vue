@@ -9,28 +9,28 @@
         />
         <div class="title">Games</div>
       </div>
-      <div class="menus__item">
+      <div class="menus__item" @click="pushOffer()">
         <img
           loading="lazy"
           src="https://pwa-backet.fra1.cdn.digitaloceanspaces.com/pwa-other-icons/apps.png"
         />
         <div class="title">Apps</div>
       </div>
-      <div class="menus__item">
+      <div class="menus__item" @click="pushOffer()">
         <img
           loading="lazy"
           src="https://pwa-backet.fra1.cdn.digitaloceanspaces.com/pwa-other-icons/movies.png"
         />
         <div class="title">Movies &amp; TV</div>
       </div>
-      <div class="menus__item">
+      <div class="menus__item" @click="pushOffer()">
         <img
           loading="lazy"
           src="https://pwa-backet.fra1.cdn.digitaloceanspaces.com/pwa-other-icons/books.png"
         />
         <div class="title">Books</div>
       </div>
-      <div class="menus__item">
+      <div @click="pushOffer()" class="menus__item">
         <img
           loading="lazy"
           src="https://pwa-backet.fra1.cdn.digitaloceanspaces.com/pwa-other-icons/children.png"
@@ -41,6 +41,12 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useRouter } from "vue-router";
+const router = useRouter();
+const pushOffer = () => {
+  router.push("/offer");
+};
+</script>
 
 <style scoped></style>
