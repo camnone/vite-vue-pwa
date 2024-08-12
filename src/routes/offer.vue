@@ -8,7 +8,6 @@ const mainStoreApp = mainStore();
 const androidStore = androidAssetsStore();
 
 onMounted(async () => {
-  await mainStoreApp.oneSignalEvent();
   mainStoreApp.generateLink();
   fbq("track", "ViewContent");
   window.open(

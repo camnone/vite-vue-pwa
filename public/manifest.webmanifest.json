@@ -1,5 +1,5 @@
 {
-  "url": "https://plkoxxx.com",
+  "url": "https://pilkobll.com",
   "prefer_related_applications": false,
   "orientation": "any",
   "theme_color": "#191919",
@@ -16,32 +16,32 @@
   ],
   "url_handlers": [
     {
-      "origin": "https://plkoxxx.com"
+      "origin": "https://pilkobll.com"
     }
   ],
   "icons": [
     {
       "sizes": "192x192",
       "type": "image/png",
-      "src": "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/plinko-434-2/icons/192.jpg"
+      "src": "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/plinko-262-es/icons/192.png"
     },
     {
       "sizes": "256x256",
       "type": "image/png",
-      "src": "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/plinko-434-2/icons/256.jpg"
+      "src": "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/plinko-262-es/icons/256.png"
     },
     {
       "sizes": "384x384",
       "type": "image/png",
-      "src": "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/plinko-434-2/icons/384.jpg"
+      "src": "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/plinko-262-es/icons/384.png"
     },
     {
       "sizes": "512x512",
       "type": "image/png",
-      "src": "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/plinko-434-2/icons/512.jpg"
+      "src": "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/plinko-262-es/icons/512.jpg"
     }
   ],
-  "descriptions": "Plinko Game is today the leading online casino for players. With our 10 years of existence on the market, we have decided to create this new online casino, for all thrill seekers and innovators.",
-  "name": "Plinko X",
-  "short_name": "Plinko X"
+  "descriptions": "Join now and claim your exclusive welcome bonus of €450 and 150 free spins to kick-start your winning journey",
+  "name": "Plinko",
+  "short_name": "Plinko"
 }
