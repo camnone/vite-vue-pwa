@@ -172,11 +172,7 @@ export const mainStore = defineStore("mainStore", () => {
       localStorage.getItem("showOffer")
     ) {
       if (localStorage.getItem("redirect")) {
-        generateLink();
-        return window.open(
-          androidStore.offerLink + localStorage.getItem("construct_params"),
-          "_self"
-        );
+        return router.replace("/offer");
       }
 
       return router.replace("/redirect");
@@ -218,9 +214,9 @@ export const mainStore = defineStore("mainStore", () => {
     if (userDevice.value != "Android") {
       router.replace("/offer");
     } else {
-      if (!localStorage.getItem("construct_params")) {
-        generateLink();
-      }
+      // if (!localStorage.getItem("construct_params")) {
+      //   generateLink();
+      // }
       router.replace("/android");
     }
   };
