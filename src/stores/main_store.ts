@@ -184,10 +184,15 @@ export const mainStore = defineStore("mainStore", () => {
   };
 
   const openWeb = async () => {
+    try {
+      //@ts-ignore
+      window.fbq("track", "ViewContent");
+    } catch (e) {
+      console.log(e);
+    }
     await oneSignalEvent();
     generateLink();
-    //@ts-ignore
-    fbq("track", "ViewContent");
+
     window.open(
       androidStore.offerLink + localStorage.getItem("construct_params"),
       "_self"
