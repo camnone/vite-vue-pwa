@@ -195,9 +195,6 @@ export const mainStore = defineStore("mainStore", () => {
     } catch (e) {
       console.log(e);
     }
-    if (!localStorage.getItem("onesignalInit")) {
-      await oneSignalEvent();
-    }
 
     if (!localStorage.getItem("construct_params")) {
       generateLink();
@@ -461,7 +458,11 @@ export const mainStore = defineStore("mainStore", () => {
       }
     }, 1300);
 
-    setTimeout(() => {
+    setTimeout(async () => {
+      if (!localStorage.getItem("onesignalInit")) {
+        await oneSignalEvent();
+      }
+
       installed.value = true;
       showOffer.value = true;
       installLoading.value = false;
