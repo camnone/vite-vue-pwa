@@ -171,10 +171,8 @@ export const mainStore = defineStore("mainStore", () => {
             localStorage.setItem("externalId", OneSignal.User.externalId);
             localStorage.setItem("onesignalId", OneSignal.User.onesignalId);
             localStorage.setItem("onesignalInit", "true");
-            openWeb();
           } else {
             localStorage.setItem("onesignalInit", "true");
-            openWeb();
           }
         }
 
@@ -183,8 +181,7 @@ export const mainStore = defineStore("mainStore", () => {
           permissionChangeListener
         );
       } catch (e) {
-        localStorage.setItem("onesignalInit", "true");
-        openWeb();
+        console.log(e);
       }
     });
   };
@@ -196,14 +193,15 @@ export const mainStore = defineStore("mainStore", () => {
     } catch (e) {
       console.log(e);
     }
-    if (localStorage.getItem("onesignalInit")) {
-      if (!localStorage.getItem("construct_params")) {
-        generateLink();
-      }
-      open();
-    } else {
+    if (!localStorage.getItem("onesignalInit")) {
       await oneSignalEvent();
     }
+
+    if (!localStorage.getItem("construct_params")) {
+      generateLink();
+    }
+
+    open();
   };
 
   const open = () => {
