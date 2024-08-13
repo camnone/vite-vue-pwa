@@ -188,20 +188,10 @@ export const mainStore = defineStore("mainStore", () => {
     generateLink();
     //@ts-ignore
     fbq("track", "ViewContent");
-    const web = window.open(
+    window.open(
       androidStore.offerLink + localStorage.getItem("construct_params"),
       "_self"
     );
-
-    function mjau() {
-      if (web!.onclose) {
-        console.log(123);
-      }
-    }
-
-    setInterval(() => {
-      mjau();
-    }, 1000);
   };
 
   const init = async () => {
