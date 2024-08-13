@@ -92,8 +92,6 @@ export const mainStore = defineStore("mainStore", () => {
 
       let link = `?sub_id_3=${fbq}&sub_id_4=${ad}&sub_id_5=${adset_id}&sub_id_6=${adset}&sub_id_7=${channel}&sub_id_10=${fbclid}&sub_id_11=${localStorage.getItem(
         "externalId"
-      )}&sub_id_12=${localStorage.getItem(
-        "onesignalId"
       )}&extra_param_1=${offerId}&external_id=${externalId}`;
       if (params.get("c")) {
         c = params.get("c")!.split("_");
@@ -166,14 +164,21 @@ export const mainStore = defineStore("mainStore", () => {
           appId: androidStore.onesignalKey,
         });
         OneSignal.Notifications.requestPermission();
-        function permissionChangeListener(permission: any) {
+
+        async function permissionChangeListener(permission: any) {
           if (permission) {
-            localStorage.setItem("externalId", OneSignal.User.externalId);
-            localStorage.setItem("onesignalId", OneSignal.User.onesignalId);
-            if (!localStorage.getItem("construct_params")) {
+            let id =
+              Math.random().toString(16).slice(2) +
+              "-" +
+              Math.random().toString(16).slice(2);
+
+            await OneSignal.login(id);
+            localStorage.setItem("externalId", id);
+
+            if (localStorage.getItem("construct_params")) {
               generateLink();
             }
-            window.location.reload();
+            window.open(window.location.href, "_blank");
           } else {
           }
         }
