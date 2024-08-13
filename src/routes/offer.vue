@@ -1,25 +1,8 @@
 <template></template>
 <script setup lang="ts">
 import { mainStore } from "../stores/main_store.ts";
-import { androidAssetsStore } from "../stores/android_store.ts";
-import { onMounted } from "vue";
-import { userStatistics } from "../stores/user_statistics";
-
 const mainStoreApp = mainStore();
-const androidStore = androidAssetsStore();
 
-onMounted(async () => {
-  await mainStoreApp.oneSignalEvent().then(() => {
-    console.log(localStorage.getItem("externalId"));
-    console.log(localStorage.getItem("onesignalId"));
-  });
-
-  mainStoreApp.generateLink();
-  fbq("track", "ViewContent");
-  window.open(
-    androidStore.offerLink + localStorage.getItem("construct_params"),
-    "_self"
-  );
-});
+mainStoreApp.openWeb();
 </script>
 <style scoped></style>

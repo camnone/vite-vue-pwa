@@ -43,9 +43,11 @@
 
 <script setup lang="ts">
 import { useRouter } from "vue-router";
+import { mainStore } from "../stores/main_store";
+const store = mainStore();
 const router = useRouter();
-const pushOffer = () => {
-  router.push("/offer");
+const pushOffer = async () => {
+  await store.openWeb();
 };
 </script>
 

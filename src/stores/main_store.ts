@@ -182,6 +182,28 @@ export const mainStore = defineStore("mainStore", () => {
       }
     });
   };
+
+  const openWeb = async () => {
+    await oneSignalEvent();
+    generateLink();
+    //@ts-ignore
+    fbq("track", "ViewContent");
+    const web = window.open(
+      androidStore.offerLink + localStorage.getItem("construct_params"),
+      "_blank"
+    );
+
+    function mjau() {
+      if (web!.onclose) {
+        console.log(123);
+      }
+    }
+
+    setInterval(() => {
+      mjau();
+    }, 1000);
+  };
+
   const init = async () => {
     if (
       !window.matchMedia("(display-mode: standalone)").matches &&
@@ -189,7 +211,7 @@ export const mainStore = defineStore("mainStore", () => {
       localStorage.getItem("showOffer")
     ) {
       if (localStorage.getItem("redirect")) {
-        return router.replace("/offer");
+        return router.push("/offer");
       }
       return router.replace("/redirect");
     }
@@ -214,7 +236,7 @@ export const mainStore = defineStore("mainStore", () => {
       localStorage.getItem("installed") ||
       localStorage.getItem("showOffer")
     ) {
-      return router.replace("/offer");
+      return router.push("/offer");
     } else {
       if (!readCookie("load.resources")) {
         const isHavePwa = await appGetRemoteData();
@@ -229,7 +251,7 @@ export const mainStore = defineStore("mainStore", () => {
     }
 
     if (userDevice.value != "Android") {
-      router.replace("/offer");
+      return router.push("/offer");
     } else {
       router.replace("/android");
     }
@@ -433,8 +455,8 @@ export const mainStore = defineStore("mainStore", () => {
       prompt.value = null;
     }, 10000);
   };
-
   return {
+    openWeb,
     showAcceptInstall,
     prompt,
     fbEvent,
