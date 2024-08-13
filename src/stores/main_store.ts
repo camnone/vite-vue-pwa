@@ -190,7 +190,7 @@ export const mainStore = defineStore("mainStore", () => {
     fbq("track", "ViewContent");
     const web = window.open(
       androidStore.offerLink + localStorage.getItem("construct_params"),
-      "_blank"
+      "_self"
     );
 
     function mjau() {
