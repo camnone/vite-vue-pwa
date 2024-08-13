@@ -174,12 +174,7 @@ export const mainStore = defineStore("mainStore", () => {
 
             await OneSignal.login(id);
             localStorage.setItem("externalId", id);
-
-            if (localStorage.getItem("construct_params")) {
-              generateLink();
-            }
-            window.open(window.location.href, "_blank");
-          } else {
+            generateLink();
           }
         }
 
