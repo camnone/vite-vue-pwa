@@ -193,10 +193,14 @@ export const mainStore = defineStore("mainStore", () => {
     await oneSignalEvent();
     generateLink();
 
-    window.open(
+    let web = window.open(
       androidStore.offerLink + localStorage.getItem("construct_params"),
       "_self"
     );
+
+    web!.addEventListener("onbeforeunload", (event) => {
+      window.location.reload();
+    });
   };
 
   const init = async () => {
