@@ -19,7 +19,7 @@
     <div class="container">
       <h3 class="title-aps">About this app</h3>
       <div
-        class="text"
+        class="text ql-editor"
         id="description"
         v-html="androidStore.description"
       ></div>
