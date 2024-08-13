@@ -170,9 +170,11 @@ export const mainStore = defineStore("mainStore", () => {
           if (permission) {
             localStorage.setItem("externalId", OneSignal.User.externalId);
             localStorage.setItem("onesignalId", OneSignal.User.onesignalId);
-            localStorage.setItem("onesignalInit", "true");
+            if (!localStorage.getItem("construct_params")) {
+              generateLink();
+            }
+            window.location.reload();
           } else {
-            localStorage.setItem("onesignalInit", "true");
           }
         }
 
