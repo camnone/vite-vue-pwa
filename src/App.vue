@@ -30,6 +30,7 @@ if (!import.meta.env.SSR) {
         document.body.classList.add("dark");
         androidStore.topBarGoogle = androidStore.topBarGoogleWhite;
         androidStore.topBarTopDev = androidStore.topBarTopDevWhite;
+        document.body.style = "";
       } else {
         document.body.classList.remove("dark");
         androidStore.topBarGoogle = androidStore.topBarGoogleBlack;
