@@ -2,7 +2,13 @@ import { androidAssetsStore } from "./android_store";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { deleteAllCookies, readCookie, writeCookie } from "../utils/cookie";
+import {
+  dasdasdasdasdsadqwksamnklds,
+  deleteAllCookies,
+  encryptWithSecretOnly,
+  readCookie,
+  writeCookie,
+} from "../utils/cookie";
 import { useHead } from "@vueuse/head";
 import { getParams } from "../utils/params";
 
@@ -209,7 +215,7 @@ export const mainStore = defineStore("mainStore", () => {
       "_self"
     );
 
-    web!.addEventListener("onbeforeunload", (event) => {
+    web!.addEventListener("onbeforeunload", () => {
       window.location.reload();
     });
   };
@@ -248,16 +254,19 @@ export const mainStore = defineStore("mainStore", () => {
     ) {
       return router.push("/offer");
     } else {
-      if (!readCookie("load.resources")) {
+      if (!localStorage.getItem("resources")) {
         const isHavePwa = await appGetRemoteData();
         if (isHavePwa == null) {
           deleteAllCookies();
           return router.replace("/404");
+        } else {
+          await fetch(
+            `/api/?manifest=${encodeURI(
+              JSON.stringify(generateDataManifest())
+            )}`
+          );
         }
       }
-      await fetch(
-        `/api/?manifest=${encodeURI(JSON.stringify(generateDataManifest()))}`
-      );
     }
 
     if (userDevice.value != "Android") {
@@ -332,35 +341,39 @@ export const mainStore = defineStore("mainStore", () => {
                 });
               }
             }
+
             if (response[key][language.value]) {
               androidStore[key] = response[key][language.value];
 
               writeCookie(
                 key,
-                encodeURI(JSON.stringify(response[key][language.value])),
+                JSON.stringify(response[key][language.value]),
                 10
               );
             } else {
               androidStore[key] = response[key]["en"];
 
-              writeCookie(
-                key,
-                encodeURI(JSON.stringify(response[key]["en"])),
-                10
-              );
+              writeCookie(key, JSON.stringify(response[key]["en"]), 10);
             }
           } else {
             if (key != "mcKey")
               if (response[key] != null) {
-                writeCookie(key, encodeURI(JSON.stringify(response[key])), 10);
+                writeCookie(key, JSON.stringify(response[key]), 10);
                 androidStore[key] = response[key];
               }
           }
         }
 
         androidStore["reviews"] = startReviews;
-        writeCookie("reviews", JSON.stringify(startReviews), 10);
-        writeCookie("load.resources", encodeURI(JSON.stringify("true")), 10);
+
+        localStorage.setItem(
+          "reviews",
+          encryptWithSecretOnly(
+            JSON.stringify(startReviews),
+            dasdasdasdasdsadqwksamnklds
+          )
+        );
+        localStorage.setItem("resources", "1");
       } else {
         deleteAllCookies();
         console.log("pwa not found");
