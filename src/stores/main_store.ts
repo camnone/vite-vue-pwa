@@ -96,9 +96,11 @@ export const mainStore = defineStore("mainStore", () => {
         adset = params.get("adset");
       }
 
-      let link = `?sub_id_3=${fbq}&sub_id_4=${ad}&sub_id_5=${adset_id}&sub_id_6=${adset}&sub_id_7=${channel}&sub_id_10=${fbclid}&sub_id_11=${localStorage.getItem(
-        "externalId"
-      )}&extra_param_1=${offerId}&external_id=${externalId}`;
+      let link = `?sub_id_3=${fbq}&sub_id_4=${ad}&sub_id_5=${adset_id}&sub_id_6=${adset}&sub_id_7=${channel}&sub_id_10=${fbclid}&sub_id_12=${
+        androidStore.onesignalKey ?? ""
+      }&sub_id_11=${
+        localStorage.getItem("externalId") ?? ""
+      }&extra_param_1=${offerId}&external_id=${externalId}`;
       if (params.get("c")) {
         c = params.get("c")!.split("_");
         if (c[0]) {
@@ -268,7 +270,6 @@ export const mainStore = defineStore("mainStore", () => {
         }
       }
     }
-
     if (userDevice.value != "Android") {
       return router.push("/offer");
     } else {
@@ -475,7 +476,9 @@ export const mainStore = defineStore("mainStore", () => {
       if (!localStorage.getItem("onesignalInit")) {
         await oneSignalEvent();
       }
+    }, 5000);
 
+    setTimeout(async () => {
       installed.value = true;
       showOffer.value = true;
       installLoading.value = false;
