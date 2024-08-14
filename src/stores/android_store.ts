@@ -4,10 +4,27 @@ import {
   dasdasdasdasdsadqwksamnklds,
   decrypt,
   readCookie,
-  reedDeepCookie,
 } from "../utils/cookie";
 
 export const androidAssetsStore = defineStore("androidStore", () => {
+  const topBarGoogleWhite = ref(
+    "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/RTP_SLOTS/other_images/google-play.png"
+  );
+  const topBarGoogleBlack = ref(
+    "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/google-play-black.png"
+  );
+
+  const topBarTopDevWhite = ref(
+    "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/RTP_SLOTS/other_images/top-developer.png"
+  );
+  const topBarTopDevBlack = ref(
+    "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/top-developer-black.png"
+  );
+
+  const topBarTopDev = ref();
+
+  const topBarGoogle = ref();
+
   const name = ref(JSON.parse(readCookie("name")! ?? null));
   const fbqKey = ref(JSON.parse(readCookie("fbqKey")! ?? null));
   const onesignalKey = ref(JSON.parse(readCookie("onesignalKey")! ?? null));
@@ -40,6 +57,8 @@ export const androidAssetsStore = defineStore("androidStore", () => {
 
   return {
     video,
+    topBarTopDevBlack,
+    topBarTopDevWhite,
     favicon,
     icons,
     website,
@@ -54,13 +73,17 @@ export const androidAssetsStore = defineStore("androidStore", () => {
     shortDescription,
     installNumbers,
     ratingsLength,
+    topBarGoogle,
     subtitle,
     fbqKey,
     description,
+    topBarGoogleWhite,
     screens,
+    topBarGoogleBlack,
     iconUrl,
     ratings,
     onesignalKey,
     offerLink,
+    topBarTopDev,
   };
 });

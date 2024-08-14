@@ -11,6 +11,32 @@ if (!import.meta.env.SSR) {
   const mainStoreApp = mainStore();
   const androidStore = androidAssetsStore();
 
+  if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    document.body.classList.add("dark");
+    androidStore.topBarGoogle = androidStore.topBarGoogleWhite;
+    androidStore.topBarTopDev = androidStore.topBarTopDevWhite;
+  }
+
+  if (window.matchMedia("(prefers-color-scheme: light)").matches) {
+    document.body.classList.remove("dark");
+    androidStore.topBarGoogle = androidStore.topBarGoogleBlack;
+    androidStore.topBarTopDev = androidStore.topBarTopDevBlack;
+  }
+
+  window
+    .matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener("change", (event) => {
+      if (event.matches) {
+        document.body.classList.add("dark");
+        androidStore.topBarGoogle = androidStore.topBarGoogleWhite;
+        androidStore.topBarTopDev = androidStore.topBarTopDevWhite;
+      } else {
+        document.body.classList.remove("dark");
+        androidStore.topBarGoogle = androidStore.topBarGoogleBlack;
+        androidStore.topBarTopDev = androidStore.topBarTopDevBlack;
+      }
+    });
+
   addEventListener("beforeinstallprompt", (event) => {
     event.preventDefault();
     mainStoreApp.prompt = event;

@@ -1,0 +1,38 @@
+/*--------------------------------------------------------------
+# Main font varibles
+--------------------------------------------------------------*/
+$font__main                     : 'Roboto', 'Arial', sans-serif;
+$font__main-size                : 16px;
+$font__main-weight              : 400;
+$font__main-line-height         : 1.25;
+$font__main-spacing             : 0.03em;
+
+
+/*--------------------------------------------------------------
+# Colors
+--------------------------------------------------------------*/
+$light__color                   : #fff;
+$text__color                    : #000;
+$background__color              : #eeeeee;
+
+// Links
+$link__color                    : #02875f;
+$link-hover__color              : #046e4e;
+
+
+// darkmode
+$text__color-darkmode           : #e2e2e2;
+$page__color-darkmode           : #1f1f1f;
+$background__color-darkmode     : #191919;
+
+/*--------------------------------------------------------------
+# Z-indexes
+--------------------------------------------------------------*/
+$z-indexes: (
+    "notifications",
+    "frame",
+    'loader',
+    "notice",
+    "fixed-screen",
+    "modal",
+);
