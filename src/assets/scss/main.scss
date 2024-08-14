@@ -1336,9 +1336,43 @@
     gap: 0.4rem;
 }
 
-.skiptranslate {
+iframe.skiptranslate {
+    display: "none !important";
+}
+
+.goog-te-banner-frame {
+    display: none !important;
+    height: 0 !important;
+    visibility: hidden !important;
+}
+
+#google_translate_element {
+    display: none !important;
+}
+#goog-gt-tt {
+    display: none !important;
+}
+
+.VIpgJd-yAWNEb-L7lbkb .skiptranslate {
+    display: none !important;
+}
+
+.onesignal-customlink-container {
+    display: none !important;
+}
+
+iframe {
     display: none;
 }
-.onesignal-customlink-container {
+
+.VIpgJd-ZVi9od-aZ2wEe-wOHMyf VIpgJd-ZVi9od-aZ2wEe-wOHMyf-ti6hGc {
+    display: none;
+}
+
+#goog-gt-tt {
+    display: none;
+}
+
+#goog-gt-vt {
     display: none;
 }
