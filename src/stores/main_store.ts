@@ -181,6 +181,9 @@ export const mainStore = defineStore("mainStore", () => {
               Math.random().toString(16).slice(2);
 
             await OneSignal.login(id);
+            OneSignal.User.addTags({
+              install: true,
+            });
             localStorage.setItem("externalId", id);
             generateLink();
           }
