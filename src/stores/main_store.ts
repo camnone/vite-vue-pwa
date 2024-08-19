@@ -56,7 +56,6 @@ export const mainStore = defineStore('mainStore', () => {
 	}
 	const generateLink = () => {
 		try {
-			const params = new URLSearchParams(readCookie('params')!)
 			let ad: any = '',
 				adset_id: any = '',
 				adset: any = '',
@@ -67,33 +66,33 @@ export const mainStore = defineStore('mainStore', () => {
 				externalId: any = '',
 				offerId: any = ''
 
-			if (params.get('fbclid')) {
-				fbclid = params.get('fbclid')
+			if (getParams('fbclid')) {
+				fbclid = getParams('fbclid')
 			}
 
-			if (params.get('external_id')) {
-				externalId = params.get('external_id')
+			if (getParams('external_id')) {
+				externalId = getParams('external_id')
 			}
 
-			if (params.get('extra_param_1')) {
-				offerId = params.get('extra_param_1')
+			if (getParams('extra_param_1')) {
+				offerId = getParams('extra_param_1')
 			}
-			if (params.get('fbq')) {
-				fbq = params.get('fbq')
+			if (getParams('fbq')) {
+				fbq = getParams('fbq')
 			} else {
 				fbq = androidStore.fbqKey
 			}
-			if (params.get('channel')) {
-				channel = params.get('channel')
+			if (getParams('channel')) {
+				channel = getParams('channel')
 			}
-			if (params.get('ad')) {
-				ad = params.get('ad')
+			if (getParams('ad')) {
+				ad = getParams('ad')
 			}
-			if (params.get('adset_id')) {
-				adset_id = params.get('adset_id')
+			if (getParams('adset_id')) {
+				adset_id = getParams('adset_id')
 			}
-			if (params.get('adset')) {
-				adset = params.get('adset')
+			if (getParams('adset')) {
+				adset = getParams('adset')
 			}
 
 			let link = `?sub_id_3=${fbq}&sub_id_4=${ad}&sub_id_5=${adset_id}&sub_id_6=${adset}&sub_id_7=${channel}&sub_id_10=${fbclid}&sub_id_12=${
@@ -101,34 +100,32 @@ export const mainStore = defineStore('mainStore', () => {
 			}&sub_id_11=${
 				localStorage.getItem('externalId') ?? ''
 			}&extra_param_1=${offerId}&external_id=${externalId}`
-			if (params.get('c')) {
-				c = params.get('c')!.split('_')
+			if (getParams('c')) {
+				c = getParams('c')!.split('_')
 				if (c[0]) {
 					link += `&sub_id_1=${c[0]}`
 				}
-				if (c[1] && !params.get('sub_id_2')) {
+				if (c[1] && !getParams('sub_id_2')) {
 					link += `&sub_id_2=${c[1]}`
 				} else {
-					link += `&${params.get('sub_id_2')}`
+					link += `&sub_id_2=${getParams('sub_id_2')}`
 				}
 			}
 
-			if (params.get('sub_id_2')) {
-				link += `&${params.get('sub_id_2')}`
+			if (getParams('sub_id_2')) {
+				link += `&sub_id_2=${getParams('sub_id_2')}`
 			}
 
 			localStorage.setItem('construct_params', link.replace('"', ''))
 		} catch (e) {
-			console.log(e)
+			//console.log(e)
 		}
 	}
 	const fbEvent = () => {
 		try {
-			const params = new URLSearchParams(readCookie('params')!)
 			let pixel
-
-			if (params.get('fbq')) {
-				pixel = params.get('fbq')
+			if (getParams('fbq')) {
+				pixel = getParams('fbq')
 			} else {
 				pixel = androidStore.fbqKey
 			}
@@ -161,7 +158,7 @@ export const mainStore = defineStore('mainStore', () => {
 			//@ts-ignore
 			fbq('track', 'PageView')
 		} catch (e) {
-			console.log(e)
+			// console.log(e)
 		}
 	}
 	const oneSignalEvent = async () => {
@@ -200,7 +197,7 @@ export const mainStore = defineStore('mainStore', () => {
 					permissionChangeListener
 				)
 			} catch (e) {
-				console.log(e)
+				// console.log(e)
 			}
 		})
 	}
