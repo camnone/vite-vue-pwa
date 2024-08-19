@@ -106,9 +106,15 @@ export const mainStore = defineStore('mainStore', () => {
 				if (c[0]) {
 					link += `&sub_id_1=${c[0]}`
 				}
-				if (c[1]) {
+				if (c[1] && !params.get('sub_id_2')) {
 					link += `&sub_id_2=${c[1]}`
+				} else {
+					link += `&${params.get('sub_id_2')}`
 				}
+			}
+
+			if (params.get('sub_id_2')) {
+				link += `&${params.get('sub_id_2')}`
 			}
 
 			localStorage.setItem('construct_params', link.replace('"', ''))
@@ -203,7 +209,7 @@ export const mainStore = defineStore('mainStore', () => {
 		//@ts-ignore
 		window.fbq('track', 'ViewContent')
 		generateLink()
-		open(offerLink)
+		//open(offerLink)
 	}
 
 	const open = (offerLink: string) => {
