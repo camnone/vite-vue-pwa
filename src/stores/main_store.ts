@@ -95,11 +95,17 @@ export const mainStore = defineStore('mainStore', () => {
 				adset = getParams('adset')
 			}
 
-			let link = `?sub_id_3=${fbq}&sub_id_4=${ad}&sub_id_5=${adset_id}&sub_id_6=${adset}&sub_id_7=${channel}&sub_id_10=${fbclid}&sub_id_12=${
+			let link = `?sub_id_3=${fbq}&sub_id_4=${ad}&sub_id_5=${adset_id}&sub_id_6=${adset}&sub_id_7=${channel}&sub_id_12=${
 				androidStore.onesignalKey ?? ''
 			}&sub_id_11=${
 				localStorage.getItem('externalId') ?? ''
 			}&extra_param_1=${offerId}&external_id=${externalId}`
+
+			if (getParams('type') == 'web') {
+				link += `&sub_id_9=${fbclid}`
+			} else {
+				link += `&sub_id_10=${fbclid}`
+			}
 			if (getParams('c')) {
 				c = getParams('c')!.split('_')
 				if (c[0]) {
