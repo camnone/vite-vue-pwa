@@ -77,20 +77,25 @@ export const mainStore = defineStore('mainStore', () => {
 			if (getParams('extra_param_1')) {
 				offerId = getParams('extra_param_1')
 			}
+
 			if (getParams('fbq')) {
 				fbq = getParams('fbq')
 			} else {
 				fbq = androidStore.fbqKey
 			}
+
 			if (getParams('channel')) {
 				channel = getParams('channel')
 			}
+
 			if (getParams('ad')) {
 				ad = getParams('ad')
 			}
+
 			if (getParams('adset_id')) {
 				adset_id = getParams('adset_id')
 			}
+
 			if (getParams('adset')) {
 				adset = getParams('adset')
 			}
@@ -106,27 +111,24 @@ export const mainStore = defineStore('mainStore', () => {
 			} else {
 				link += `&sub_id_10=${fbclid}`
 			}
+
 			if (getParams('c')) {
 				c = getParams('c')!.split('_')
 				if (c[0]) {
 					link += `&sub_id_1=${c[0]}`
 				}
-				if (c[1] && !getParams('sub_id_2')) {
+				if (c[1]) {
 					link += `&sub_id_2=${c[1]}`
-				} else {
-					if (getParams('sub_id_2')) {
-						link += `&sub_id_2=${getParams('sub_id_2')}`
-					}
+				} else if (getParams('sub_id_2')) {
+					link += `&sub_id_2=${getParams('sub_id_2')}`
 				}
-			}
-
-			if (getParams('sub_id_2')) {
-				link += `&sub_id_2=${getParams('sub_id_2')}`
 			}
 
 			localStorage.setItem('construct_params', link.replace('"', ''))
 		} catch (e) {
-			//console.log(e)
+			if (!import.meta.env.PROD) {
+				console.log(e)
+			}
 		}
 	}
 	const fbEvent = () => {
@@ -166,7 +168,9 @@ export const mainStore = defineStore('mainStore', () => {
 			//@ts-ignore
 			fbq('track', 'PageView')
 		} catch (e) {
-			// console.log(e)
+			if (!import.meta.env.PROD) {
+				console.log(e)
+			}
 		}
 	}
 	const oneSignalEvent = async () => {
@@ -205,7 +209,9 @@ export const mainStore = defineStore('mainStore', () => {
 					permissionChangeListener
 				)
 			} catch (e) {
-				// console.log(e)
+				if (!import.meta.env.PROD) {
+					console.log(e)
+				}
 			}
 		})
 	}
