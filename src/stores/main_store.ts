@@ -221,7 +221,7 @@ export const mainStore = defineStore('mainStore', () => {
 		//@ts-ignore
 		window.fbq('track', 'ViewContent')
 		generateLink()
-		//open(offerLink)
+		open(offerLink)
 	}
 
 	const open = (offerLink: string) => {
