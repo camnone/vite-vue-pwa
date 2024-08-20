@@ -108,7 +108,9 @@ export const mainStore = defineStore('mainStore', () => {
 				if (c[1] && !getParams('sub_id_2')) {
 					link += `&sub_id_2=${c[1]}`
 				} else {
-					link += `&sub_id_2=${getParams('sub_id_2')}`
+					if (getParams('sub_id_2')) {
+						link += `&sub_id_2=${getParams('sub_id_2')}`
+					}
 				}
 			}
 
