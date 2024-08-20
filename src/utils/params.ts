@@ -1,10 +1,3 @@
-
-
-export const getParams = (params: string | null) => {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (params == null) {
-        return null
-    }
-
-    return urlParams.get(params);
-} 
+export const getParams = (params: string) => {
+	return new URLSearchParams(localStorage.getItem('params')!).get(params)
+}

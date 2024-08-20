@@ -105,20 +105,17 @@ export const mainStore = defineStore('mainStore', () => {
 			}&sub_id_11=${
 				localStorage.getItem('externalId') ?? ''
 			}&extra_param_1=${offerId}&external_id=${externalId}`
-
 			if (getParams('type') == 'web') {
 				link += `&sub_id_9=${fbclid}`
 			} else {
 				link += `&sub_id_10=${fbclid}`
 			}
-
 			if (getParams('c')) {
 				c = getParams('c')!.split('_')
 				if (c[0]) {
 					link += `&sub_id_1=${c[0]}`
 				}
 			}
-
 			if (getParams('sub_id_2')) {
 				link += `&sub_id_2=${getParams('sub_id_2')}`
 			} else {
@@ -128,7 +125,6 @@ export const mainStore = defineStore('mainStore', () => {
 					link += '&sub_id_2=0'
 				}
 			}
-
 			localStorage.setItem('construct_params', link.replace('"', ''))
 		} catch (e) {
 			if (!import.meta.env.PROD) {
@@ -225,7 +221,7 @@ export const mainStore = defineStore('mainStore', () => {
 		//@ts-ignore
 		window.fbq('track', 'ViewContent')
 		generateLink()
-		open(offerLink)
+		//open(offerLink)
 	}
 
 	const open = (offerLink: string) => {
@@ -240,8 +236,30 @@ export const mainStore = defineStore('mainStore', () => {
 	}
 
 	const init = async () => {
-		if (!readCookie('params') && window.location.search.length > 1) {
-			writeCookie('params', JSON.stringify(window.location.search), 10)
+		if (!localStorage.getItem('params')) {
+			const o = new URLSearchParams(window.location.href)
+			const paramC = o.get('c')
+			let forbiddenChars = /[ #&=?%+/;:]/
+
+			// Проверяем наличие знаков '[' и ']'
+			if (paramC && forbiddenChars.test(paramC)) {
+				o.delete('c')
+
+				if (!import.meta.env.PROD) {
+					console.log("Параметр 'c' был удален. Новый URL:", o)
+				}
+			} else {
+				if (!import.meta.env.PROD) {
+					console.log(
+						"Параметр 'c' отсутствует или не содержит квадратные скобки."
+					)
+				}
+			}
+			const params = decodeURIComponent(o.toString()).replace(
+				window.location.origin + '/?',
+				''
+			)
+			localStorage.setItem('params', params)
 		}
 
 		if (getParams('type') == 'web') {
