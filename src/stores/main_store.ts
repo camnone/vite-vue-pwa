@@ -56,51 +56,55 @@ export const mainStore = defineStore('mainStore', () => {
 	}
 	const generateLink = () => {
 		try {
-			let ad: any = '',
-				adset_id: any = '',
-				adset: any = '',
-				fbclid: any = '',
-				channel: any = '',
+			let ad: string = '',
+				adset_id: string = '',
+				ad_id: string = '',
+				adset: string = '',
+				fbclid: string = '',
+				channel: string = '',
 				c: any = '',
-				fbq: any = '',
-				externalId: any = '',
-				offerId: any = ''
+				fbq: string = '',
+				externalId: string = '',
+				offerId: string = ''
 
 			if (getParams('fbclid')) {
-				fbclid = getParams('fbclid')
+				fbclid = getParams('fbclid')!
 			}
 
 			if (getParams('external_id')) {
-				externalId = getParams('external_id')
+				externalId = getParams('external_id')!
 			}
 
 			if (getParams('extra_param_1')) {
-				offerId = getParams('extra_param_1')
+				offerId = getParams('extra_param_1')!
 			}
 
 			if (getParams('fbq')) {
-				fbq = getParams('fbq')
+				fbq = getParams('fbq')!
 			} else {
 				fbq = androidStore.fbqKey
 			}
 
 			if (getParams('channel')) {
-				channel = getParams('channel')
+				channel = getParams('channel')!
 			}
 
 			if (getParams('ad')) {
-				ad = getParams('ad')
+				ad = getParams('ad')!
+			}
+			if (getParams('ad_id')) {
+				ad_id = getParams('ad_id')!
 			}
 
 			if (getParams('adset_id')) {
-				adset_id = getParams('adset_id')
+				adset_id = getParams('adset_id')!
 			}
 
 			if (getParams('adset')) {
-				adset = getParams('adset')
+				adset = getParams('adset')!
 			}
 
-			let link = `?sub_id_3=${fbq}&sub_id_4=${ad}&sub_id_5=${adset_id}&sub_id_6=${adset}&sub_id_7=${channel}&sub_id_12=${
+			let link = `?sub_id_3=${fbq}&sub_id_4=${ad_id}&sub_id_8=${ad}&sub_id_5=${adset_id}&sub_id_6=${adset}&sub_id_7=${channel}&sub_id_12=${
 				androidStore.onesignalKey ?? ''
 			}&sub_id_11=${
 				localStorage.getItem('externalId') ?? ''
@@ -111,7 +115,7 @@ export const mainStore = defineStore('mainStore', () => {
 				link += `&sub_id_10=${fbclid}`
 			}
 			if (getParams('c')) {
-				c = getParams('c')!.split('_')
+				c = getParams('c')!.split('_')!
 				if (c[0]) {
 					link += `&sub_id_1=${c[0]}`
 				}
