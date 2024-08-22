@@ -114,19 +114,22 @@ export const mainStore = defineStore('mainStore', () => {
 			} else {
 				link += `&sub_id_10=${fbclid}`
 			}
-			if (getParams('c')) {
+			if (getParams('c') && !getParams('sub_id_2')) {
 				c = getParams('c')!.split('_')!
 				if (c[0]) {
 					link += `&sub_id_1=${c[0]}`
 				}
+			} else {
+				link += `&sub_id_1=geekfb`
 			}
+
 			if (getParams('sub_id_2')) {
 				link += `&sub_id_2=${getParams('sub_id_2')}`
 			} else {
 				if (c[1]) {
 					link += `&sub_id_2=${c[1]}`
 				} else {
-					link += '&sub_id_2=0'
+					link += `&sub_id_2=${getParams('sub_id_2')}`
 				}
 			}
 			localStorage.setItem('construct_params', link.replace('"', ''))
