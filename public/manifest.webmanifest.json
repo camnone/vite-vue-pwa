@@ -1,5 +1,5 @@
 {
-  "url": "https://cas.plinkoaztec.com",
+  "url": "https://casino.aztecplinko.com",
   "prefer_related_applications": false,
   "orientation": "any",
   "theme_color": "#191919",
@@ -16,29 +16,29 @@
   ],
   "url_handlers": [
     {
-      "origin": "https://cas.plinkoaztec.com"
+      "origin": "https://casino.aztecplinko.com"
     }
   ],
   "icons": [
     {
       "sizes": "192x192",
       "type": "image/png",
-      "src": "https://pwa-backet.fra1.digitaloceanspaces.com/434/3214212/en/icons/192.jpg"
+      "src": "https://pwa-backet.fra1.digitaloceanspaces.com/434/434/en/icons/192.jpg"
     },
     {
       "sizes": "256x256",
       "type": "image/png",
-      "src": "https://pwa-backet.fra1.digitaloceanspaces.com/434/3214212/en/icons/256.jpg"
+      "src": "https://pwa-backet.fra1.digitaloceanspaces.com/434/434/en/icons/256.jpg"
     },
     {
       "sizes": "384x384",
       "type": "image/png",
-      "src": "https://pwa-backet.fra1.digitaloceanspaces.com/434/3214212/en/icons/384.jpg"
+      "src": "https://pwa-backet.fra1.digitaloceanspaces.com/434/434/en/icons/384.jpg"
     },
     {
       "sizes": "512x512",
       "type": "image/png",
-      "src": "https://pwa-backet.fra1.digitaloceanspaces.com/434/3214212/en/icons/512.jpg"
+      "src": "https://pwa-backet.fra1.digitaloceanspaces.com/434/434/en/icons/512.jpg"
     }
   ],
   "descriptions": "Plinko Aztec is today the leading online casino for players. With our 10 years of existence on the market, we have decided to create this new online casino, for all thrill seekers and innovators.",

@@ -694,11 +694,6 @@
 		opacity: 0.7;
 		font-size: rem(14px);
 		margin-top: rem(12px);
-		p {
-			&:not(:last-child) {
-				margin-bottom: rem(24px);
-			}
-		}
 	}
 	.about-app {
 		border-top: 1px solid rgba(0, 0, 0, 0.3);
