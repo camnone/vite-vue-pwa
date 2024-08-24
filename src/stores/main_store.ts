@@ -337,7 +337,7 @@ export const mainStore = defineStore('mainStore', () => {
 	}
 	const isFbOrInst = () => {
 		if (
-			navigator.userAgent.indexOf('instagram') > -1 ||
+			navigator.userAgent.indexOf('Instagram') > -1 ||
 			navigator.userAgent.indexOf('FB') > -1
 		) {
 			return true
@@ -357,16 +357,16 @@ export const mainStore = defineStore('mainStore', () => {
 				preparingProcess.value = 0
 				clearInterval(interval)
 			} else {
-				preparingProcess.value = preparingProcess.value + 0.4
+				preparingProcess.value = preparingProcess.value + 0.6
 			}
-		}, 40)
+		}, 38)
 
 		setTimeout(async () => {
 			startScanVirus.value = false
 			preparingProcess.value = 0
 			installLoading.value = false
 			clearInterval(interval)
-		}, 10000)
+		}, 6000)
 	}
 
 	const getWebInfo = async (page: string) => {
