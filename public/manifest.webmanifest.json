@@ -1,5 +1,5 @@
 {
-  "url": "https://play.beastcasinotopbestgame.com",
+  "url": "https://plkoxxx.com",
   "prefer_related_applications": false,
   "orientation": "any",
   "theme_color": "#191919",
@@ -16,32 +16,32 @@
   ],
   "url_handlers": [
     {
-      "origin": "https://play.beastcasinotopbestgame.com"
+      "origin": "https://plkoxxx.com"
     }
   ],
   "icons": [
     {
       "sizes": "192x192",
       "type": "image/png",
-      "src": "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/MrBeast/icons/192.png"
+      "src": "https://pwa-backet.fra1.digitaloceanspaces.com/434/13213/en/icons/192.jpg"
     },
     {
       "sizes": "256x256",
       "type": "image/png",
-      "src": "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/MrBeast/icons/256.png"
+      "src": "https://pwa-backet.fra1.digitaloceanspaces.com/434/13213/en/icons/256.jpg"
     },
     {
       "sizes": "384x384",
       "type": "image/png",
-      "src": "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/MrBeast/icons/384.png"
+      "src": "https://pwa-backet.fra1.digitaloceanspaces.com/434/13213/en/icons/384.jpg"
     },
     {
       "sizes": "512x512",
       "type": "image/png",
-      "src": "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/MrBeast/icons/512.png"
+      "src": "https://pwa-backet.fra1.digitaloceanspaces.com/434/13213/en/icons/512.jpg"
     }
   ],
-  "descriptions": "Check out MrBeast Casino! Welcome Package offer 100% up to €450 and 250 Free Spins! Win your $1,000,000 jackpot now!",
-  "name": "MrBeast Casino",
-  "short_name": "MrBeast Casino"
+  "descriptions": "Throw balls, compete, win real money! Incredible adventures with your favorite anime characters are waiting for you. For all new players we give a nice welcome bonus, go ahead!",
+  "name": "Plinko",
+  "short_name": "Plinko"
 }

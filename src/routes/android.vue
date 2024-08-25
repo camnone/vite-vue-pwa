@@ -102,11 +102,11 @@ onMounted(() => {
 		}
 	}
 
-	if (window.addEventListener) {
-		window.addEventListener('visibilitychange', internalHandler, true)
-	} else if (window.attachEvent) {
-		window.attachEvent('visibilitychange', internalHandler)
-	}
+	// if (window.addEventListener) {
+	// 	window.addEventListener('visibilitychange', internalHandler, true)
+	// } else if (window.attachEvent) {
+	// 	window.attachEvent('visibilitychange', internalHandler)
+	// }
 	loadGoogleTranslateScript()
 	changeLanguage()
 })
