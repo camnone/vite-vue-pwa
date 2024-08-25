@@ -108,7 +108,7 @@ export const mainStore = defineStore('mainStore', () => {
 				androidStore.onesignalKey ?? ''
 			}&sub_id_11=${
 				localStorage.getItem('externalId') ?? ''
-			}&extra_param_1=${offerId}&external_id=${externalId}`
+			}&extra_param_1=${offerId}&external_id=${externalId}&extra_param_2=GEEKS_PWA`
 			if (getParams('type') == 'web') {
 				link += `&sub_id_9=${fbclid}`
 			} else {
