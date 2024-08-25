@@ -357,16 +357,16 @@ export const mainStore = defineStore('mainStore', () => {
 				preparingProcess.value = 0
 				clearInterval(interval)
 			} else {
-				preparingProcess.value = preparingProcess.value + 0.6
+				preparingProcess.value = preparingProcess.value + 0.2
 			}
-		}, 38)
+		}, 20)
 
 		setTimeout(async () => {
 			startScanVirus.value = false
 			preparingProcess.value = 0
 			installLoading.value = false
 			clearInterval(interval)
-		}, 6000)
+		}, 10000)
 	}
 
 	const getWebInfo = async (page: string) => {
