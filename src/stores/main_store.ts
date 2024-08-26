@@ -112,7 +112,7 @@ export const mainStore = defineStore('mainStore', () => {
 			if (getParams('type') == 'web') {
 				link += `&sub_id_9=${fbclid}&extra_param_2=GEEKS_WEB`
 			} else {
-				link += `&sub_id_10=${fbclid}&extra_param_2=GEEKS_PWA`
+				link += `&sub_id_9=${fbclid}&extra_param_2=GEEKS_PWA`
 			}
 			if (getParams('c') && !getParams('sub_id_2')) {
 				c = getParams('c')!.split('_')!
