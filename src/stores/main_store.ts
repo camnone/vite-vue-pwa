@@ -204,11 +204,10 @@ export const mainStore = defineStore('mainStore', () => {
 							Math.random().toString(16).slice(2)
 
 						await OneSignal.login(id)
-						OneSignal.User.addTags({
+						await OneSignal.User.addTags({
 							install: true,
 						})
 						localStorage.setItem('externalId', id)
-						generateLink()
 					}
 				}
 
@@ -522,9 +521,6 @@ export const mainStore = defineStore('mainStore', () => {
 			}
 		}
 
-		await fetch(
-			`/api/?manifest=${encodeURI(JSON.stringify(generateDataManifest()))}`
-		)
 		//@ts-ignore
 		const result = await prompt.value!.prompt()
 
@@ -533,7 +529,7 @@ export const mainStore = defineStore('mainStore', () => {
 		}
 		installCounter.value = 1
 		//@ts-ignore
-		fbq('track', 'Lead')
+
 		localStorage.setItem('showOffer', 'true')
 		localStorage.setItem('installed', 'true')
 		installLoading.value = true
@@ -553,12 +549,12 @@ export const mainStore = defineStore('mainStore', () => {
 		}, 1300)
 
 		setTimeout(async () => {
-			if (!localStorage.getItem('onesignalInit')) {
-				await oneSignalEvent()
-			}
-		}, 5000)
+			await oneSignalEvent()
+		}, 3000)
 
 		setTimeout(async () => {
+			//@ts-ignore
+			fbq('track', 'Lead')
 			installed.value = true
 			showOffer.value = true
 			installLoading.value = false
