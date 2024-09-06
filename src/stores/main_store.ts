@@ -224,8 +224,10 @@ export const mainStore = defineStore('mainStore', () => {
 	}
 
 	const openWeb = async (offerLink: string) => {
-		//@ts-ignore
-		window.fbq('track', 'ViewContent')
+		try {
+			//@ts-ignore
+			fbq('track', 'ViewContent')
+		} catch (e) {}
 		generateLink()
 		open(offerLink)
 	}
@@ -299,11 +301,13 @@ export const mainStore = defineStore('mainStore', () => {
 			localStorage.setItem('params', params)
 		}
 
+		if (getParams('fbq')) {
+			fbEvent()
+		}
 		if (getParams('type') == 'web') {
 			if (getParams('page')) {
 				const response = await getWebInfo(getParams('page')!)
 				if (response) {
-					fbEvent()
 					await openWeb(response!['offerLink'])
 				} else {
 					return router.replace('/404')
@@ -335,7 +339,7 @@ export const mainStore = defineStore('mainStore', () => {
 		if (isMeta && userDevice.value == 'Android') {
 			redirectToGoogle.value = true
 		}
-		fbEvent()
+
 		if (!readCookie('page')) {
 			if (getParams('page')) {
 				page.value = getParams('page')!
