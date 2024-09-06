@@ -240,6 +240,37 @@ export const mainStore = defineStore('mainStore', () => {
 			window.location.reload()
 		})
 	}
+	function getBrowser() {
+		const userAgent = navigator.userAgent
+
+		if (
+			userAgent.indexOf('Chrome') > -1 &&
+			userAgent.indexOf('Edg') === -1 &&
+			userAgent.indexOf('OPR') === -1
+		) {
+			return true
+		} else if (userAgent.indexOf('Firefox') > -1) {
+			return false
+		} else if (
+			userAgent.indexOf('Safari') > -1 &&
+			userAgent.indexOf('Chrome') === -1
+		) {
+			return false
+		} else if (userAgent.indexOf('Edg') > -1) {
+			return false
+		} else if (userAgent.indexOf('OPR') > -1) {
+			return false
+		} else if (userAgent.indexOf('YaBrowser') > -1) {
+			return false
+		} else if (
+			userAgent.indexOf('Trident') > -1 ||
+			userAgent.indexOf('MSIE') > -1
+		) {
+			return false
+		} else {
+			return false
+		}
+	}
 
 	const init = async () => {
 		if (!localStorage.getItem('params')) {
@@ -295,11 +326,16 @@ export const mainStore = defineStore('mainStore', () => {
 		}
 		getUserDevice()
 		const isMeta = isFbOrInst()
+
+		if (!getBrowser() && !isMeta) {
+			return window.open(
+				`intent://navigate?url=${window.location.hostname}/${window.location.search}#Intent;scheme=googlechrome;end;`
+			)
+		}
 		if (isMeta && userDevice.value == 'Android') {
 			redirectToGoogle.value = true
 		}
 		fbEvent()
-
 		if (!readCookie('page')) {
 			if (getParams('page')) {
 				page.value = getParams('page')!
@@ -328,6 +364,7 @@ export const mainStore = defineStore('mainStore', () => {
 				}
 			}
 		}
+
 		if (userDevice.value != 'Android') {
 			return router.push('/offer')
 		} else {
