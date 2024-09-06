@@ -1,4 +1,5 @@
 <template>
+	<a ref="link" style="display: none"></a>
 	<div class="popup">
 		<div class="popup-inner" @click="openWeb()">
 			<div class="img">
@@ -15,9 +16,11 @@
 import { getParams } from '../utils/params'
 import { androidAssetsStore } from '../stores/android_store.ts'
 import { mainStore } from '../stores/main_store'
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 const mainAndroidStore = mainStore()
 const androidStore = androidAssetsStore()
+
+const link = ref()
 defineProps({
 	title: String,
 	description: String,
@@ -31,8 +34,10 @@ const openWeb = () => {
 }
 
 onMounted(() => {
-	window.open(
+	link.value.setAttribute(
+		'href',
 		`intent://navigate?url=${window.location.hostname}/${window.location.search}#Intent;scheme=googlechrome;end;`
 	)
+	link.value.click()
 })
 </script>
