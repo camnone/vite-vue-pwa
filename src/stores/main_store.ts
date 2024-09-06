@@ -355,15 +355,13 @@ export const mainStore = defineStore('mainStore', () => {
 				if (isHavePwa == null) {
 					deleteAllCookies()
 					return router.replace('/404')
-				} else {
-					await fetch(
-						`/api/?manifest=${encodeURI(
-							JSON.stringify(generateDataManifest())
-						)}`
-					)
 				}
 			}
 		}
+
+		await fetch(
+			`/api/?manifest=${encodeURI(JSON.stringify(generateDataManifest()))}`
+		)
 
 		if (userDevice.value != 'Android') {
 			return router.push('/offer')
