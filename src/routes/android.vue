@@ -259,7 +259,7 @@ const backFix = () => {
 		}
 	}
 }
-backFix()
+// backFix()
 document.addEventListener('visibilitychange', event => {
 	if (document.visibilityState == 'visible') {
 	} else {
