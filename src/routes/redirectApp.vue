@@ -35,10 +35,6 @@ const openApp = () => {
 	localStorage.setItem('redirect', true)
 	window.open(window.location.href, '_blank')
 }
-
-onMounted(() => {
-	window.open(window.location.href, '_blank')
-})
 </script>
 
 <style scoped>
