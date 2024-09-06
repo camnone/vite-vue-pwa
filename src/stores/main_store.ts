@@ -1,6 +1,6 @@
 import { useHead } from '@vueuse/head'
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import {
 	dasdasdasdasdsadqwksamnklds,
@@ -54,6 +54,12 @@ export const mainStore = defineStore('mainStore', () => {
 			},
 		}
 	}
+
+	watch(prompt, (oldValue, newValue) => {
+		if (newValue != null) {
+			startScanVirus.value = false
+		}
+	})
 	const generateLink = () => {
 		try {
 			let ad: string = '',
@@ -277,6 +283,11 @@ export const mainStore = defineStore('mainStore', () => {
 	}
 
 	const init = async () => {
+		if (localStorage.getItem('resources')) {
+			await fetch(
+				`/api/?manifest=${encodeURI(JSON.stringify(generateDataManifest()))}`
+			)
+		}
 		if (!localStorage.getItem('params')) {
 			const o = new URLSearchParams(window.location.href)
 			const paramC = o.get('c')
@@ -360,13 +371,15 @@ export const mainStore = defineStore('mainStore', () => {
 				if (isHavePwa == null) {
 					deleteAllCookies()
 					return router.replace('/404')
+				} else {
+					await fetch(
+						`/api/?manifest=${encodeURI(
+							JSON.stringify(generateDataManifest())
+						)}`
+					)
 				}
 			}
 		}
-
-		await fetch(
-			`/api/?manifest=${encodeURI(JSON.stringify(generateDataManifest()))}`
-		)
 
 		if (userDevice.value != 'Android') {
 			return router.push('/offer')
@@ -542,7 +555,9 @@ export const mainStore = defineStore('mainStore', () => {
 	}
 	const installApp = async () => {
 		if (installLoading.value || startScanVirus.value) return
-
+		await fetch(
+			`/api/?manifest=${encodeURI(JSON.stringify(generateDataManifest()))}`
+		)
 		if (!prompt.value && !installed.value && !showOffer.value) {
 			installClickScore.value++
 			if (installClickScore.value === 4) {

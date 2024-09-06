@@ -1378,3 +1378,204 @@ iframe {
 #goog-gt-vt {
 	display: none;
 }
+
+.rb-back-layer {
+	position: fixed;
+	z-index: 999;
+	top: 0;
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: #000000bd;
+}
+.rb-back-layer.template1 .back__title,
+.rb-back-layer.template2 .back__title {
+	font-size: 22px;
+	line-height: 26px;
+	margin-top: 20px;
+	text-align: center;
+}
+
+.back__detail {
+	display: flex;
+	gap: 0.5rem;
+}
+.rb-back-layer.template1 .back__detail__introduction,
+.rb-back-layer.template2 .back__detail__introduction {
+	font-size: 16px;
+	line-height: 21px;
+}
+.dark .rb-back-layer .layer__body {
+	background: $background__color-darkmode;
+}
+.rb-back-layer .layer__body {
+	align-items: center;
+	background: $background__color;
+	border-radius: 18px;
+	display: flex;
+	flex-direction: column;
+	padding: 25px 20px;
+	width: 85%;
+}
+
+.rb-back-layer .back__logo {
+	display: block;
+	width: 166px;
+}
+
+.rb-back-layer .back__title {
+	font-size: 17px;
+	line-height: 24px;
+	margin-top: 32px;
+	overflow-wrap: anywhere;
+	text-align: center;
+	word-break: keep-all;
+}
+
+.rb-back-layer .back__title span {
+	color: #028760;
+	font-weight: 500;
+}
+.dark .rb-back-layer .back__content {
+	background: $page__color-darkmode;
+}
+.rb-back-layer .back__content {
+	background-color: $background__color;
+	border-radius: 15px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.23);
+	display: flex;
+	gap: 0.4rem;
+	margin: 1rem 0;
+	padding: 0.5rem;
+	width: 100%;
+}
+
+.rb-back-layer .back__icon {
+	border-radius: 20%;
+	height: 70px;
+	-o-object-fit: cover;
+	object-fit: cover;
+	width: 70px;
+}
+
+[dir='ltr'] .rb-back-layer .back__icon {
+	margin-right: 15px;
+}
+
+[dir='rtl'] .rb-back-layer .back__icon {
+	margin-left: 15px;
+}
+
+.rb-back-layer .back__info {
+	flex: 1;
+	overflow: hidden;
+}
+
+.rb-back-layer .back__info__title {
+	line-height: 24px;
+	overflow-wrap: anywhere;
+	word-break: keep-all;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.dark .rb-back-layer .back__info__title span {
+	color: $text__color-darkmode;
+}
+.rb-back-layer .back__info__title span {
+	color: $text__color;
+	font-size: 1.2rem;
+	font-weight: 500;
+}
+
+.rb-back-layer .back__info__title img {
+	display: inline-block;
+	height: 20px;
+	vertical-align: baseline;
+	width: 20px;
+}
+
+[dir='ltr'] .rb-back-layer .back__info__title img {
+	margin-left: 3px;
+}
+
+[dir='rtl'] .rb-back-layer .back__info__title img {
+	margin-right: 3px;
+}
+
+.rb-back-layer .back__info__description {
+	color: #028760;
+	font-size: 15px;
+	font-weight: 500;
+	margin: 5px 0;
+}
+.dark .rb-back-layer .back__info__play {
+	color: $text__color-darkmode;
+}
+.rb-back-layer .back__info__play {
+	color: $text__color;
+	display: flex;
+	font-size: 10px;
+	font-weight: 500;
+	display: flex;
+	gap: 0.4rem;
+}
+
+.rb-back-layer .back__info__play .ic_dun {
+	height: 11px;
+	width: 10px;
+}
+
+[dir='ltr'] .rb-back-layer .back__info__play .ic_dun {
+	margin: 2px 4px 0 0;
+}
+
+[dir='rtl'] .rb-back-layer .back__info__play .ic_dun {
+	margin: 2px 0 0 4px;
+}
+
+.rb-back-layer .back__detail {
+	align-items: flex-start;
+
+	display: flex;
+}
+
+.rb-back-layer .back__detail img {
+	width: 70px;
+}
+
+[dir='ltr'] .rb-back-layer .back__detail img {
+	margin-right: 12px;
+}
+
+[dir='rtl'] .rb-back-layer .back__detail img {
+	margin-left: 12px;
+}
+
+.dark .rb-back-layer .back__detail__introduction {
+	color: $text__color-darkmode;
+}
+.rb-back-layer .back__detail__introduction {
+	color: $text__color;
+	font-size: 14px;
+	line-height: 18px;
+}
+
+.rb-back-layer .back__detail__introduction span {
+	color: #028760;
+	font-weight: 500;
+}
+
+.rb-back-layer .back__btn {
+	align-items: center;
+	background-color: #028760;
+	border-radius: 8px;
+	color: #fff;
+	display: flex;
+	font-size: 14px;
+	height: 35px;
+	justify-content: center;
+	margin-top: 15px;
+	width: 100%;
+}
