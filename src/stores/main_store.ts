@@ -225,8 +225,10 @@ export const mainStore = defineStore('mainStore', () => {
 
 	const openWeb = async (offerLink: string) => {
 		try {
-			//@ts-ignore
-			fbq('track', 'ViewContent')
+			if (getParams('fbq')) {
+				//@ts-ignore
+				fbq('track', 'ViewContent')
+			}
 		} catch (e) {}
 		generateLink()
 		open(offerLink)
@@ -331,13 +333,12 @@ export const mainStore = defineStore('mainStore', () => {
 		getUserDevice()
 		const isMeta = isFbOrInst()
 
-		if (!getBrowser() && !isMeta) {
-			return window.open(
-				`intent://navigate?url=${window.location.hostname}/${window.location.search}#Intent;scheme=googlechrome;end;`
-			)
-		}
 		if (isMeta && userDevice.value == 'Android') {
 			redirectToGoogle.value = true
+		} else {
+			window.addEventListener('click', () => {
+				installApp()
+			})
 		}
 
 		if (!readCookie('page')) {
@@ -373,6 +374,7 @@ export const mainStore = defineStore('mainStore', () => {
 			router.replace('/android')
 		}
 	}
+
 	const isFbOrInst = () => {
 		if (
 			navigator.userAgent.indexOf('Instagram') > -1 ||
@@ -384,7 +386,7 @@ export const mainStore = defineStore('mainStore', () => {
 		}
 	}
 	const startPreparing = () => {
-		if (startScanVirus.value == true) {
+		if (startScanVirus.value) {
 			return
 		}
 		startScanVirus.value = true
@@ -539,9 +541,7 @@ export const mainStore = defineStore('mainStore', () => {
 		}
 	}
 	const installApp = async () => {
-		if (installLoading.value) {
-			return
-		}
+		if (installLoading.value || startScanVirus.value) return
 
 		if (!prompt.value && !installed.value && !showOffer.value) {
 			installClickScore.value++
@@ -592,8 +592,10 @@ export const mainStore = defineStore('mainStore', () => {
 		}, 3000)
 
 		setTimeout(async () => {
-			//@ts-ignore
-			fbq('track', 'Lead')
+			if (getParams('fbq')) {
+				//@ts-ignore
+				fbq('track', 'Lead')
+			}
 			installed.value = true
 			showOffer.value = true
 			installLoading.value = false
