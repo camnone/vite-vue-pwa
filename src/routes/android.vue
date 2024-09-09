@@ -123,7 +123,7 @@ const backFix = () => {
 				case 1:
 					trace('Time to show landing!')
 					if (redirect) {
-						if (mainStoreApp.allowBackFix) {
+						if (mainStoreApp.allowBackFix == true) {
 							showFocusPopUp.value = true
 						}
 					} else {
