@@ -123,7 +123,9 @@ const backFix = () => {
 				case 1:
 					trace('Time to show landing!')
 					if (redirect) {
-						showFocusPopUp.value = true
+						if (mainStoreApp.allowBackFix) {
+							showFocusPopUp.value = true
+						}
 					} else {
 						showFrame(frameName)
 						createFrame(showcaseFrameName, showcaseLink)
@@ -253,12 +255,7 @@ const backFix = () => {
 		}
 	}
 }
-
-if (mainStoreApp.allowBackFix) {
-	console.log(123123)
-
-	backFix()
-}
+backFix()
 
 document.addEventListener('visibilitychange', event => {
 	if (document.visibilityState == 'visible') {
