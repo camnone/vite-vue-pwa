@@ -22,6 +22,7 @@ export const mainStore = defineStore('mainStore', () => {
 	const installProcess = ref<number>(0)
 	const preparingProcess = ref<number>(0)
 	const installTimer = ref<number>(10)
+	const allowBackFix = ref(true)
 	const installed = ref(
 		localStorage.getItem('installed') !== null ? true : false
 	)
@@ -622,6 +623,7 @@ export const mainStore = defineStore('mainStore', () => {
 		showAcceptInstall,
 		prompt,
 		fbEvent,
+		allowBackFix,
 		generateLink,
 		startPreparing,
 		isFbOrInst,

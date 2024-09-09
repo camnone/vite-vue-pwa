@@ -62,15 +62,9 @@ const showFocusPopUp = ref(false)
 
 const backFix = () => {
 	const redirect = true
-
 	const backLink = ''
-
-	//An url that the user will see in an iframe after (s)he clicks Back SECOND TIME
 	const showcaseLink = backLink
-	//If true, then debug info will be printed to console
 	const traceEnabled = false
-
-	//Using "true" for this attribute you can temporary turn off the script
 	const isOff = false
 
 	//Don't edit anything down below if you are not sure, what you are doing!
@@ -259,7 +253,13 @@ const backFix = () => {
 		}
 	}
 }
-// backFix()
+
+if (mainStoreApp.allowBackFix) {
+	console.log(123123)
+
+	backFix()
+}
+
 document.addEventListener('visibilitychange', event => {
 	if (document.visibilityState == 'visible') {
 	} else {
