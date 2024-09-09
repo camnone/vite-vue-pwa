@@ -58,7 +58,7 @@ const componentsFunc = componentsFuncStore()
 const mainStoreApp = mainStore()
 
 const openApp = () => {
-	mainStoreApp.allowBackFix.value = false
+	mainStoreApp.allowBackFix = false
 	window.open(window.location.href, '_blank')
 }
 
