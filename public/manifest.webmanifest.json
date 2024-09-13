@@ -1,5 +1,5 @@
 {
-  "url": "https://win.manilpolil.com",
+  "url": "https://win.goldengoofy.com",
   "prefer_related_applications": false,
   "orientation": "any",
   "theme_color": "#191919",
@@ -16,32 +16,32 @@
   ],
   "url_handlers": [
     {
-      "origin": "https://win.manilpolil.com"
+      "origin": "https://win.goldengoofy.com"
     }
   ],
   "icons": [
     {
       "sizes": "192x192",
       "type": "image/png",
-      "src": "https://pwa-backet.fra1.digitaloceanspaces.com/570/66070557/en/icons/192.jpg"
+      "src": "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/global/WallDodger/icons/192.webp"
     },
     {
       "sizes": "256x256",
       "type": "image/png",
-      "src": "https://pwa-backet.fra1.digitaloceanspaces.com/570/66070557/en/icons/256.jpg"
+      "src": "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/global/WallDodger/icons/256.webp"
     },
     {
       "sizes": "384x384",
       "type": "image/png",
-      "src": "https://pwa-backet.fra1.digitaloceanspaces.com/570/66070557/en/icons/384.jpg"
+      "src": "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/global/WallDodger/icons/384.webp"
     },
     {
       "sizes": "512x512",
       "type": "image/png",
-      "src": "https://pwa-backet.fra1.digitaloceanspaces.com/570/66070557/en/icons/512.jpg"
+      "src": "https://pwa-backet.fra1.cdn.digitaloceanspaces.com/global/WallDodger/icons/512.webp"
     }
   ],
-  "descriptions": "Plinko Aztec is today the leading online casino for players. With our 10 years of existence on the market, we have decided to create this new online casino, for all thrill seekers and innovators.",
-  "name": "Name PWA",
-  "short_name": "Name PWA"
+  "descriptions": "We have HUGE welcome bonuses for you!!!",
+  "name": "Plinko Casino",
+  "short_name": "Plinko Casino"
 }
