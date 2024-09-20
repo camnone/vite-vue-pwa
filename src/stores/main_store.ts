@@ -198,6 +198,10 @@ export const mainStore = defineStore("mainStore", () => {
       try {
         await OneSignal.init({
           appId: androidStore.onesignalKey,
+          allowLocalhostAsSecureOrigin: true,
+          notifyButton: {
+            enable: true,
+          },
         });
         OneSignal.Notifications.requestPermission();
 
@@ -255,8 +259,6 @@ export const mainStore = defineStore("mainStore", () => {
       await fetch(
         `/api/?manifest=${encodeURI(JSON.stringify(generateDataManifest()))}`
       );
-
-      await oneSignalEvent();
     }
     if (!localStorage.getItem("params")) {
       localStorage.setItem("params", encodeURI(window.location.search));
