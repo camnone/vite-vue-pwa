@@ -191,22 +191,10 @@ export const mainStore = defineStore("mainStore", () => {
     }
   };
   const oneSignalEvent = async () => {
-    const script = document.createElement("script");
-    script.src = "https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js";
-    script.async = true;
-    document.body.appendChild(script);
     //@ts-ignore
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     //@ts-ignore
-
-    OneSignal.push([
-      "addListenerForNotificationOpened",
-      function (event: any) {
-        alert(1);
-      },
-    ]);
-    //@ts-ignore
-    OneSignalDeferred.push(async function (OneSignal) {
+    window.OneSignalDeferred.push(async function (OneSignal) {
       try {
         await OneSignal.init({
           appId: androidStore.onesignalKey,
