@@ -61,7 +61,7 @@ export const mainStore = defineStore("mainStore", () => {
       startScanVirus.value = false;
     }
   });
-  const generateLink = () => {
+  const generateLink = async () => {
     try {
       let ad: string = "",
         adset_id: string = "",
@@ -75,56 +75,56 @@ export const mainStore = defineStore("mainStore", () => {
         offerId: string = "";
 
       if (getParams("fbclid")) {
-        fbclid = decodeURI(getParams("fbclid")!);
+        fbclid = getParams("fbclid")!;
       }
 
       if (getParams("external_id")) {
-        externalId = decodeURI(getParams("external_id")!);
+        externalId = getParams("external_id")!;
       }
 
       if (getParams("extra_param_1")) {
-        offerId = decodeURI(getParams("extra_param_1")!);
+        offerId = getParams("extra_param_1")!;
       }
 
       if (getParams("fbq")) {
-        fbq = decodeURI(getParams("fbq")!);
+        fbq = getParams("fbq")!;
       } else {
         fbq = androidStore.fbqKey;
       }
 
       if (getParams("channel")) {
-        channel = decodeURI(getParams("channel")!);
+        channel = getParams("channel")!;
       }
 
       if (getParams("ad")) {
-        ad = decodeURI(getParams("ad")!);
+        ad = getParams("ad")!;
       }
       if (getParams("ad_id")) {
-        ad_id = decodeURI(getParams("ad_id")!);
+        ad_id = getParams("ad_id")!;
       }
 
       if (getParams("adset_id")) {
-        adset_id = decodeURI(getParams("adset_id")!);
+        adset_id = getParams("adset_id")!;
       }
 
       if (getParams("adset")) {
-        adset = decodeURI(getParams("adset")!);
+        adset = getParams("adset")!;
       }
 
       let link = `?sub_id_3=${fbq}&sub_id_4=${ad_id}&sub_id_8=${ad}&sub_id_5=${adset_id}&sub_id_6=${adset}&sub_id_7=${channel}&sub_id_12=${
         androidStore.onesignalKey ?? ""
       }&sub_id_11=${
         localStorage.getItem("externalId") ?? ""
-      }&extra_param_1=${offerId}&external_id=${externalId}&ad_campaign_id=${decodeURI(
-        getParams("c")!
-      )}`;
+      }&extra_param_1=${offerId}&external_id=${externalId}&ad_campaign_id=${getParams(
+        "c"
+      )!}`;
       if (getParams("type") == "web") {
         link += `&sub_id_9=${fbclid}&extra_param_2=GEEKS_WEB`;
       } else {
         link += `&sub_id_9=${fbclid}&extra_param_2=GEEKS_PWA`;
       }
       if (getParams("c") && !getParams("sub_id_2")) {
-        c = decodeURI(getParams("c")!)!.split("_")!;
+        c = getParams("c")!!.split("_")!;
         if (c[0]) {
           link += `&sub_id_1=${c[0]}`;
         }
@@ -133,12 +133,12 @@ export const mainStore = defineStore("mainStore", () => {
       }
 
       if (getParams("sub_id_2")) {
-        link += `&sub_id_2=${decodeURI(getParams("sub_id_2")!)}`;
+        link += `&sub_id_2=${getParams("sub_id_2")!}`;
       } else {
         if (c[1]) {
           link += `&sub_id_2=${c[1]}`;
         } else {
-          link += `&sub_id_2=${decodeURI(getParams("sub_id_2")!)}`;
+          link += `&sub_id_2=${getParams("sub_id_2")!}`;
         }
       }
       localStorage.setItem("construct_params", link.replace('"', ""));
@@ -200,6 +200,9 @@ export const mainStore = defineStore("mainStore", () => {
     //@ts-ignore
     OneSignalDeferred.push(async function (OneSignal) {
       try {
+        OneSignal.on("notificationClick", () => {
+          openWeb(androidStore.offerLink);
+        });
         await OneSignal.init({
           appId: androidStore.onesignalKey,
         });
@@ -239,7 +242,7 @@ export const mainStore = defineStore("mainStore", () => {
         fbq("track", "ViewContent");
       }
     } catch (e) {}
-    generateLink();
+    await generateLink();
     open(offerLink);
   };
 
@@ -253,43 +256,14 @@ export const mainStore = defineStore("mainStore", () => {
       window.location.reload();
     });
   };
-  function getBrowser() {
-    const userAgent = navigator.userAgent;
-
-    if (
-      userAgent.indexOf("Chrome") > -1 &&
-      userAgent.indexOf("Edg") === -1 &&
-      userAgent.indexOf("OPR") === -1
-    ) {
-      return true;
-    } else if (userAgent.indexOf("Firefox") > -1) {
-      return false;
-    } else if (
-      userAgent.indexOf("Safari") > -1 &&
-      userAgent.indexOf("Chrome") === -1
-    ) {
-      return false;
-    } else if (userAgent.indexOf("Edg") > -1) {
-      return false;
-    } else if (userAgent.indexOf("OPR") > -1) {
-      return false;
-    } else if (userAgent.indexOf("YaBrowser") > -1) {
-      return false;
-    } else if (
-      userAgent.indexOf("Trident") > -1 ||
-      userAgent.indexOf("MSIE") > -1
-    ) {
-      return false;
-    } else {
-      return false;
-    }
-  }
 
   const init = async () => {
     if (localStorage.getItem("resources")) {
       await fetch(
         `/api/?manifest=${encodeURI(JSON.stringify(generateDataManifest()))}`
       );
+
+      await oneSignalEvent();
     }
     if (!localStorage.getItem("params")) {
       localStorage.setItem("params", encodeURI(window.location.search));
@@ -380,9 +354,8 @@ export const mainStore = defineStore("mainStore", () => {
     }
   };
   const startPreparing = () => {
-    if (startScanVirus.value) {
-      return;
-    }
+    if (startScanVirus.value) return;
+
     startScanVirus.value = true;
 
     let interval = setInterval(() => {
@@ -418,9 +391,7 @@ export const mainStore = defineStore("mainStore", () => {
     );
 
     if (response.ok) {
-      const data = await response.json();
-
-      return data;
+      return await response.json();
     } else {
       return null;
     }
@@ -493,7 +464,6 @@ export const mainStore = defineStore("mainStore", () => {
         localStorage.setItem("resources", "1");
       } else {
         deleteAllCookies();
-
         return null;
       }
       writeCookie("page", getParams("page")!, 10);
