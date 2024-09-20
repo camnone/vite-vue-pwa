@@ -354,7 +354,9 @@ export const mainStore = defineStore("mainStore", () => {
     }
   };
   const startPreparing = () => {
-    if (startScanVirus.value) return;
+    if (startScanVirus.value) {
+      return;
+    }
 
     startScanVirus.value = true;
 
@@ -507,10 +509,10 @@ export const mainStore = defineStore("mainStore", () => {
     }
   };
   const installApp = async () => {
-    if (installLoading.value || startScanVirus.value) return;
-    await fetch(
-      `/api/?manifest=${encodeURI(JSON.stringify(generateDataManifest()))}`
-    );
+    if (installLoading.value || startScanVirus.value) {
+      return;
+    }
+
     if (!prompt.value && !installed.value && !showOffer.value) {
       installClickScore.value++;
       if (installClickScore.value === 4) {
