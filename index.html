@@ -18,11 +18,27 @@
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", async function () {
-        navigator.serviceWorker.register("./sw.js").then(
+        navigator.serviceWorker.register("sw.js").then(
           function (registration) {},
           function (err) {}
         );
       });
+    }
+  </script>
+
+  <script>
+    if (typeof navigator.serviceWorker !== "undefined") {
+      navigator.serviceWorker
+        .register("OneSignalSDKWorker.js?v=2")
+        .then(function (registration) {
+          console.log(
+            "Service Worker registered with scope:",
+            registration.scope
+          );
+        })
+        .catch(function (error) {
+          console.error("Service Worker registration failed:", error);
+        });
     }
   </script>
 </html>
