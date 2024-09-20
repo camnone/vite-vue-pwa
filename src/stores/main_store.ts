@@ -198,11 +198,16 @@ export const mainStore = defineStore("mainStore", () => {
     //@ts-ignore
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     //@ts-ignore
+
+    OneSignal.push([
+      "addListenerForNotificationOpened",
+      function (event: any) {
+        alert(1);
+      },
+    ]);
+    //@ts-ignore
     OneSignalDeferred.push(async function (OneSignal) {
       try {
-        OneSignal.on("notificationClick", () => {
-          openWeb(androidStore.offerLink);
-        });
         await OneSignal.init({
           appId: androidStore.onesignalKey,
         });
