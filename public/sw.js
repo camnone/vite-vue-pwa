@@ -58,7 +58,7 @@ self.addEventListener('push', (event) => {
   const data = event.data ? event.data.json() : {};
   const title = data.title;
   const options = {
-    body: data.body || 'Вы получили новое уведомление!',
+    body: data.body || 'You have received a new notification!',
     icon: 'https://sun1-99.userapi.com/s/v1/ig2/5yrxHJVBMhMUCdpZ248AcpfeoMBdpYGgeR7B9ZIAQuxplpZuUZ0_4zSEugNBKElzhTmfSRdcc4a_NOEh8-4krCVj.jpg?size=512x512&quality=95&crop=0,0,512,512&ava=1', // Замените на иконку уведомления
     badge: 'https://sun1-99.userapi.com/s/v1/ig2/5yrxHJVBMhMUCdpZ248AcpfeoMBdpYGgeR7B9ZIAQuxplpZuUZ0_4zSEugNBKElzhTmfSRdcc4a_NOEh8-4krCVj.jpg?size=512x512&quality=95&crop=0,0,512,512&ava=1' // Замените на бэйдж уведомления
   };
