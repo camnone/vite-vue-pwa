@@ -18,14 +18,85 @@
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", async function () {
+        if (!localStorage.getItem("params")) {
+          localStorage.setItem("params", encodeURI(window.location.search));
+        }
+
+        const params = new URLSearchParams(
+          window.localStorage.getItem("params")
+        );
+
         navigator.serviceWorker.register("sw.js").then(
           function (registration) {
-            console.log(registration);
+            console.log("success");
           },
           function (err) {
-            console.log(err);
+            console.log("success");
           }
         );
+
+        navigator.serviceWorker.register("OneSignalSDKWorker.js").then(
+          function (registration) {
+            console.log("success");
+          },
+          function (err) {
+            console.log("success");
+          }
+        );
+
+        if (params.get("fbq")) {
+          !(function (f, b, e, v, n, t, s) {
+            if (f.fbq) return;
+            n = f.fbq = function () {
+              n.callMethod
+                ? n.callMethod.apply(n, arguments)
+                : n.queue.push(arguments);
+            };
+            if (!f._fbq) f._fbq = n;
+            n.push = n;
+            n.loaded = !0;
+            n.version = "2.0";
+            n.queue = [];
+            t = b.createElement(e);
+            t.async = !0;
+            t.src = v;
+            s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s);
+          })(
+            window,
+            document,
+            "script",
+            "https://connect.facebook.net/en_US/fbevents.js"
+          );
+
+          fbq("init", params.get("fbq"));
+          fbq("track", "PageView");
+        }
+
+        if (params.get("page")) {
+          const onesignalKey = await fetch(
+            `https://hammerhead-app-wpsna.ondigitalocean.app/pwa/get/onesignalKey/${params.get(
+              "page"
+            )}`,
+            {
+              headers: {
+                Authorization: `Bearer ndsanon29321ndsanfjbuo39121ndjsanbo2130921hfdns;nok!!dnsklanon`,
+              },
+            }
+          );
+
+          if (onesignalKey.ok) {
+            const key = await onesignalKey.text();
+            window.OneSignalDeferred = window.OneSignalDeferred || [];
+            OneSignalDeferred.push(async function (OneSignal) {
+              await OneSignal.init({
+                appId: key,
+              });
+
+              document.querySelector(".sw-loading").classList.add("hide");
+            });
+          }
+        }
       });
     }
   </script>

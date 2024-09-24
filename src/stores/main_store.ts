@@ -148,63 +148,12 @@ export const mainStore = defineStore("mainStore", () => {
       }
     }
   };
-  const fbEvent = () => {
-    try {
-      let pixel;
-      if (getParams("fbq")) {
-        pixel = getParams("fbq");
-      } else {
-        pixel = androidStore.fbqKey;
-      }
-      //@ts-ignore
-      !(function (f: any, b: any, e: any, v: any, n: any, t: any, s: any) {
-        if (f.fbq) return;
-        n = f.fbq = function () {
-          n.callMethod
-            ? n.callMethod.apply(n, arguments)
-            : n.queue.push(arguments);
-        };
-        if (!f._fbq) f._fbq = n;
-        n.push = n;
-        n.loaded = !0;
-        n.version = "2.0";
-        n.queue = [];
-        t = b.createElement(e);
-        t.async = !0;
-        t.src = v;
-        s = b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t, s);
-      })(
-        window,
-        document,
-        "script",
-        "https://connect.facebook.net/en_US/fbevents.js"
-      );
-      //@ts-ignore
-      fbq("init", pixel);
-      //@ts-ignore
-      fbq("track", "PageView");
-    } catch (e) {
-      if (!import.meta.env.PROD) {
-        console.log(e);
-      }
-    }
-  };
+
   const oneSignalEvent = async () => {
-    //@ts-ignore
-    window.OneSignalDeferred = window.OneSignalDeferred || [];
     //@ts-ignore
     window.OneSignalDeferred.push(async function (OneSignal) {
       try {
-        await OneSignal.init({
-          appId: androidStore.onesignalKey,
-          allowLocalhostAsSecureOrigin: true,
-          notifyButton: {
-            enable: true,
-          },
-        });
         OneSignal.Notifications.requestPermission();
-
         async function permissionChangeListener(permission: any) {
           if (permission) {
             let id =
@@ -260,13 +209,7 @@ export const mainStore = defineStore("mainStore", () => {
         `/api/?manifest=${encodeURI(JSON.stringify(generateDataManifest()))}`
       );
     }
-    if (!localStorage.getItem("params")) {
-      localStorage.setItem("params", encodeURI(window.location.search));
-    }
 
-    if (getParams("fbq")) {
-      fbEvent();
-    }
     if (getParams("type") == "web") {
       if (getParams("page")) {
         const response = await getWebInfo(getParams("page")!);
@@ -571,7 +514,7 @@ export const mainStore = defineStore("mainStore", () => {
     openWeb,
     showAcceptInstall,
     prompt,
-    fbEvent,
+
     allowBackFix,
     generateLink,
     startPreparing,
