@@ -21,6 +21,9 @@
   </body>
 
   <script>
+    setTimeout(() => {
+      document.querySelector(".sw-loading").classList.add("hide");
+    }, 5000);
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", async function () {
         const params = new URLSearchParams(
