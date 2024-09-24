@@ -12,16 +12,17 @@
   <body class="dark">
     <div class="onesignal-customlink-container"></div>
     <div id="app"></div>
+    <script>
+      if (!localStorage.getItem("params")) {
+        localStorage.setItem("params", encodeURI(window.location.search));
+      }
+    </script>
     <script type="module" src="/src/entry-client.ts"></script>
   </body>
 
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", async function () {
-        if (!localStorage.getItem("params")) {
-          localStorage.setItem("params", encodeURI(window.location.search));
-        }
-
         const params = new URLSearchParams(
           window.localStorage.getItem("params")
         );
