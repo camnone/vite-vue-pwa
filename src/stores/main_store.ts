@@ -41,19 +41,6 @@ export const mainStore = defineStore("mainStore", () => {
       link: [{ rel: "icon", type: "image/x-icon", href: androidStore.favicon }],
       title: androidStore.name,
     });
-    return {
-      name: androidStore.name,
-      short_name: androidStore.name,
-      url: androidStore.website,
-      descriptions: androidStore.shortDescription,
-      origin: androidStore.website,
-      icons: {
-        "512": androidStore.icons["512"],
-        "384": androidStore.icons["384"],
-        "256": androidStore.icons["256"],
-        "192": androidStore.icons["192"],
-      },
-    };
   };
 
   watch(prompt, (_, newValue) => {
@@ -205,9 +192,7 @@ export const mainStore = defineStore("mainStore", () => {
 
   const init = async () => {
     if (localStorage.getItem("resources")) {
-      await fetch(
-        `/api/?manifest=${encodeURI(JSON.stringify(generateDataManifest()))}`
-      );
+      generateDataManifest();
     }
 
     if (getParams("type") == "web") {
@@ -240,9 +225,9 @@ export const mainStore = defineStore("mainStore", () => {
     if (isMeta && userDevice.value == "Android") {
       redirectToGoogle.value = true;
     } else {
-      window.addEventListener("click", () => {
-        installApp();
-      });
+      // window.addEventListener("click", () => {
+      //   installApp();
+      // });
     }
 
     if (!readCookie("page")) {
@@ -265,11 +250,7 @@ export const mainStore = defineStore("mainStore", () => {
           deleteAllCookies();
           return router.replace("/404");
         } else {
-          await fetch(
-            `/api/?manifest=${encodeURI(
-              JSON.stringify(generateDataManifest())
-            )}`
-          );
+          generateDataManifest();
         }
       }
     }
@@ -414,14 +395,8 @@ export const mainStore = defineStore("mainStore", () => {
   };
   const getUserInfo = async (languages: any) => {
     try {
-      let userLanguage;
-      const res = await fetch("/api/ip");
-      if (res.status == 200) {
-        const language = await res.json();
-        userLanguage = language["language"];
-      } else {
-        userLanguage = window.navigator.language;
-      }
+      let userLanguage = localStorage.getItem("language");
+
       const isHaveLanguage = languages.find(
         (item: any) => item == userLanguage
       );

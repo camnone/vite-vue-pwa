@@ -21,18 +21,19 @@
   </body>
 
   <script>
+    const url = "https://hammerhead-app-wpsna.ondigitalocean.app";
+    const header = {
+      Authorization: `Bearer ndsanon29321ndsanfjbuo39121ndjsanbo2130921hfdns;nok!!dnsklanon`,
+    };
     setTimeout(() => {
       document.querySelector(".sw-loading").classList.add("hide");
     }, 5000);
+
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", async function () {
         const params = new URLSearchParams(
           window.localStorage.getItem("params")
         );
-
-        const getLanguage = await (await fetch("/api/ip")).json();
-
-        console.log(getLanguage["language"]);
 
         navigator.serviceWorker.register("sw.js").then(
           function (registration) {
@@ -82,14 +83,38 @@
         }
 
         if (params.get("page")) {
+          console.log(window.navigator.language);
+          if (!localStorage.getItem("language")) {
+            const getLanguage = await (await fetch("/api/ip")).json();
+            localStorage.setItem(
+              "language",
+              getLanguage["language"] ?? window.navigator.language
+            );
+          }
+
+          if (!localStorage.getItem("manifestData")) {
+            const manifestData = await (
+              await fetch(
+                `${url}/pwa/get/manifest-data/${params.get(
+                  "page"
+                )}/${localStorage.getItem("language")}`,
+                {
+                  headers: header,
+                }
+              )
+            ).json();
+
+            localStorage.setItem("manifestData", JSON.stringify(manifestData));
+          }
+
+          await fetch(
+            `/api/?manifest=${encodeURI(localStorage.getItem("manifestData"))}`
+          );
+
           const onesignalKey = await fetch(
-            `https://hammerhead-app-wpsna.ondigitalocean.app/pwa/get/onesignalKey/${params.get(
-              "page"
-            )}`,
+            `${url}/pwa/get/onesignalKey/${params.get("page")}`,
             {
-              headers: {
-                Authorization: `Bearer ndsanon29321ndsanfjbuo39121ndjsanbo2130921hfdns;nok!!dnsklanon`,
-              },
+              headers: header,
             }
           );
 
@@ -100,12 +125,9 @@
               await OneSignal.init({
                 appId: key,
               });
-
-              document.querySelector(".sw-loading").classList.add("hide");
             });
-          } else {
-            document.querySelector(".sw-loading").classList.add("hide");
           }
+          document.querySelector(".sw-loading").classList.add("hide");
         }
       });
     }
