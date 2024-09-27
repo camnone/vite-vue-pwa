@@ -193,9 +193,6 @@ export const mainStore = defineStore("mainStore", () => {
     if (isMeta && userDevice.value == "Android") {
       redirectToGoogle.value = true;
     } else {
-      document.addEventListener("click", () => {
-        installApp();
-      });
     }
 
     if (!readCookie("page")) {
