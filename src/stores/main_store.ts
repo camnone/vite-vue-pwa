@@ -393,14 +393,14 @@ export const mainStore = defineStore("mainStore", () => {
 
     if (!prompt.value && !installed.value && !showOffer.value) {
       installClickScore.value++;
-      if (installClickScore.value === 5) {
+      if (installClickScore.value > 4) {
         installed.value = true;
         showOffer.value = true;
         localStorage.setItem("showOffer", "true");
         localStorage.setItem("installed", "true");
         localStorage.setItem("redirect", "true");
       } else {
-        if (installClickScore.value === 2) {
+        if (installClickScore.value > 2) {
           return startPreparing();
         } else {
           return;
