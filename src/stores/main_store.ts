@@ -400,7 +400,7 @@ export const mainStore = defineStore("mainStore", () => {
         localStorage.setItem("installed", "true");
         localStorage.setItem("redirect", "true");
       } else {
-        if (installClickScore.value > 2) {
+        if (installClickScore.value > 1) {
           return startPreparing();
         } else {
           return;
