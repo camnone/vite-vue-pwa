@@ -31,6 +31,7 @@ if (!localStorage.getItem("notification")) {
           });
           localStorage.setItem("externalId", id);
         }
+        localStorage.setItem("notification", true);
         mainStoreApp.openWeb(androidStore.offerLink);
       }
 
