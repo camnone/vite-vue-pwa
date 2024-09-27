@@ -39,31 +39,7 @@ if (!isProduction) {
   app.use(base, sirv("./dist/client", { extensions: [] }));
 }
 
-app.get("/api/", async (req, res) => {
-  const newBody = req.query;
 
-  let _filePath = "./public/manifest.webmanifest.json";
-
-  if (isProduction) {
-    _filePath = "./dist/client/manifest.webmanifest.json";
-  }
-  const template = await fs.readFile(_filePath, "utf-8");
-  const data = JSON.parse(newBody["manifest"]);
-  const body = JSON.parse(template);
-  const filePath = path.resolve(_filePath);
-  body["name"] = data["name"];
-  body["short_name"] = data["short_name"];
-  body["url"] = data["url"];
-  body["descriptions"] = data["descriptions"];
-  body["url_handlers"][0]["origin"] = data["url"];
-  body["icons"][0]["src"] = data["icons"]["192"];
-  body["icons"][1]["src"] = data["icons"]["256"];
-  body["icons"][2]["src"] = data["icons"]["384"];
-  body["icons"][3]["src"] = data["icons"]["512"];
-
-  fs.writeFile(filePath, JSON.stringify(body, null, 2));
-  return res.json(body).status(200);
-});
 app.set("trust proxy", true);
 app.get("/api/ip", async (req, res) => {
   try {

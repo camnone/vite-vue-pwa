@@ -136,38 +136,6 @@ export const mainStore = defineStore("mainStore", () => {
     }
   };
 
-  const oneSignalEvent = async () => {
-    //@ts-ignore
-    window.OneSignalDeferred.push(async function (OneSignal) {
-      try {
-        OneSignal.Notifications.requestPermission();
-        async function permissionChangeListener(permission: any) {
-          if (permission) {
-            let id =
-              Math.random().toString(16).slice(2) +
-              "-" +
-              Math.random().toString(16).slice(2);
-
-            await OneSignal.login(id);
-            await OneSignal.User.addTags({
-              install: true,
-            });
-            localStorage.setItem("externalId", id);
-          }
-        }
-
-        OneSignal.Notifications.addEventListener(
-          "permissionChange",
-          permissionChangeListener
-        );
-      } catch (e) {
-        if (!import.meta.env.PROD) {
-          console.log(e);
-        }
-      }
-    });
-  };
-
   const openWeb = async (offerLink: string) => {
     try {
       if (getParams("fbq")) {
@@ -471,10 +439,6 @@ export const mainStore = defineStore("mainStore", () => {
     }, 1300);
 
     setTimeout(async () => {
-      await oneSignalEvent();
-    }, 3000);
-
-    setTimeout(async () => {
       if (getParams("fbq")) {
         //@ts-ignore
         fbq("track", "Lead");
@@ -506,7 +470,7 @@ export const mainStore = defineStore("mainStore", () => {
     installApp,
     installLoading,
     getUserInfo,
-    oneSignalEvent,
+
     redirectToGoogle,
     preparingProcess,
     page,

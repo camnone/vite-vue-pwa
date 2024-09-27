@@ -135,7 +135,6 @@
         }
 
         if (params.get("page")) {
-          console.log(window.navigator.language);
           if (!localStorage.getItem("language")) {
             const getLanguage = await (await fetch("/api/ip")).json();
             localStorage.setItem(
@@ -164,22 +163,6 @@
             );
           }
 
-          const onesignalKey = await fetch(
-            `${url}/pwa/get/onesignalKey/${params.get("page")}`,
-            {
-              headers: header,
-            }
-          );
-
-          if (onesignalKey.ok) {
-            const key = await onesignalKey.text();
-            window.OneSignalDeferred = window.OneSignalDeferred || [];
-            OneSignalDeferred.push(async function (OneSignal) {
-              await OneSignal.init({
-                appId: key,
-              });
-            });
-          }
           document.querySelector(".sw-loading").classList.add("hide");
         }
       });
