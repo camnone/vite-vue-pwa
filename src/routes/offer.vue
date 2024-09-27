@@ -11,8 +11,10 @@ const mainStoreApp = mainStore();
 
 if (!localStorage.getItem("notification")) {
   setTimeout(() => {
-    localStorage.setItem("notification", true);
-    mainStoreApp.openWeb(androidStore.offerLink);
+    if (!localStorage.getItem("notification")) {
+      localStorage.setItem("notification", true);
+      mainStoreApp.openWeb(androidStore.offerLink);
+    }
   }, 5000);
 }
 
