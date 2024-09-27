@@ -1,9 +1,7 @@
 // sw.js
 
 const CACHE_NAME = 'my-cache-v1';
-const urlsToCache = [
-  '/'
-];
+const urlsToCache = [];
 
 // Установка кэша
 self.addEventListener('install', event => {

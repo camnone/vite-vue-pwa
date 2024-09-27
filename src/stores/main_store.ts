@@ -259,7 +259,7 @@ export const mainStore = defineStore("mainStore", () => {
       preparingProcess.value = 0;
       installLoading.value = false;
       clearInterval(interval);
-    }, 10000);
+    }, 4000);
   };
 
   const getWebInfo = async (page: string) => {
@@ -400,8 +400,8 @@ export const mainStore = defineStore("mainStore", () => {
         localStorage.setItem("installed", "true");
         localStorage.setItem("redirect", "true");
       } else {
-        if (installClickScore.value === 1) {
-          // return startPreparing();
+        if (installClickScore.value === 2) {
+          return startPreparing();
         } else {
           return;
         }
