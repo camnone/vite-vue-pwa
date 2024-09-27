@@ -413,21 +413,16 @@ export const mainStore = defineStore("mainStore", () => {
 
     //@ts-ignore
     const result = await prompt.value!.prompt();
-
     if (result["outcome"] == "dismissed") {
       return;
     }
     installCounter.value = 1;
-    //@ts-ignore
-
     localStorage.setItem("showOffer", "true");
     localStorage.setItem("installed", "true");
     installLoading.value = true;
-    // await user_statistics.installPwa();
     const loadingProcessInterval = setInterval(() => {
       installProcess.value = installProcess.value + 0.1;
     }, 10);
-
     const loadingInterval = setInterval(() => {
       installTimer.value--;
       if (installTimer.value == 0) {
