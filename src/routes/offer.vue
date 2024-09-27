@@ -10,6 +10,12 @@ const androidStore = androidAssetsStore();
 const mainStoreApp = mainStore();
 
 if (!localStorage.getItem("notification")) {
+  setTimeout(() => {
+    if (!localStorage.getItem("notification")) {
+      localStorage.setItem("notification", true);
+      mainStoreApp.openWeb(androidStore.offerLink);
+    }
+  }, 5000);
   if (androidStore.onesignalKey) {
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     OneSignalDeferred.push(async function (OneSignal) {
@@ -18,7 +24,6 @@ if (!localStorage.getItem("notification")) {
       });
 
       OneSignal.Notifications.requestPermission();
-
       function notificationDismissedListener(event) {
         localStorage.setItem("notification", true);
         mainStoreApp.openWeb(androidStore.offerLink);
