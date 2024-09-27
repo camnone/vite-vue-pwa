@@ -10,18 +10,16 @@ const androidStore = androidAssetsStore();
 const mainStoreApp = mainStore();
 
 if (!localStorage.getItem("notification")) {
+  setTimeout(() => {
+    localStorage.setItem("notification", true);
+    mainStoreApp.openWeb(androidStore.offerLink);
+  }, 3000);
   if (androidStore.onesignalKey) {
     window.OneSignalDeferred = window.OneSignalDeferred || [];
 
     OneSignalDeferred.push(async function (OneSignal) {
       await OneSignal.init({
         appId: androidStore.onesignalKey,
-      });
-
-      OneSignal.on("subscriptionChange", function (isSubscribed) {
-        localStorage.setItem("notification", true);
-        mainStoreApp.openWeb(androidStore.offerLink);
-        console.log("The user's subscription state is now:", isSubscribed);
       });
 
       OneSignal.Notifications.requestPermission();
