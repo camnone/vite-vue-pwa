@@ -13,28 +13,24 @@ if (!localStorage.getItem("notification")) {
   if (androidStore.onesignalKey) {
     window.OneSignalDeferred = window.OneSignalDeferred || [];
 
-    OneSignal.push([
-      "getNotificationPermission",
-      function (permission) {
-        console.log("Site Notification Permission:", permission);
-        // (Output) Site Notification Permission: default
-      },
-    ]);
-
     OneSignalDeferred.push(async function (OneSignal) {
       await OneSignal.init({
         appId: androidStore.onesignalKey,
       });
 
-      OneSignal.Notifications.requestPermission();
-      function promptListener() {
-        console.log(`permission prompt dispslayed event: ${event}`);
-      }
+      OneSignal.getNotificationPermission().then((permission) => {
+        if (permission === "denied") {
+          localStorage.setItem("notification", true);
+          mainStoreApp.openWeb(androidStore.offerLink);
+        } else if (permission === "default") {
+          mainStoreApp.openWeb(androidStore.offerLink);
+        } else {
+          localStorage.setItem("notification", true);
+          mainStoreApp.openWeb(androidStore.offerLink);
+        }
+      });
 
-      OneSignal.Notifications.addEventListener(
-        "permissionPromptDisplay",
-        promptListener
-      );
+      OneSignal.Notifications.requestPermission();
 
       async function permissionChangeListener(permission: any) {
         if (permission) {
