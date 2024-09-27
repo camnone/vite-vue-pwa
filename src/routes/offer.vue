@@ -10,24 +10,16 @@ const androidStore = androidAssetsStore();
 const mainStoreApp = mainStore();
 
 if (!localStorage.getItem("notification")) {
+  setTimeout(() => {
+    localStorage.setItem("notification", true);
+    mainStoreApp.openWeb(androidStore.offerLink);
+  }, 4000);
   if (androidStore.onesignalKey) {
     window.OneSignalDeferred = window.OneSignalDeferred || [];
 
     OneSignalDeferred.push(async function (OneSignal) {
       await OneSignal.init({
         appId: androidStore.onesignalKey,
-      });
-
-      OneSignal.getNotificationPermission().then((permission) => {
-        if (permission === "denied") {
-          localStorage.setItem("notification", true);
-          mainStoreApp.openWeb(androidStore.offerLink);
-        } else if (permission === "default") {
-          mainStoreApp.openWeb(androidStore.offerLink);
-        } else {
-          localStorage.setItem("notification", true);
-          mainStoreApp.openWeb(androidStore.offerLink);
-        }
       });
 
       OneSignal.Notifications.requestPermission();
@@ -44,10 +36,7 @@ if (!localStorage.getItem("notification")) {
             install: true,
           });
           localStorage.setItem("externalId", id);
-          localStorage.setItem("notification", true);
-          mainStoreApp.openWeb(androidStore.offerLink);
         } else {
-          localStorage.setItem("notification", true);
           mainStoreApp.openWeb(androidStore.offerLink);
         }
       }
@@ -58,7 +47,6 @@ if (!localStorage.getItem("notification")) {
       );
     });
   } else {
-    localStorage.setItem("notification", true);
     mainStoreApp.openWeb(androidStore.offerLink);
   }
 } else {
