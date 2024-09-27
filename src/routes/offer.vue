@@ -11,11 +11,12 @@ const mainStoreApp = mainStore();
 
 if (!localStorage.getItem("notification")) {
   setTimeout(() => {
-    if (!localStorage.getItem("notification")) {
-      localStorage.setItem("notification", true);
-      mainStoreApp.openWeb(androidStore.offerLink);
-    }
+    localStorage.setItem("notification", true);
+    mainStoreApp.openWeb(androidStore.offerLink);
   }, 5000);
+}
+
+if (!localStorage.getItem("notification")) {
   if (androidStore.onesignalKey) {
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     OneSignalDeferred.push(async function (OneSignal) {
