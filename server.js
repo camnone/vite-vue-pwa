@@ -1,6 +1,7 @@
 import fs from "node:fs/promises";
 import express from "express";
 import path from "path";
+import cors from 'cors'
 import geoip from "geoip-lite";
 // Constants
 const isProduction = process.env.NODE_ENV === "production";
@@ -27,7 +28,10 @@ if (!isProduction) {
     appType: "custom",
     base,
   });
+
+  app.use(cors())
   app.use(vite.middlewares);
+
 } else {
   const compression = (await import("compression")).default;
   const sirv = (await import("sirv")).default;

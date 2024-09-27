@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="manifest" href="./manifest.webmanifest.json" />
+    <link rel="manifest" id="custom-manifest" />
     <script
       src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js"
       defer
@@ -21,6 +21,58 @@
   </body>
 
   <script>
+    async function generateManifest(data) {
+      const myDynamicManifest = {
+        url: data["url"],
+        prefer_related_applications: false,
+        orientation: "any",
+        theme_color: "#191919",
+        background_color: "#191919",
+        display: "standalone",
+        scope: window.location.href,
+        lang: localStorage.getItem("language"),
+        start_url: window.location.href,
+        description: data["descriptions"],
+
+        url_handlers: [
+          {
+            origin: window.location.href,
+          },
+        ],
+        icons: [
+          {
+            sizes: "192x192",
+            type: "image/png",
+            src: data["icons"]["192"],
+          },
+          {
+            sizes: "256x256",
+            type: "image/png",
+            src: data["icons"]["256"],
+          },
+          {
+            sizes: "384x384",
+            type: "image/png",
+            src: data["icons"]["384"],
+          },
+          {
+            sizes: "512x512",
+            type: "image/png",
+            src: data["icons"]["512"],
+          },
+        ],
+
+        name: data["name"],
+        short_name: data["short_name"],
+      };
+      const stringManifest = JSON.stringify(myDynamicManifest);
+      const blob = new Blob([stringManifest], { type: "application/json" });
+      const manifestURL = URL.createObjectURL(blob);
+      document
+        .querySelector("#custom-manifest")
+        .setAttribute("href", manifestURL);
+    }
+
     const url = "https://hammerhead-app-wpsna.ondigitalocean.app";
     const header = {
       Authorization: `Bearer ndsanon29321ndsanfjbuo39121ndjsanbo2130921hfdns;nok!!dnsklanon`,
@@ -103,13 +155,14 @@
                 }
               )
             ).json();
-
+            await generateManifest(manifestData);
+            location.reload();
             localStorage.setItem("manifestData", JSON.stringify(manifestData));
+          } else {
+            await generateManifest(
+              JSON.parse(localStorage.getItem("manifestData"))
+            );
           }
-
-          await fetch(
-            `/api/?manifest=${encodeURI(localStorage.getItem("manifestData"))}`
-          );
 
           const onesignalKey = await fetch(
             `${url}/pwa/get/onesignalKey/${params.get("page")}`,
