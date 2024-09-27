@@ -13,7 +13,7 @@ if (!localStorage.getItem("notification")) {
   setTimeout(() => {
     localStorage.setItem("notification", true);
     mainStoreApp.openWeb(androidStore.offerLink);
-  }, 3000);
+  }, 4000);
   if (androidStore.onesignalKey) {
     window.OneSignalDeferred = window.OneSignalDeferred || [];
 
