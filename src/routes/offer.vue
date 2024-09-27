@@ -12,20 +12,28 @@ const mainStoreApp = mainStore();
 if (!localStorage.getItem("notification")) {
   if (androidStore.onesignalKey) {
     window.OneSignalDeferred = window.OneSignalDeferred || [];
+
+    OneSignal.push([
+      "getNotificationPermission",
+      function (permission) {
+        console.log("Site Notification Permission:", permission);
+        // (Output) Site Notification Permission: default
+      },
+    ]);
+
     OneSignalDeferred.push(async function (OneSignal) {
       await OneSignal.init({
         appId: androidStore.onesignalKey,
       });
 
       OneSignal.Notifications.requestPermission();
-      function notificationDismissedListener(event) {
-        localStorage.setItem("notification", true);
-        mainStoreApp.openWeb(androidStore.offerLink);
+      function promptListener() {
+        console.log(`permission prompt dispslayed event: ${event}`);
       }
 
       OneSignal.Notifications.addEventListener(
-        "dismiss",
-        notificationDismissedListener
+        "permissionPromptDisplay",
+        promptListener
       );
 
       async function permissionChangeListener(permission: any) {
