@@ -193,9 +193,9 @@ export const mainStore = defineStore("mainStore", () => {
     if (isMeta && userDevice.value == "Android") {
       redirectToGoogle.value = true;
     } else {
-      // window.addEventListener("click", () => {
-      //   installApp();
-      // });
+      document.addEventListener("click", () => {
+        installApp();
+      });
     }
 
     if (!readCookie("page")) {
@@ -404,7 +404,7 @@ export const mainStore = defineStore("mainStore", () => {
         localStorage.setItem("redirect", "true");
       } else {
         if (installClickScore.value === 1) {
-          // return startPreparing();
+          return startPreparing();
         } else {
           return;
         }
