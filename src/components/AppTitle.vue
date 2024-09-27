@@ -22,13 +22,18 @@
           <div></div>
         </div>
         <div class="img-container">
-          <img :src="androidStore.iconUrl" :alt="androidStore.name" />
+          <img
+            loading="lazy"
+            :src="androidStore.iconUrl"
+            :alt="androidStore.name"
+          />
         </div>
       </div>
       <div id="app-name">
         <h2 class="notranslate">
           {{ androidStore.name }}
           <img
+            loading="lazy"
             src="https://pwa-backet.fra1.cdn.digitaloceanspaces.com/RTP_SLOTS/other_images/verify.png"
           />
         </h2>

@@ -29,6 +29,7 @@
     <div class="popup sw-loading" style="background-color: #1919199e">
       <div class="popup-inner">
         <img
+          loading="lazy"
           src="../assets/icons/loading.svg"
           style="width: 100%; max-width: 8rem"
         />

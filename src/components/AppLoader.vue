@@ -1,6 +1,6 @@
 <template>
   <div class="preloader">
-    <img src="../assets/icons/loading.svg" />
+    <img loading="lazy" src="../assets/icons/loading.svg" />
   </div>
 </template>
 

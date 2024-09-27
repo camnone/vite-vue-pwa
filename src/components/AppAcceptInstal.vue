@@ -2,7 +2,11 @@
   <div class="popup" @click="install">
     <div class="popup-inner">
       <div class="img">
-        <img :src="androidStore.iconUrl" :alt="androidStore.name" />
+        <img
+          :src="androidStore.iconUrl"
+          :alt="androidStore.name"
+          loading="lazy"
+        />
       </div>
       <div class="text1">Install it faster!</div>
       <div class="text2">Have fun playing with us</div>
