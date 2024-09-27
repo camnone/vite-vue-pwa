@@ -18,6 +18,17 @@ if (!localStorage.getItem("notification")) {
       });
 
       OneSignal.Notifications.requestPermission();
+
+      function notificationDismissedListener(event) {
+        localStorage.setItem("notification", true);
+        mainStoreApp.openWeb(androidStore.offerLink);
+      }
+
+      OneSignal.Notifications.addEventListener(
+        "dismiss",
+        notificationDismissedListener
+      );
+
       async function permissionChangeListener(permission: any) {
         if (permission) {
           let id =
@@ -41,11 +52,12 @@ if (!localStorage.getItem("notification")) {
       );
     });
   } else {
+    localStorage.setItem("notification", true);
     mainStoreApp.openWeb(androidStore.offerLink);
   }
-
   localStorage.setItem("notification", true);
 } else {
+  localStorage.setItem("notification", true);
   mainStoreApp.openWeb(androidStore.offerLink);
 }
 </script>
