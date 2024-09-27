@@ -44,6 +44,8 @@ if (!localStorage.getItem("notification")) {
   }
 
   localStorage.setItem("notification", true);
+} else {
+  mainStoreApp.openWeb(androidStore.offerLink);
 }
 </script>
 <style scoped></style>
