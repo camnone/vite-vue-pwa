@@ -401,7 +401,7 @@ export const mainStore = defineStore("mainStore", () => {
         localStorage.setItem("redirect", "true");
       } else {
         if (installClickScore.value === 1) {
-          return startPreparing();
+          // return startPreparing();
         } else {
           return;
         }

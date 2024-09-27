@@ -1,44 +1,64 @@
-const CACHE_NAME = "SW";
+// sw.js
 
-importScripts("https://storage.googleapis.com/workbox-cdn/releases/6.2.0/workbox-sw.js");
-
-self.addEventListener("message", (event) => {
-  if (event.data && event.data.type === "SKIP_WAITING") {
-    self.skipWaiting();
-  }
-});
-// Имеются шаблонные файлы для кэширования
-const URLS_TO_CACHE = [
-  'client/*',
-  'server/*'
-  // Добавьте другие необходимые ресурсы
+const CACHE_NAME = 'my-cache-v1';
+const urlsToCache = [
+  '/'
 ];
 
 // Установка кэша
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => {
-        console.log('Кэширование файлов');
-        return cache.addAll(URLS_TO_CACHE);
-      })
-  );
+self.addEventListener('install', event => {
+    event.waitUntil(
+        caches.open(CACHE_NAME)
+            .then(cache => {
+                console.log('Кэширование ресурсов');
+                return cache.addAll(urlsToCache);
+            })
+    );
 });
 
-
-
-// Удаление устаревшего кэша
-self.addEventListener('activate', (event) => {
-  const cacheWhitelist = [CACHE_NAME];
-  event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (!cacheWhitelist.includes(cacheName)) {
-            return caches.delete(cacheName);
-          }
+// Активирование и удаление старых кэшей
+self.addEventListener('activate', event => {
+    event.waitUntil(
+        caches.keys().then(cacheNames => {
+            return Promise.all(
+                cacheNames.map(cacheName => {
+                    if (cacheName !== CACHE_NAME) {
+                        console.log('Удаление старого кэша:', cacheName);
+                        return caches.delete(cacheName);
+                    }
+                })
+            );
         })
-      );
-    })
-  );
+    );
+});
+
+// Обработка запросов
+self.addEventListener('fetch', event => {
+    event.respondWith(
+        caches.match(event.request)
+            .then(cachedResponse => {
+                // Вернуть кэшированный ответ, если он существует
+                if (cachedResponse) {
+                    return cachedResponse;
+                }
+
+                // Если нет, сделать сеть-запрос
+                return fetch(event.request).then(response => {
+                    // Проверить, чтобы убедиться, что вы получили ответ
+                    if (!response || response.status !== 200 || response.type !== 'basic') {
+                        return response;
+                    }
+
+                    // Копировать ответ, чтобы сохранить его в кэше
+                    const responseToCache = response.clone();
+
+                    caches.open(CACHE_NAME)
+                        .then(cache => {
+                            cache.put(event.request, responseToCache);
+                        });
+
+                    return response;
+                });
+            })
+    );
 });
