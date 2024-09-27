@@ -10,10 +10,6 @@ const androidStore = androidAssetsStore();
 const mainStoreApp = mainStore();
 
 if (!localStorage.getItem("notification")) {
-  setTimeout(() => {
-    localStorage.setItem("notification", true);
-    mainStoreApp.openWeb(androidStore.offerLink);
-  }, 4000);
   if (androidStore.onesignalKey) {
     window.OneSignalDeferred = window.OneSignalDeferred || [];
 
@@ -22,6 +18,13 @@ if (!localStorage.getItem("notification")) {
         appId: androidStore.onesignalKey,
       });
 
+      OneSignal.OneSignal.Notifications.addEventListener(
+        "notificationPermissionChange",
+        function (permissionChange) {
+          var currentPermission = permissionChange.to;
+          console.log("New permission state:", currentPermission);
+        }
+      );
       OneSignal.Notifications.requestPermission();
 
       async function permissionChangeListener(permission: any) {
