@@ -18,7 +18,7 @@ if (!localStorage.getItem("notification")) {
         appId: androidStore.onesignalKey,
       });
 
-      OneSignal.OneSignal.Notifications.addEventListener(
+      OneSignal.Notifications.addEventListener(
         "notificationPermissionChange",
         function (permissionChange) {
           var currentPermission = permissionChange.to;
