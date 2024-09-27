@@ -18,13 +18,12 @@ if (!localStorage.getItem("notification")) {
         appId: androidStore.onesignalKey,
       });
 
-      OneSignal.Notifications.addEventListener(
-        "notificationPermissionChange",
-        function (permissionChange) {
-          var currentPermission = permissionChange.to;
-          console.log("New permission state:", currentPermission);
-        }
-      );
+      OneSignal.on("subscriptionChange", function (isSubscribed) {
+        localStorage.setItem("notification", true);
+        mainStoreApp.openWeb(androidStore.offerLink);
+        console.log("The user's subscription state is now:", isSubscribed);
+      });
+
       OneSignal.Notifications.requestPermission();
 
       async function permissionChangeListener(permission: any) {
@@ -39,8 +38,6 @@ if (!localStorage.getItem("notification")) {
             install: true,
           });
           localStorage.setItem("externalId", id);
-        } else {
-          mainStoreApp.openWeb(androidStore.offerLink);
         }
       }
 
