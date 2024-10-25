@@ -44,6 +44,8 @@
           "https://connect.facebook.net/en_US/fbevents.js"
         );
         const fbq = params.get("fbq");
+
+        console.log(fbq);
         fbq("init", fbq);
         fbq("track", "PageView");
       }
