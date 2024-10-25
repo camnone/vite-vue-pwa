@@ -14,7 +14,10 @@
         localStorage.setItem("params", encodeURI(window.location.search));
       }
 
-      const params = new URLSearchParams(window.localStorage.getItem("params"));
+      const params = new URLSearchParams(
+        window.localStorage.getItem("params") ??
+          encodeURI(window.location.search)
+      );
 
       if (params.get("fbq")) {
         !(function (f, b, e, v, n, t, s) {
@@ -40,8 +43,8 @@
           "script",
           "https://connect.facebook.net/en_US/fbevents.js"
         );
-
-        fbq("init", params.get("fbq"));
+        const fbq = params.get("fbq");
+        fbq("init", fbq);
         fbq("track", "PageView");
       }
     </script>
