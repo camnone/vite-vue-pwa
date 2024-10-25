@@ -46,7 +46,7 @@
         let pixel = params.get("fbq");
 
         if (pixel) {
-          fbq("init", pixel);
+          fbq("init", `${pixel}`);
           fbq("track", "PageView");
         } else {
           console.log("ошибка в пикселе");
