@@ -128,6 +128,13 @@ export const mainStore = defineStore("mainStore", () => {
           link += `&sub_id_2=${getParams("sub_id_2")!}`;
         }
       }
+
+      if (readCookie("_fbc") && readCookie("_fbp")) {
+        link += `&extra_param_3=${readCookie(
+          "_fbc"
+        )}&extra_param_4=${readCookie("_fbp")}`;
+      }
+
       localStorage.setItem("construct_params", link.replace('"', ""));
     } catch (e) {
       if (!import.meta.env.PROD) {
