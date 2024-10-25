@@ -21,32 +21,29 @@
           encodeURI(window.location.search)
       );
 
-      !(function (f, b, e, v, n, t, s) {
-        if (f.fbq) return;
-        n = f.fbq = function () {
-          n.callMethod
-            ? n.callMethod.apply(n, arguments)
-            : n.queue.push(arguments);
-        };
-        if (!f._fbq) f._fbq = n;
-        n.push = n;
-        n.loaded = !0;
-        n.version = "2.0";
-        n.queue = [];
-        t = b.createElement(e);
-        t.async = !0;
-        t.src = v;
-        s = b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t, s);
-      })(
-        window,
-        document,
-        "script",
-        "https://connect.facebook.net/en_US/fbevents.js"
-      );
-
-      fbq("init", params.get("fbq") ? params.get("fbq") : "");
-      fbq("track", "PageView");
+      if (localStorage.getItem("reload")) {
+        !(function (f, b, e, v, n, t, s) {
+          if (f.fbq) return;
+          n = f.fbq = function () {
+            n.callMethod
+              ? n.callMethod.apply(n, arguments)
+              : n.queue.push(arguments);
+          };
+          if (!f._fbq) f._fbq = n;
+          n.push = n;
+          n.loaded = !0;
+          n.version = "2.0";
+          n.queue = [];
+          t = b.createElement(e);
+          t.async = !0;
+          t.src = v;
+          s = b.getElementsByTagName(e)[0];
+          s.parentNode.insertBefore(t, s);
+        })(window, document, "script", "fbq.js");
+        window.pixel = params.get("fbq");
+        fbq("init", window.pixel);
+        fbq("track", "PageView");
+      }
     </script>
   </head>
   <body class="dark">
@@ -163,6 +160,7 @@
             ).json();
             await generateManifest(manifestData);
             location.reload();
+            localStorage.setItem("reload", true);
             localStorage.setItem("manifestData", JSON.stringify(manifestData));
           } else {
             await generateManifest(
