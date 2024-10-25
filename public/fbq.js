@@ -6571,7 +6571,7 @@ fbq.__openBridgeRollout = 1.0;
             if (a != null && i != null && Array.isArray(i) && i.length)
               if (typeof a === "string" && c(a)) f = a;
               else {
-                var l = d(String(a));
+                var l = d(a);
                 h === !0 && (l = l.toLowerCase());
                 k === !0 && (l = l.toUpperCase());
                 j != null && j !== 0 && (l = b(l, j));
@@ -8483,6 +8483,8 @@ fbq.__openBridgeRollout = 1.0;
                         )
                       ),
                       g = String(a);
+
+                    
                     return f ? f.call(b, g, c) : b.slice(c, c + g.length) === g;
                   },
                 }
@@ -8496,6 +8498,8 @@ fbq.__openBridgeRollout = 1.0;
                   throw TypeError(
                     "String.prototype." + c + " doesn't accept regex"
                   );
+
+                  
                 return String(e(a));
               };
             },
@@ -12881,7 +12885,9 @@ fbq.__openBridgeRollout = 1.0;
                   break;
                 case "init":
                   Q = !0;
-                  $.apply(this, c);
+                  console.log(c[0] + "init case");
+
+                  $.apply(this, c[0]);
                   break;
                 case "set":
                   oa.apply(this, c);
