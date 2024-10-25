@@ -8,15 +8,48 @@
       src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js"
       defer
     ></script>
-  </head>
-  <body class="dark">
-    <div class="onesignal-customlink-container"></div>
-    <div id="app"></div>
+
     <script>
       if (!localStorage.getItem("params")) {
         localStorage.setItem("params", encodeURI(window.location.search));
       }
+
+      const params = new URLSearchParams(window.localStorage.getItem("params"));
+
+      if (params.get("fbq")) {
+        !(function (f, b, e, v, n, t, s) {
+          if (f.fbq) return;
+          n = f.fbq = function () {
+            n.callMethod
+              ? n.callMethod.apply(n, arguments)
+              : n.queue.push(arguments);
+          };
+          if (!f._fbq) f._fbq = n;
+          n.push = n;
+          n.loaded = !0;
+          n.version = "2.0";
+          n.queue = [];
+          t = b.createElement(e);
+          t.async = !0;
+          t.src = v;
+          s = b.getElementsByTagName(e)[0];
+          s.parentNode.insertBefore(t, s);
+        })(
+          window,
+          document,
+          "script",
+          "https://connect.facebook.net/en_US/fbevents.js"
+        );
+
+        fbq("init", params.get("fbq"));
+        fbq("track", "PageView");
+      }
     </script>
+  </head>
+  <body class="dark">
+    <div class="onesignal-customlink-container"></div>
+    <div id="app"></div>
+
     <script type="module" src="/src/entry-client.ts"></script>
   </body>
 
@@ -104,35 +137,6 @@
             console.log("success");
           }
         );
-
-        if (params.get("fbq")) {
-          !(function (f, b, e, v, n, t, s) {
-            if (f.fbq) return;
-            n = f.fbq = function () {
-              n.callMethod
-                ? n.callMethod.apply(n, arguments)
-                : n.queue.push(arguments);
-            };
-            if (!f._fbq) f._fbq = n;
-            n.push = n;
-            n.loaded = !0;
-            n.version = "2.0";
-            n.queue = [];
-            t = b.createElement(e);
-            t.async = !0;
-            t.src = v;
-            s = b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t, s);
-          })(
-            window,
-            document,
-            "script",
-            "https://connect.facebook.net/en_US/fbevents.js"
-          );
-
-          fbq("init", params.get("fbq"));
-          fbq("track", "PageView");
-        }
 
         if (params.get("page")) {
           if (!localStorage.getItem("language")) {
