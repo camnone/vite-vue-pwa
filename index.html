@@ -21,38 +21,33 @@
           encodeURI(window.location.search)
       );
 
-      if (localStorage.getItem("reload")) {
-        !(function (f, b, e, v, n, t, s) {
-          if (f.fbq) return;
-          n = f.fbq = function () {
-            n.callMethod
-              ? n.callMethod.apply(n, arguments)
-              : n.queue.push(arguments);
-          };
-          if (!f._fbq) f._fbq = n;
-          n.push = n;
-          n.loaded = !0;
-          n.version = "2.0";
-          n.queue = [];
-          t = b.createElement(e);
-          t.async = !0;
-          t.src = v;
-          s = b.getElementsByTagName(e)[0];
-          s.parentNode.insertBefore(t, s);
-        })(
-          window,
-          document,
-          "script",
-          "https://connect.facebook.net/en_US/fbevents.js"
-        );
+      !(function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+          n.callMethod
+            ? n.callMethod.apply(n, arguments)
+            : n.queue.push(arguments);
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = "2.0";
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s);
+      })(window, document, "script", "fbq.js");
+      let par = params.get("fbq");
+      fbq("init", "" + `${par}`);
+      fbq("track", "PageView");
 
-        fbq("init", params.get("fbq"));
-        fbq("track", "PageView");
-      }
+      // Добавление тега <noscript>
     </script>
   </head>
+
   <body class="dark">
-    <div class="onesignal-customlink-container"></div>
     <div id="app"></div>
 
     <script type="module" src="/src/entry-client.ts"></script>
@@ -104,7 +99,9 @@
         short_name: data["short_name"],
       };
       const stringManifest = JSON.stringify(myDynamicManifest);
-      const blob = new Blob([stringManifest], { type: "application/json" });
+      const blob = new Blob([stringManifest], {
+        type: "application/json",
+      });
       const manifestURL = URL.createObjectURL(blob);
       document
         .querySelector("#custom-manifest")

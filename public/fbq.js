@@ -5015,6 +5015,7 @@ fbq.__openBridgeRollout = 1.0;
               k = d(h);
             if (k == null) return null;
             var l = c(j, e);
+            console.log(k);
             return [{ rules: l, pixelID: k }];
           }
           b = new a(g);
@@ -6615,6 +6616,7 @@ fbq.__openBridgeRollout = 1.0;
               if (a != null)
                 if (c(a)) b = a;
                 else {
+                  console.log(a);
                   a = String(a);
                   b = a.replace(e, "").replace(d, "");
                 }
@@ -8484,7 +8486,6 @@ fbq.__openBridgeRollout = 1.0;
                       ),
                       g = String(a);
 
-                    
                     return f ? f.call(b, g, c) : b.slice(c, c + g.length) === g;
                   },
                 }
@@ -8499,7 +8500,6 @@ fbq.__openBridgeRollout = 1.0;
                     "String.prototype." + c + " doesn't accept regex"
                   );
 
-                  
                 return String(e(a));
               };
             },
@@ -12329,6 +12329,7 @@ fbq.__openBridgeRollout = 1.0;
                 o = !0;
                 h(c, function () {
                   var b = p(c) ? c.toString() : null;
+                  console.log("blabla");
                   a.FacebookIWL.init(b, d, e);
                 });
               }
@@ -12885,9 +12886,7 @@ fbq.__openBridgeRollout = 1.0;
                   break;
                 case "init":
                   Q = !0;
-                  console.log(c[0] + "init case");
-
-                  $.apply(this, c[0]);
+                  $.apply(this, c);
                   break;
                 case "set":
                   oa.apply(this, c);

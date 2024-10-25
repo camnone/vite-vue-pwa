@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import express from "express";
 import path from "path";
-import cors from 'cors'
+import cors from "cors";
 import geoip from "geoip-lite";
 // Constants
 const isProduction = process.env.NODE_ENV === "production";
@@ -29,16 +29,14 @@ if (!isProduction) {
     base,
   });
 
-  app.use(cors())
+  app.use(cors());
   app.use(vite.middlewares);
-
 } else {
   const compression = (await import("compression")).default;
   const sirv = (await import("sirv")).default;
   app.use(compression());
   app.use(base, sirv("./dist/client", { extensions: [] }));
 }
-
 
 app.set("trust proxy", true);
 app.get("/api/ip", async (req, res) => {
