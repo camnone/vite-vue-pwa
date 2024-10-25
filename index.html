@@ -43,10 +43,10 @@
           "script",
           "https://connect.facebook.net/en_US/fbevents.js"
         );
-        const fbq = params.get("fbq");
+        const pixel = params.get("fbq");
 
-        console.log(fbq);
-        fbq("init", fbq);
+        console.log(pixel);
+        fbq("init", pixel);
         fbq("track", "PageView");
       }
     </script>
