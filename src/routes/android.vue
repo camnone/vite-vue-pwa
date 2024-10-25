@@ -63,7 +63,7 @@ import AndroidLayout from "../layouts/default.vue";
 import { mainStore } from "../stores/main_store.ts";
 import { androidAssetsStore } from "../stores/android_store.ts";
 import * as lox from "../stores/backfix_store";
-import { readCookie } from "../utils/cookie";
+import { getCook } from "../utils/cookie";
 const mainStoreApp = mainStore();
 const androidStore = androidAssetsStore();
 const leavePage = ref(false);
@@ -138,6 +138,7 @@ onMounted(() => {
 
   loadGoogleTranslateScript();
   changeLanguage();
+  console.log(getCook("_fbc"));
 });
 </script>
 

@@ -77,3 +77,12 @@ export const deleteAllCookies = () => {
     document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
   });
 };
+
+export const getCook = (cookiename: string) => {
+  // Get name followed by anything except a semicolon
+  var cookiestring = RegExp(cookiename + "=[^;]+").exec(document.cookie);
+  // Return everything after the equal sign, or an empty string if the cookie name not found
+  return decodeURIComponent(
+    !!cookiestring ? cookiestring.toString().replace(/^[^=]+./, "") : ""
+  );
+};

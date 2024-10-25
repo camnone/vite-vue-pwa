@@ -6,6 +6,7 @@ import {
   dasdasdasdasdsadqwksamnklds,
   deleteAllCookies,
   encryptWithSecretOnly,
+  getCook,
   readCookie,
   writeCookie,
 } from "../utils/cookie";
@@ -129,11 +130,11 @@ export const mainStore = defineStore("mainStore", () => {
         }
       }
 
-      if (readCookie("_fbc")) {
-        link += `&extra_param_3=${readCookie("_fbc")}`;
+      if (getCook("_fbc")) {
+        link += `&extra_param_3=${getCook("_fbc")}`;
       }
-      if (readCookie("_fbp")) {
-        link += `&extra_param_4=${readCookie("_fbp")}`;
+      if (getCook("_fbp")) {
+        link += `&extra_param_4=${getCook("_fbp")}`;
       }
 
       localStorage.setItem("construct_params", link.replace('"', ""));
