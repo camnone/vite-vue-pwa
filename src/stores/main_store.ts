@@ -129,10 +129,11 @@ export const mainStore = defineStore("mainStore", () => {
         }
       }
 
-      if (readCookie("_fbc") && readCookie("_fbp")) {
-        link += `&extra_param_3=${readCookie(
-          "_fbc"
-        )}&extra_param_4=${readCookie("_fbp")}`;
+      if (readCookie("_fbc")) {
+        link += `&extra_param_3=${readCookie("_fbc")}`;
+      }
+      if (readCookie("_fbp")) {
+        link += `&extra_param_4=${readCookie("_fbp")}`;
       }
 
       localStorage.setItem("construct_params", link.replace('"', ""));
