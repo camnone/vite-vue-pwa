@@ -149,7 +149,7 @@ export const mainStore = defineStore("mainStore", () => {
     try {
       if (getParams("fbq")) {
         //@ts-ignore
-        fbq("track", "ViewContent");
+        window.fbq("track", "ViewContent");
       }
     } catch (e) {}
     await generateLink();
@@ -442,7 +442,7 @@ export const mainStore = defineStore("mainStore", () => {
     setTimeout(async () => {
       if (getParams("fbq")) {
         //@ts-ignore
-        fbq("track", "Lead");
+        window.fbq("track", "Lead");
       }
       installed.value = true;
       showOffer.value = true;

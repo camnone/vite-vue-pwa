@@ -54,6 +54,11 @@
   </body>
 
   <script>
+    addEventListener("DOMContentLoaded", () => {
+      if (localStorage.getItem("reload")) {
+        document.querySelector(".sw-loading").classList.add("hide");
+      }
+    });
     async function generateManifest(data) {
       const myDynamicManifest = {
         url: data["url"],
@@ -112,9 +117,6 @@
     const header = {
       Authorization: `Bearer ndsanon29321ndsanfjbuo39121ndjsanbo2130921hfdns;nok!!dnsklanon`,
     };
-    setTimeout(() => {
-      document.querySelector(".sw-loading").classList.add("hide");
-    }, 5000);
 
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", async function () {

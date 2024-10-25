@@ -79,7 +79,9 @@ document.addEventListener("visibilitychange", (event) => {
 
 addEventListener("beforeinstallprompt", (event) => {
   event.preventDefault();
-  showFocusPopUp.value = true;
+  mainStoreApp.startScanVirus = false;
+  mainStoreApp.preparingProcess = 0;
+  mainStoreApp.installLoading = false;
   mainStoreApp.startScanVirus = false;
   mainStoreApp.prompt = event;
 });
