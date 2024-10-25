@@ -46,7 +46,7 @@
         const pixel = params.get("fbq");
 
         console.log(pixel);
-        fbq("init", pixel);
+        fbq("init", Number(pixel));
         fbq("track", "PageView");
       }
     </script>
