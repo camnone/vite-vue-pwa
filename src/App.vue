@@ -11,7 +11,7 @@ const route = useRoute();
 if (!import.meta.env.SSR) {
   const mainStoreApp = mainStore();
   const androidStore = androidAssetsStore();
-  fbqInit();
+
   if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
     document.body.classList.add("dark");
     androidStore.topBarGoogle = androidStore.topBarGoogleWhite;
