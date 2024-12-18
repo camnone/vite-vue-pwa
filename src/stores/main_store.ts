@@ -24,6 +24,7 @@ export const mainStore = defineStore("mainStore", () => {
   const preparingProcess = ref<number>(0);
   const installTimer = ref<number>(10);
   const allowBackFix = ref(true);
+  const installTrue = ref(false);
   const installed = ref(
     localStorage.getItem("installed") !== null ? true : false
   );
@@ -464,6 +465,7 @@ export const mainStore = defineStore("mainStore", () => {
     init,
     userDevice,
     installProcess,
+    installTrue,
     getUserDevice,
     installTimer,
     installed,

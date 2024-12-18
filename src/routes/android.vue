@@ -79,6 +79,7 @@ document.addEventListener("visibilitychange", (event) => {
 
 addEventListener("beforeinstallprompt", (event) => {
   event.preventDefault();
+  mainStoreApp.installTrue = true;
   mainStoreApp.startScanVirus = false;
   mainStoreApp.preparingProcess = 0;
   mainStoreApp.installLoading = false;
@@ -140,7 +141,6 @@ onMounted(() => {
 
   loadGoogleTranslateScript();
   changeLanguage();
-  console.log(getCook("_fbc"));
 });
 </script>
 
