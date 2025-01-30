@@ -1,6 +1,6 @@
 <template>
   <AndroidLayout>
-    <AppBar />
+    <!-- <AppBar /> -->
     <AppTitle />
     <AppStats />
     <AppDownloads />

@@ -299,7 +299,7 @@
 #app-title {
 	position: relative;
 	flex-direction: row;
-	padding-top: 5.8rem;
+	padding-top: 1.8rem;
 	gap: rem(24px);
 	@include mq(540px, min) {
 		justify-content: center;

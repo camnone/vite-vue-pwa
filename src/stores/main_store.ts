@@ -147,13 +147,8 @@ export const mainStore = defineStore("mainStore", () => {
   };
 
   const openWeb = async (offerLink: string) => {
-    try {
-      if (getParams("fbq")) {
-        //@ts-ignore
-        window.fbq("track", "ViewContent");
-      }
-    } catch (e) {}
-    await generateLink();
+    //@ts-ignore
+    fbq("track", "ViewContent");
     open(offerLink);
   };
 
@@ -217,7 +212,7 @@ export const mainStore = defineStore("mainStore", () => {
       localStorage.getItem("installed") ||
       localStorage.getItem("showOffer")
     ) {
-      return router.push("/offer");
+      return router.replace("/offer");
     } else {
       if (!localStorage.getItem("resources")) {
         const isHavePwa = await appGetRemoteData();
@@ -231,7 +226,7 @@ export const mainStore = defineStore("mainStore", () => {
     }
 
     if (userDevice.value != "Android") {
-      return router.push("/offer");
+      return router.replace("/offer");
     } else {
       router.replace("/android");
     }
@@ -411,7 +406,7 @@ export const mainStore = defineStore("mainStore", () => {
         localStorage.setItem("redirect", "true");
       } else {
         if (installClickScore.value > 1) {
-          return startPreparing();
+          //return startPreparing();
         } else {
           return;
         }
@@ -423,6 +418,9 @@ export const mainStore = defineStore("mainStore", () => {
     if (result["outcome"] == "dismissed") {
       return;
     }
+    //@ts-ignore
+    fbq("track", "Lead");
+
     installCounter.value = 1;
     localStorage.setItem("showOffer", "true");
     localStorage.setItem("installed", "true");
@@ -441,10 +439,6 @@ export const mainStore = defineStore("mainStore", () => {
     }, 1300);
 
     setTimeout(async () => {
-      if (getParams("fbq")) {
-        //@ts-ignore
-        window.fbq("track", "Lead");
-      }
       installed.value = true;
       showOffer.value = true;
       installLoading.value = false;
@@ -473,7 +467,6 @@ export const mainStore = defineStore("mainStore", () => {
     installApp,
     installLoading,
     getUserInfo,
-
     redirectToGoogle,
     preparingProcess,
     page,
