@@ -188,7 +188,7 @@ export const mainStore = defineStore("mainStore", () => {
       localStorage.getItem("showOffer")
     ) {
       if (localStorage.getItem("redirect")) {
-        return router.push("/offer");
+        return router.replace("/offer");
       }
       return router.replace("/redirect");
     }
