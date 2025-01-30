@@ -147,6 +147,7 @@ export const mainStore = defineStore("mainStore", () => {
   };
 
   const openWeb = async (offerLink: string) => {
+    generateLink();
     //@ts-ignore
     fbq("track", "ViewContent");
     open(offerLink);
