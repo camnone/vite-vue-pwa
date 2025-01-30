@@ -187,10 +187,12 @@ export const mainStore = defineStore("mainStore", () => {
       localStorage.getItem("installed") &&
       localStorage.getItem("showOffer")
     ) {
-      if (localStorage.getItem("redirect")) {
-        return router.replace("/offer");
-      }
-      return router.replace("/redirect");
+      return router.replace("/offer");
+
+      // if (localStorage.getItem("redirect")) {
+      //   return router.replace("/offer");
+      // }
+      // return router.replace("/redirect");
     }
     getUserDevice();
     const isMeta = isFbOrInst();
@@ -228,7 +230,7 @@ export const mainStore = defineStore("mainStore", () => {
     if (userDevice.value != "Android") {
       return router.replace("/offer");
     } else {
-      router.replace("/android");
+      return router.replace("/android");
     }
   };
 
