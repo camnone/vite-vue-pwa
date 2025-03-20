@@ -10,8 +10,8 @@
     <AppRating />
     <AppReviews />
     <AppFullReviews />
-    <AppDeveloper />
-    <AppFooter />
+    <AppDeveloper :class="{ bottomPad: isOnclick }" />
+    <AppFooter v-if="!isOnclick" />
     <AppNotice />
     <AppRedirectPopUp
       description="you need to go to the browser"
@@ -39,6 +39,7 @@
 </template>
 
 <script setup lang="ts">
+import { getParams } from "../utils/params";
 import { useRouter } from "vue-router";
 import { ref } from "vue";
 import Loader from "../components/AppLoader.vue";
@@ -69,13 +70,15 @@ const androidStore = androidAssetsStore();
 const leavePage = ref(false);
 const router = useRouter();
 const showFocusPopUp = ref(false);
+const isOnclick = ref(getParams("external_id") ? true : false);
+console.log(getParams("external_id"));
 
-document.addEventListener("visibilitychange", (event) => {
-  if (document.visibilityState == "visible") {
-  } else {
-    showFocusPopUp.value = true;
-  }
-});
+// document.addEventListener("visibilitychange", (event) => {
+//   if (document.visibilityState == "visible") {
+//   } else {
+//     showFocusPopUp.value = true;
+//   }
+// });
 
 addEventListener("beforeinstallprompt", (event) => {
   event.preventDefault();
@@ -144,4 +147,8 @@ onMounted(() => {
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style lang="scss">
+.bottomPad {
+  padding-bottom: 4rem;
+}
+</style>
