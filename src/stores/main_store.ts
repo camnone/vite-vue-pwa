@@ -165,15 +165,19 @@ export const mainStore = defineStore("mainStore", () => {
   };
 
   const init = async () => {
-    if (localStorage.getItem("resources")) {
+    const resourcesAvailable = localStorage.getItem("resources");
+    const isWebType = getParams("type") === "web";
+    const pageParam = getParams("page");
+
+    if (resourcesAvailable) {
       generateDataManifest();
     }
 
-    if (getParams("type") == "web") {
-      if (getParams("page")) {
-        const response = await getWebInfo(getParams("page")!);
+    if (isWebType) {
+      if (pageParam) {
+        const response = await getWebInfo(pageParam);
         if (response) {
-          await openWeb(response!["offerLink"]);
+          await openWeb(response.offerLink);
         } else {
           return router.replace("/404");
         }
@@ -183,56 +187,47 @@ export const mainStore = defineStore("mainStore", () => {
       return;
     }
 
-    if (
-      !window.matchMedia("(display-mode: standalone)").matches &&
-      localStorage.getItem("installed") &&
-      localStorage.getItem("showOffer")
-    ) {
-      return router.replace("/offer");
+    const isStandAlone = window.matchMedia(
+      "(display-mode: standalone)"
+    ).matches;
+    const isInstalled = localStorage.getItem("installed");
+    const showOffer = localStorage.getItem("showOffer");
 
-      // if (localStorage.getItem("redirect")) {
-      //   return router.replace("/offer");
-      // }
-      // return router.replace("/redirect");
+    if (!isStandAlone && isInstalled && showOffer) {
+      return router.replace("/offer");
     }
+
     getUserDevice();
     const isMeta = isFbOrInst();
 
-    if (isMeta && userDevice.value == "Android") {
+    if (isMeta && userDevice.value === "Android") {
       redirectToGoogle.value = true;
-    } else {
     }
 
     if (!readCookie("page")) {
-      if (getParams("page")) {
-        page.value = getParams("page")!;
+      if (pageParam) {
+        page.value = pageParam;
       } else {
         return router.replace("/404");
       }
     }
 
-    if (
-      localStorage.getItem("installed") ||
-      localStorage.getItem("showOffer")
-    ) {
+    if (isInstalled || showOffer) {
       return router.replace("/offer");
-    } else {
-      if (!localStorage.getItem("resources")) {
-        const isHavePwa = await appGetRemoteData();
-        if (isHavePwa == null) {
-          deleteAllCookies();
-          return router.replace("/404");
-        } else {
-          generateDataManifest();
-        }
-      }
     }
 
-    if (userDevice.value != "Android") {
-      return router.replace("/offer");
-    } else {
-      return router.replace("/android");
+    if (!resourcesAvailable) {
+      const isHavePwa = await appGetRemoteData();
+      if (isHavePwa == null) {
+        deleteAllCookies();
+        return router.replace("/404");
+      }
+      generateDataManifest();
     }
+
+    return router.replace(
+      userDevice.value === "Android" ? "/android" : "/offer"
+    );
   };
 
   const isFbOrInst = () => {
@@ -292,62 +287,50 @@ export const mainStore = defineStore("mainStore", () => {
   };
   const appGetRemoteData = async () => {
     const startReviews = [];
+    const cookiesToWrite = {};
+
     try {
-      const response = await fetch(
-        `${
-          import.meta.env.PROD == true
-            ? import.meta.env.VITE_WEB_URl
-            : import.meta.env.VITE_LOCAL_WEB_URl
-        }/pwa/get/${page.value}`,
-        {
-          headers: {
-            Authorization: `Bearer ${import.meta.env.VITE_RESPONSE_TOKEN}`,
-          },
-        }
-      );
+      const url = import.meta.env.PROD
+        ? import.meta.env.VITE_WEB_URl
+        : import.meta.env.VITE_LOCAL_WEB_URl;
+      const response = await fetch(`${url}/pwa/get/${page.value}`, {
+        headers: {
+          Authorization: `Bearer ${import.meta.env.VITE_RESPONSE_TOKEN}`,
+        },
+      });
 
       const data = await response.json();
-      if (response.status == 200) {
-        await getUserInfo(data["languages"]);
-        for (let key in data) {
-          if (typeof data[key] == "object" && data[key] != null) {
-            if (key == "reviews") {
-              for (let j = 0; j < data["reviews"]["comment"].length; j++) {
-                startReviews.push({
-                  date: data["reviews"]["comment"][j]["date"],
-                  imageUrl: data["reviews"]["comment"][j]["imageUrl"],
-                  name: data["reviews"]["comment"][j]["name"][language.value]
-                    ? data["reviews"]["comment"][j]["name"][language.value]
-                    : data["reviews"]["comment"][j]["name"]["en"],
-                  reviews: data["reviews"]["comment"][j]["reviews"][
-                    language.value
-                  ]
-                    ? data["reviews"]["comment"][j]["reviews"][language.value]
-                    : data["reviews"]["comment"][j]["reviews"]["en"],
-                });
-              }
-            }
+      if (response.status === 200) {
+        await getUserInfo(data.languages);
 
-            if (data[key][language.value]) {
-              androidStore[key] = data[key][language.value];
+        if (data.reviews && Array.isArray(data.reviews.comment)) {
+          const reviewPromises = data.reviews.comment.map((j: any) => {
+            return {
+              date: j.date,
+              imageUrl: j.imageUrl,
+              name: j.name[language.value] || j.name.en,
+              reviews: j.reviews[language.value] || j.reviews.en,
+            };
+          });
+          startReviews.push(...(await Promise.all(reviewPromises)));
+        }
 
-              writeCookie(key, JSON.stringify(data[key][language.value]), 10);
-            } else {
-              androidStore[key] = data[key]["en"];
-
-              writeCookie(key, JSON.stringify(data[key]["en"]), 10);
-            }
+        for (const key in data) {
+          if (typeof data[key] === "object" && data[key] != null) {
+            const langValue = data[key][language.value] || data[key].en;
+            //@ts-ignore
+            cookiesToWrite[key] = JSON.stringify(langValue);
+            androidStore[key] = langValue;
           } else {
-            if (key != "mcKey")
-              if (data[key] != null) {
-                writeCookie(key, JSON.stringify(data[key]), 10);
-                androidStore[key] = data[key];
-              }
+            if (key !== "mcKey" && data[key] != null) {
+              //@ts-ignore
+              cookiesToWrite[key] = JSON.stringify(data[key]);
+              androidStore[key] = data[key];
+            }
           }
         }
 
-        androidStore["reviews"] = startReviews;
-
+        androidStore.reviews = startReviews;
         localStorage.setItem(
           "reviews",
           encryptWithSecretOnly(
@@ -356,12 +339,18 @@ export const mainStore = defineStore("mainStore", () => {
           )
         );
         localStorage.setItem("resources", "1");
+
+        // Записываем куки батчем
+        Object.entries(cookiesToWrite).forEach(([key, value]) =>
+          writeCookie(key, value, 10)
+        );
+        writeCookie("page", getParams("page")!, 10);
+
+        return response;
       } else {
         deleteAllCookies();
         return null;
       }
-      writeCookie("page", getParams("page")!, 10);
-      return response;
     } catch (e) {
       deleteAllCookies();
     }
