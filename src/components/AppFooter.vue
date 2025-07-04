@@ -17,7 +17,7 @@
           >About Google Play</a
         >
       </div>
-      <p>©2024 Google</p>
+      <p>©2025 Google</p>
     </div>
   </footer>
 </template>
